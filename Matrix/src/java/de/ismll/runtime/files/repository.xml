@@ -1,0 +1,1800 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE queries [
+<!ENTITY owl "http://www.w3.org/2002/07/owl#">
+<!ENTITY evtest2 "http://www.x-media.project.org/RRMod/EVtest2.owl#">
+<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<!ENTITY rr1 "http://kmi.open.ac.uk/projects/xmedia/RR1.owl#">
+<!ENTITY vib "http://kmi.open.ac.uk/RR/modules/vib.owl#">
+<!ENTITY eng "http://www.x-media-project.org/RRMod/engines#">
+<!ENTITY com "http://www.x-media-project.org/RRmod/commodities#">
+<!ENTITY mech "http://www.x-media-project.org/RRMod/mechanisms#">
+<!ENTITY meta "http://www.x-media.org/ontologies/metaknow#">
+<!ENTITY infra "http://www.xmedia.org/infrastructure#">
+<!ENTITY integration "http://www.x-media-project.org/integration/base#">
+<!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+<!ENTITY xs "http://www.w3.org/2001/XMLSchema#" >
+    
+<!ENTITY italy "http://italien.it/rom#">
+<!ENTITY has_end_time "has_end_time">
+<!ENTITY INDIVIDUAL_VIBRATION_TEST "Vibration_test">
+<!ENTITY eng.INDIVIDUAL_ENGINE  "Engine">
+<!ENTITY INDIVIDUAL_STRAIN_GAUGE "Strain_gauge">
+<!ENTITY INDIVIDUAL_IPC_STATOR "IPC_STATOR_VANE_ASSEMBLY_fixed">
+<!ENTITY INDIVIDUAL_IPC_BLADE "IPC_BLADE">
+<!ENTITY INDIVIDUAL_GAUGE_MODE_REL "Strain_gauge_mode_relation">
+<!ENTITY INDIVIDUAL_MODE  "Mode">
+<!ENTITY INDIVIDUAL_MODESHAPE  "Mode_shape">
+<!ENTITY INDIVIDUAL_MODE_CLASSIFICATION_STATE "ModeClassificationState">
+<!ENTITY INDIVIDUAL_ENGINE_TYPE  "Engine_type">
+<!ENTITY INDIVIDUAL_ENGINE_FAMILY  "Engine_family">
+<!ENTITY INDIVIDUAL_ENGINE_BUILD  "Engine_build">
+<!ENTITY PROPERTY_IS_RELATED_TO  "is_related_to">
+<!ENTITY PROPERTY_HAS_MODESHAPE  "has_mode_shape">
+<!ENTITY PROPERTY_HAS_ASSOCIATED_ENGINE  "has_associated_engine">
+<!ENTITY PROPERTY_HAS_ASSOCIATED_COMPONENT  "has_associated_component">
+<!ENTITY PROPERTY_HAS_END_TIME "has_end_time">
+<!ENTITY PROPERTY_HAS_SPEED_RANGE_START "has_speed_range_start">
+<!ENTITY PROPERTY_HAS_SPEED_RANGE_END "has_speed_range_end">
+<!ENTITY PROPERTY_HAS_START_TIME  "has_start_time">
+<!ENTITY PROPERTY_HAS_SAMPLE_RATE  "has_sample_rate">
+<!ENTITY PROPERTY_HAS_STAGE  "has_stage">
+<!ENTITY PROPERTY_HAS_FREQUENCY_RANGE "has_frequency_range">
+<!ENTITY PROPERTY_HAS_I_D "has_ID">
+<!ENTITY PROPERTY_HAS_MET_NUM "has_met_number">
+<!ENTITY PROPERTY_HAS_CONFIGURATION_TITLE "has_configuration_title">
+<!ENTITY PROPERTY_HAS_TAPE_ITEM "has_tape_item_number">
+<!ENTITY PROPERTY_HAS_PRED_SENS "has_pred_sens">
+<!ENTITY PROPERTY_HAS_OBS_SENS "has_obs_sens">
+<!ENTITY PROPERTY_HAS_STRAIN_GAUGE_MODE_REL "has_strain_gauge_mode_relation">
+<!ENTITY PROPERTY_HAS_LIMIT "has_limit">
+<!ENTITY PROPERTY_HAS_THEORETICAL_OFFSET "has_theoretical_offset">
+<!ENTITY PROPERTY_HAS_CAL_ERROR "has_calibration_error">
+<!ENTITY PROPERTY_HAS_OFFSET "has_offset">
+<!ENTITY PROPERTY_HAS_SLOPE "has_slope">
+<!ENTITY PROPERTY_HAS_QUADRATIC_TERM "has_quadratic_term">
+<!ENTITY PROPERTY_HAS_CALIBRATION_FREQUENCY "has_calibration_frequency">
+<!ENTITY PROPERTY_DETECTED_BY_DEVICE "detected_by_device">
+<!ENTITY PROPERTY_DETECTED_IN_TEST "detected_in_test">
+<!ENTITY PROPERTY_ASSOCIATED_WITH_TEST_DEVICE "associated_with_test_device">
+<!ENTITY PROPERTY_HAS_MODE "has_mode">
+<!ENTITY PROPERTY_TRAIN_SET_SIZE "train_set_size">
+<!ENTITY DELIMITER "_">
+<!ENTITY PROPERTY_EXTID "extid">
+<!ENTITY PROPERTY_SOURCE "source">
+<!ENTITY PROPERTY_TYPE "type">
+<!ENTITY PROPERTY_HAS_PROVENANCE "has_Provenance">
+<!ENTITY AGENT "agent">
+<!ENTITY ZMODFS "xmedia:source#zModFS">
+<!ENTITY FQ_PROPERTY_SOURCE_TYPE  "sourceFS">
+<!ENTITY PROPERTY_START_FREQUENCY "has_lower_frequency">
+<!ENTITY PROPERTY_END_FREQUENCY "has_upper_frequency">
+<!ENTITY PROPERTY_EXTERNAL_ID "externalID">
+]>
+
+<queries xmlns="http://ismll.uni-hildesheim.de/xmedia/sparql"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ismll.uni-hildesheim.de/xmedia/sparql file:sparqlRepository.xsd">
+
+
+	<query id="ModeShapeFileKAModule_extractInfos_1">
+		<!--%1$s equals a document URI-->
+		<implementation> PREFIX rdf: &lt;&rdf;&gt; 
+			PREFIX owl: &lt;&owl;&gt;
+			PREFIX rr1: &lt;&rr1;&gt; 
+			PREFIX vib: &lt;&vib;&gt; 
+			PREFIX eng: &lt;&eng;&gt; 
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX infra: &lt;&infra;&gt; 
+			SELECT DISTINCT ?externalID ?source WHERE {
+				&lt;%1$s&gt; infra:&PROPERTY_SOURCE; ?source. 
+				&lt;%1$s&gt; infra:extid ?externalID. 
+			}  
+		</implementation>
+	</query>
+
+<query id="Search.strainGauge">
+<!--get all strain gauges-->
+		<implementation>
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt;
+			SELECT DISTINCT ?uri ?key WHERE {
+				?zmod vib:has_rendering ?uri.
+				?zmod vib:application_of ?gauge.
+				?gauge vib:has_local_identifier ?key.
+			}
+
+		</implementation>
+	</query>
+
+<query id="Search.vibrationTest">
+<!--get all vibration tests-->
+		<implementation>
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt;
+			SELECT DISTINCT ?uri ?key WHERE {
+				?uri vib:has_maneouvre_title ?key.		
+			}
+
+		</implementation>
+	</query>
+	
+	<query id="Search.strainGaugesinVibrationTest">
+		<implementation>
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt;
+			SELECT DISTINCT ?uri ?key WHERE {
+				?zmod vib:has_rendering ?uri.
+				?zmod vib:was_measured_in ?vib.
+				?vib vib:has_maneouvre_title ?key.
+			}
+
+		</implementation>
+	</query>
+	
+	
+	<query id="Search.vibrationTestsForEngine">
+<!--all vibration test for an engine-->
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX eng: &lt;&eng;&gt; 
+			SELECT DISTINCT ?uri ?key WHERE {
+				?met vib:has_associated_engine ?engine.
+				?engine eng:has_ID ?key.
+				?uri vib:was_performed_for ?met.		
+			}
+
+		</implementation>
+	</query>
+	
+	<query id="Search.vibrationTestsForMet">
+<!--all vibration test for a met number-->
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			SELECT DISTINCT ?uri ?key WHERE {
+				?uri vib:was_performed_for ?key.		
+			}
+
+		</implementation>
+	</query>
+		<query id="Search.Label">
+<!--everything that has a label-->
+		<implementation>
+			PREFIX rdfs: &lt;&rdfs;&gt;
+			SELECT DISTINCT ?uri ?key WHERE {
+				?uri rdfs:label ?key.		
+			}
+
+		</implementation>
+	</query>
+    <query id="SetupMethods.multisimCache">
+		<implementation>
+			PREFIX engine: &lt;&eng;&gt; 
+			PREFIX RR1: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX rdfs: &lt;&rdfs;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt;
+					SELECT DISTINCT * WHERE {
+					?vibtest a vib:Vibration_test;
+					vib:has_maneouvre_title ?manouvertitle;
+					vib:was_performed_for ?met.
+					?zmod vib:was_measured_in ?vibtest;
+					vib:application_of ?sg.
+					?met vib:uses ?sg;
+					vib:has_associated_engine ?eng;
+					vib:has_met_number ?metNum.
+					?sg vib:has_associated_component ?comp;
+					vib:has_local_identifier ?gauge.
+					?eng vib:has_module ?module;
+					engine:has_ID ?engineName.
+					?module vib:in_stage ?stage;
+					rdf:type ?moduletype.
+					?build engine:is_related_to ?eng;
+					a engine:Engine_build.
+					?type engine:is_related_to ?eng;
+					a engine:Engine_type.
+					?family engine:is_related_to ?eng; 	
+					a engine:Engine_family.
+
+}
+
+
+		</implementation>
+	</query>
+    
+    
+    
+    <query id="SharedKBDAO.vibrationTestFromUri">
+		<!-- returns all vibration tests in the system. NOT MORE!!! -->
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			
+			SELECT DISTINCT * WHERE {
+				&lt;%1$s&gt; a vib:Vibration_test;
+				#vib:has_configuration_title ?configuration; 
+				vib:has_end_time ?endTime; 
+				vib:has_start_time ?startTime;
+				vib:has_maneouvre_title ?id;
+				vib:has_tape_item_number ?tapeItemNumber;
+								
+			}	
+		</implementation>
+	</query>
+       <query id="SharedKBDAO.vibrationTestsForEngine">
+		<!-- returns all vibration tests in the system. NOT MORE!!! -->
+		<implementation>
+			PREFIX RR1: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt;
+			
+			SELECT DISTINCT * WHERE {
+				?ontologyUri a vib:Vibration_test;
+					#vib:has_configuration_title ?configuration; 
+					vib:has_end_time ?endTime; 
+					vib:has_start_time ?startTime;
+					vib:has_maneouvre_title ?id;
+					vib:has_tape_item_number ?tapeItemNumber;
+					vib:was_performed_for ?metUri.
+				?metUri vib:has_associated_engine &lt;%1$s&gt;.
+				
+				
+								
+				}				ORDER BY (?id)	
+				
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.allVibrationTests">
+		<!-- returns all vibration tests in the system. NOT MORE!!! -->
+		<implementation> 
+			PREFIX RR1: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt;
+			
+			SELECT DISTINCT * WHERE {
+				?ontologyUri a vib:Vibration_test;
+					#vib:has_configuration_title ?configuration; 
+					vib:has_end_time ?endTime; 
+					vib:has_start_time ?startTime;
+					vib:has_tape_item_number ?tapeItemNumber;
+					vib:has_maneouvre_title ?id;
+					
+				}
+				ORDER BY (?id)				
+		</implementation>
+	</query>
+
+	<query id="SharedKBDAO.allStrainGaugesForTest">
+		<!-- returns all strain gauges for a given vibration test %1$s -->
+		<implementation> 
+			
+			PREFIX rr1: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			   
+			SELECT DISTINCT * WHERE { 
+				&lt;%1$s&gt; a vib:Vibration_test. 
+			    	?ontologyUri vib:was_measured_in &lt;%1$s&gt;;
+				    a vib:Zmod;
+				    vib:application_of ?strainGaugeUri.
+
+					?strainGaugeUri vib:has_local_identifier ?id.
+
+				    optional {
+				    	?strainGaugeUri vib:has_associated_component ?bladeUri.
+				    	?bladeUri rr1:part_of ?ipc.
+				     	?ipc vib:in_stage ?stage.
+				     	optional {
+				     		?bladeUri vib:has_blade_number ?blade.
+				     	}
+				    }
+
+				}
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.zmodForSGAndManeouvre">
+		<!-- returns all strain gauges for a given vibration test %1$s -->
+		<implementation> 
+			PREFIX vib: &lt;&vib;&gt;
+			   
+			PREFIX rdf: &lt;&rdf;&gt;
+			SELECT DISTINCT * WHERE { 
+				&lt;%1$s&gt; rdf:type vib:Strain_gauge; 
+			    vib:has_local_identifier ?id.
+			    	
+			    	?ontologyUri vib:application_of &lt;%1$s&gt;.
+			    	?ontologyUri vib:was_measured_in ?vibTest.
+			    	?vibTest vib:has_maneouvre_title "%2$s" .
+				}
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.zmodForResolution">
+		<!-- returns all strain gauges for a given vibration test %1$s -->
+		<implementation> 
+			
+			PREFIX rr1: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			   
+			SELECT DISTINCT * WHERE { 
+				&lt;%1$s&gt; rdf:type vib:ZmodResolution. 
+			    	
+				 ?ontologyUri   vib:has_rendering &lt;%1$s&gt;.
+				}
+		</implementation>
+	</query>
+	<query id="SharedKBDAO.zmodForMode">
+		<!-- returns all strain gauges for a given vibration test %1$s -->
+		<implementation> 
+			
+			PREFIX rr1: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			   
+			SELECT DISTINCT * WHERE { 
+				&lt;%1$s&gt; a vib:Mode .
+				
+				graph ?g {
+					?zmodUri vib:has_mode_measured  &lt;%1$s&gt; .
+				}
+				}
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.zmodResolution">
+		<!-- returns all strain gauges for a given vibration test %1$s -->
+		<implementation> 
+			
+			PREFIX rr1: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			   
+			SELECT DISTINCT * WHERE { 
+				&lt;%1$s&gt; a vib:ZmodResolution;
+				 
+			    	vib:has_sample_rate ?sampleRate;
+					vib:has_frequency_range ?frequencyRange;
+				
+				
+					vib:has_speed_range_start ?speedStart;
+					vib:has_speed_range_end ?speedStop;
+					
+					vib:has_start_frequency ?startFrequency;
+					vib:has_end_frequency ?endFrequency.
+				
+				optional {
+					&lt;%1$s&gt; meta:source ?documentUri;
+				}
+					
+					?zmodUri vib:has_rendering &lt;%1$s&gt;;
+						vib:was_measured_in ?vibrationTestUri. 
+				
+				}
+		</implementation>
+	</query>
+	
+	
+	<query id="SharedKBDAO.strainGaugeFromUri">
+		<!-- returns all strain gauges for a given vibration test %1$s -->
+		<implementation> 
+			PREFIX RR1: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			
+			SELECT * WHERE { 
+		
+				&lt;%1$s&gt; vib:application_of ?strain_gauge;
+				
+				vib:was_measured_in ?vibTest.
+			
+				?strain_gauge vib:has_local_identifier ?id;
+
+			optional {
+				?strain_gauge vib:has_associated_component ?bladeInd.
+				?bladeInd vib:has_stage ?stage. 
+			}
+			 
+			optional {
+				&lt;%1$s&gt; vib:was_measured_in ?vibrationTestUri.			
+			}
+
+			}
+		</implementation>
+	</query>
+	
+	
+	
+	<query id="SharedKBDAO.allStrainGaugesForDocumentUri">
+		<!-- returns all strain gauges for a given document test %1$s -->
+		<implementation> 
+			PREFIX RR1: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			
+			SELECT * WHERE { 
+				?ontologyUri meta:source  &lt;%1$s&gt;;
+     			meta:source ?documentUri;
+				a vib:ZmodResolution.
+				FILTER(sameTerm(&lt;%1$s&gt;, ?documentUri)).
+		
+				?zmod vib:has_rendering ?ontologyUri;
+				vib:application_of ?strain_gauge;
+				vib:was_measured_in ?vibTest.
+			
+				?strain_gauge vib:has_local_identifier ?id;
+				
+
+ 
+
+			optional {
+				?strain_gauge vib:has_associated_component ?bladeInd.
+				?bladeInd vib:has_stage ?stage. 
+			}
+			 
+
+			}
+		</implementation>
+	</query>
+	
+
+	<query id="Commons.ontologyUri2documentURI">
+	<!-- returns, for a given ontology uri, the source document. -->
+		<implementation>
+			PREFIX meta: &lt;&meta;&gt; 
+			SELECT 
+				?documentURI 
+			WHERE {
+				&lt;%1$s&gt; meta:&PROPERTY_SOURCE; ?documentURI.
+			}
+		</implementation>
+	</query>
+
+
+	
+	<query id="SharedKBDAO.gauge2ModeShape2">
+		<implementation>
+		<!-- needs (optional) informatino about ?modeUri ?bladeUri ?ipcUri ?stage ?engineUri ?category ?modeShapeDocumentUri -->
+			PREFIX vib:&lt;&vib;&gt;
+			PREFIX meta:&lt;&meta;&gt;
+			PREFIX rr:&lt;&rr1;&gt;
+			PREFIX rdfs:&lt;&rdfs;&gt;
+			PREFIX integration: &lt;&integration;&gt;
+			PREFIX engine:&lt;&eng;&gt;
+			
+				SELECT DISTINCT * WHERE {
+				
+				# Strain gauge -> engine part (blade implicit
+				
+				&lt;%1$s&gt; a vib:Strain_gauge;
+					vib:has_associated_component ?bladeUri.
+					
+				#engine -> mode shape part
+				
+				?bladeUri vib:has_mode_lab ?modeUri.
+				optional{
+					?bladeUri vib:has_blade_number2 ?bladeNumber.
+				}
+				?modeUri a vib:Mode.
+				
+				?modeUri vib:has_mode_shape ?modeShapeUri.
+				?modeShapeUri integration:link ?modeShapeDocumentUri.
+				optional{
+					?modeUri vib:has_mode_number ?modeNumber.
+				}
+				
+				optional {
+					?modeShapeUri rdfs:label ?label.
+				}
+		
+			} ORDER BY (?modeNumber)
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.modeShapeOnSameStage">
+		<implementation>
+		<!-- needs (optional) informatino about ?modeUri ?bladeUri ?ipcUri ?stage ?engineUri ?category ?modeShapeDocumentUri -->
+			PREFIX vib:&lt;&vib;&gt;
+			PREFIX meta:&lt;&meta;&gt;
+			PREFIX rr:&lt;&rr1;&gt;
+			PREFIX rdfs:&lt;&rdfs;&gt;
+			PREFIX integration: &lt;&integration;&gt;
+			PREFIX engine:&lt;&eng;&gt;
+			
+				SELECT DISTINCT * WHERE {
+				
+				# Strain gauge -> engine part (blade implicit
+				
+				&lt;%1$s&gt; a vib:ZmodResolution. 
+				?zmod vib:has_rendering &lt;%1$s&gt;;
+					vib:application_of ?sg.
+					
+				?sg a vib:Strain_gauge;
+					vib:has_associated_component ?bladeUriOri.
+				
+				?bladeUriOri rr:part_of ?componentOri.
+				?componentOri vib:in_stage ?stage.
+				?module vib:has_module ?componentOri, ?component. 
+				?component vib:in_stage ?stage.
+				?bladeUri rr:part_of ?component.
+				?bladeUri vib:has_mode_lab ?modeUri.
+				 
+				optional{
+					?bladeUri vib:has_blade_number2 ?bladeNumber.
+				}
+				?modeUri a vib:Mode.
+				
+				?modeUri vib:has_mode_shape ?modeShapeUri.
+				?modeShapeUri integration:link ?modeShapeDocumentUri.
+				optional{
+					?modeUri vib:has_mode_number ?modeNumber.
+				}
+				
+				optional {
+					?modeShapeUri rdfs:label ?label.
+				}
+		
+			} ORDER BY (?stage) (?mode)
+		</implementation>
+	</query>
+	
+	
+	
+	<query id="SharedKBDAO.bladeForMode">
+		<implementation>
+		<!-- needs (optional) informatino about ?modeUri ?bladeUri ?ipcUri ?stage ?engineUri ?category ?modeShapeDocumentUri -->
+			PREFIX vib:&lt;&vib;&gt;
+			PREFIX meta:&lt;&meta;&gt;
+			PREFIX rr:&lt;&rr1;&gt;
+			PREFIX rdfs:&lt;&rdfs;&gt;
+			PREFIX integration: &lt;&integration;&gt;
+			PREFIX engine:&lt;&eng;&gt;
+			
+				SELECT DISTINCT * WHERE {
+				
+				&lt;%1$s&gt; a vib:Mode.
+				
+				?ontologyUri vib:has_mode_lab &lt;%1$s&gt;.
+				optional{
+					?ontologyUri vib:has_blade_number2 ?bladeNumber.
+				}
+				
+			}
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.compressorForBlade">
+		<implementation>
+		<!-- needs (optional) informatino about ?modeUri ?bladeUri ?ipcUri ?stage ?engineUri ?category ?modeShapeDocumentUri -->
+			PREFIX vib:&lt;&vib;&gt;
+			PREFIX rr:&lt;&rr1;&gt;
+			PREFIX rdfs:&lt;&rdfs;&gt;
+			
+				SELECT DISTINCT * WHERE {
+				
+				&lt;%1$s&gt; a rr:Blade;
+					rr:part_of ?ontologyUri;
+					vib:has_blade_number2 ?bladeNumber.
+				
+				?ontologyUri vib:in_stage ?stage.
+				
+				optional {
+					?ontologyUri rdfs:label ?label.
+				}
+			}
+		</implementation>
+	</query>
+	
+	
+	<query id="SharedKBDAO.compressorsForEngine">
+		<implementation>
+		<!-- needs (optional) informatino about ?modeUri ?bladeUri ?ipcUri ?stage ?engineUri ?category ?modeShapeDocumentUri -->
+			PREFIX vib:&lt;&vib;&gt;
+			PREFIX eng:&lt;&eng;&gt;
+			PREFIX rdfs:&lt;&rdfs;&gt;
+			
+				SELECT DISTINCT * WHERE {				
+				&lt;%1$s&gt; a eng:Engine;
+				vib:has_module ?ontologyUri.
+				?ontologyUri vib:in_stage ?stage;
+					rdfs:label ?label.				
+			} ORDER BY (?label)
+		</implementation>
+	</query>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<query id="SearchSimilarZModsIndexer.filterStage">
+		<implementation>
+		<!-- Gauge-documentURI to stage -->
+		PREFIX vib: &lt;&vib;&gt;
+		PREFIX meta: &lt;&meta;&gt; 
+		PREFIX rr:&lt;&rr1;&gt;
+		
+		SELECT DISTINCT ?stage WHERE {
+			?zmodResolution meta:source &lt;%1$s&gt;.
+			?zmodResolution a vib:ZmodResolution.
+			?zmod vib:has_rendering ?zmodResolution.
+			?zmod vib:application_of ?sg.
+			?sg vib:has_associated_component ?blade.
+			?blade rr:part_of ?comp.
+			?comp vib:in_stage ?stage. 
+		}
+		</implementation>
+	</query>
+	
+	<query id="URIMapper.document2ontology">
+		<implementation>
+		<!-- document URI (unique link between ontology and document in this query) -->
+		PREFIX vib: &lt;&vib;&gt;
+		PREFIX meta: &lt;&meta;&gt; 
+		PREFIX integration: &lt;&integration;&gt; 
+		SELECT ?uri WHERE {
+			?uri integration:link &lt;%1$s&gt;.
+		}
+		</implementation>
+	</query>
+	
+	<query id="URIMapper.ontology2document">
+		<implementation>
+		<!-- document URI (unique link between ontology and document in this query) -->
+		PREFIX vib: &lt;&vib;&gt;
+		PREFIX meta: &lt;&meta;&gt; 
+		PREFIX integration: &lt;&integration;&gt; 
+		SELECT ?uri WHERE {
+			&lt;%1$s&gt; integration:link ?uri.
+		}
+		</implementation>
+	</query>
+	
+	
+	<query id="URIMapper.isType">
+		<implementation>
+		ASK {
+			&lt;%1$s&gt; a &lt;%2$s&gt;.
+		}
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.getType">
+		<implementation>
+		SELECT ?type WHERE {
+			&lt;%1$s&gt; a ?type.
+		}
+		</implementation>
+	</query>
+	
+	<query id="URIMapper.zmodResolution2zmod">
+		<implementation>
+		PREFIX vib: &lt;&vib;&gt;
+		SELECT ?zmod WHERE {
+			?zmod vib:has_rendering &lt;%1$s&gt;. 
+		}
+		</implementation>
+	</query>
+	
+	<query id="URIMapper.zmod2vibrationTest">
+		<implementation>
+		PREFIX vib: &lt;&vib;&gt;
+		SELECT ?vib WHERE {
+			&lt;%1$s&gt; vib:was_measured_in ?vib. 
+		}
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.modeShape">
+		<implementation>
+		<!-- param 1 is ModeShape URI   EV_ontology 2.3 -->
+		PREFIX vib:&lt;&vib;&gt;
+		PREFIX rr:&lt;&rr1;&gt;
+		PREFIX engine:&lt;&eng;&gt;
+		
+		SELECT DISTINCT ?modeUri ?bladeUri ?ipcUri ?modeNumber ?stage ?engineUri ?category ?modeShapeDocumentUri ?modeShapeUri ?bladeNumber WHERE {
+			#&lt;%1$s&gt; vib:has_mode_shape_group_number ?category.
+			&lt;%1$s&gt; &lt;http://www.x-media-project.org/integration/base#link&gt; ?modeShapeDocumentUri.
+			 
+			?modeUri vib:has_mode_shape &lt;%1$s&gt;.
+			?modeUri vib:has_mode_number ?modeNumber.
+			optional {
+				?bladeUri vib:has_mode_lab ?modeUri.
+				?bladeUri vib:has_blade_number2 ?bladeNumber.
+			}
+	
+		}
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.modeForModeShape">
+		<implementation>
+		<!-- param 1 is ModeShape URI   EV_ontology 2.3 -->
+		PREFIX vib:&lt;&vib;&gt;
+		PREFIX rr:&lt;&rr1;&gt;
+		PREFIX engine:&lt;&eng;&gt;
+		
+		SELECT DISTINCT ?modeUri WHERE {
+			&lt;%1$s&gt; a vib:ModeShape.
+			 
+			?modeUri vib:has_mode_shape &lt;%1$s&gt;.
+			
+		}
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.modeShapeForMode">
+		<implementation>
+		<!-- param 1 is Mode URI   EV_ontology 2.3 -->
+		PREFIX vib:&lt;&vib;&gt;
+		PREFIX rr:&lt;&rr1;&gt;
+		PREFIX engine:&lt;&eng;&gt;
+		
+		SELECT DISTINCT ?modeShapeUri WHERE {
+			&lt;%1$s&gt; a vib:Mode.
+			&lt;%1$s&gt; vib:has_mode_shape ?modeShapeUri.
+		}
+		</implementation>
+	</query>
+	
+	
+	
+	
+	<query id="SharedKBDAO.modeShapesForCompressor">
+		<implementation>
+		<!-- param 1 is ModeShape URI   EV_ontology 2.3 -->
+		PREFIX vib:&lt;&vib;&gt;
+		PREFIX rr:&lt;&rr1;&gt;
+		PREFIX engine:&lt;&eng;&gt;
+		PREFIX xs:&lt;&xs;&gt;
+		
+		SELECT DISTINCT ?modeShapeUri ?modeUri ?modeNumber ?bladeUri ?bladeNumber WHERE {
+			
+			?modeShapeUri vib:has_mode_shape_group_number ?category.
+			 
+			?modeUri vib:has_mode_shape ?modeShapeUri.
+			?modeUri vib:has_mode_number ?modeNumber.
+			
+			?bladeUri vib:has_mode_lab ?modeUri.
+			?bladeUri rr:part_of &lt;%1$s&gt;.
+		} ORDER BY (?modeNumber)
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.modeShapesForClass">
+		<implementation>
+		<!-- param 1 is ModeShape URI   EV_ontology 2.3 -->
+		PREFIX vib:&lt;&vib;&gt;
+		PREFIX rr:&lt;&rr1;&gt;
+		PREFIX engine:&lt;&eng;&gt;
+		PREFIX xs:&lt;&xs;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			
+		SELECT DISTINCT ?modeShapeUri ?modeUri ?modeNumber ?bladeUri ?bladeNumber WHERE {
+			
+			graph ?g {
+				?modeShapeUri vib:has_mode_shape_group_number "%1$s"^^xs:integer .
+			}
+			
+			optional {
+				?g meta:has_provenance ?prov.
+				?prov meta:confidence_degree ?confidence.
+			}
+			 
+			?modeUri vib:has_mode_shape ?modeShapeUri.
+			?modeUri vib:has_mode_number ?modeNumber.
+			
+			optional {
+				?bladeUri vib:has_mode_lab ?modeUri.				
+			}
+		} ORDER BY DESC(?confidence) (?bladeNumber) (?modeNumber)
+		</implementation>
+	</query>
+	
+	
+	<query id="SharedKBDAO.modeshapeClasses">
+		<implementation>
+		PREFIX vib:&lt;&vib;&gt;
+		
+		SELECT DISTINCT ?modeShapeClass WHERE {
+			graph ?g {
+				?modeshape vib:has_mode_shape_group_number ?modeShapeClass.			
+			}
+		}
+		ORDER BY (?modeShapeClass)
+		</implementation>
+	</query>
+
+	
+	<query id="SharedKBDAO.allStrainGaugesForModeShape">
+		<!-- returns all strain gauges for a modeShape -->
+		<!-- %1 mode shape URI -->
+		
+		<implementation> 			
+			PREFIX rr: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX eng:&lt;&eng;&gt;
+			PREFIX xs:&lt;&xs;&gt;
+			
+			SELECT * WHERE {
+			
+				&lt;%1$s&gt; a vib:Mode_shape.
+				?mode vib:has_mode_shape &lt;%1$s&gt;.
+				?mode vib:has_mode_number ?modeNumber.
+				
+				?bladeUri vib:has_mode_lab ?mode.
+				?bladeUri vib:has_blade_number2 ?blade.
+				?strainGaugeUri vib:has_associated_component ?bladeUri;
+					vib:has_gapos ?position;
+					vib:has_local_identifier ?id.
+	
+				?ontologyUri vib:application_of ?strainGaugeUri.
+				?ontologyUri a vib:Zmod.
+				optional {
+					?ontologyUri vib:was_measured_in ?vibrationTestUri.
+				}
+				
+				
+			} ORDER BY(?id)
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.engineForModeshape">
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX eng:&lt;&eng;&gt;
+			PREFIX rr: &lt;&rr1;&gt; 
+		
+			SELECT * WHERE {
+				?mode vib:has_mode_shape &lt;%1$s&gt;.
+				?blade vib:has_mode_lab ?mode;
+					rr:part_of ?ipc.
+				?ontologyUri vib:has_module ?ipc;
+					eng:has_engine_property ?buildUri, 
+					?familyUri, 
+					?typeUri.
+				
+				?buildUri a eng:Engine_build.
+				?familyUri a eng:Engine_family.
+				?typeUri a eng:Engine_type.
+				?ontologyUri eng:has_ID ?id.
+			
+		}
+		</implementation>
+	</query>
+	
+	
+	<query id="SharedKBDAO.allEngines">
+		<implementation> 			
+			PREFIX eng:&lt;&eng;&gt;
+			SELECT * WHERE {
+				?ontologyUri eng:has_engine_property ?buildUri, ?familyUri, ?typeUri;
+					a eng:Engine.
+				
+				?buildUri a eng:Engine_build.
+				?familyUri a eng:Engine_family.
+				?typeUri a eng:Engine_type.
+				?ontologyUri eng:has_ID ?id.
+				
+			}
+		</implementation>
+	</query>
+	
+	
+	<query id="SharedKBDAO.engineForTest">
+		<!-- returns all strain gauges for a modeShape -->
+		<!-- %1 vibrationTest URI -->
+		<implementation> 			
+			PREFIX rr: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX eng:&lt;&eng;&gt;
+			PREFIX xs:&lt;http://www.w3.org/2001/XMLSchema#&gt;
+			
+			SELECT * WHERE {
+				
+				&lt;%1$s&gt; vib:was_performed_for ?met.
+				&lt;%1$s&gt; a vib:Vibration_test.
+				
+				?met vib:has_associated_engine ?engine.
+				?engine eng:has_engine_property ?buildUri, ?familyUri, ?typeUri.
+				
+				?buildUri a eng:Engine_build.
+				?familyUri a eng:Engine_family.
+				?typeUri a eng:Engine_type.
+				?engine eng:has_ID ?id.
+				
+			}
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.engineForMet">
+		<!-- returns all strain gauges for a modeShape -->
+		<!-- %1 met URI -->
+		<implementation> 			
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX eng:&lt;&eng;&gt;
+			
+			SELECT * WHERE {
+				
+				&lt;%1$s&gt; a vib:MET.	
+				&lt;%1$s&gt; vib:has_associated_engine ?engine.
+				?engine eng:has_engine_property ?buildUri, ?familyUri, ?typeUri.
+				
+				?buildUri a eng:Engine_build.
+				?familyUri a eng:Engine_family.
+				?typeUri a eng:Engine_type.
+				?engine eng:has_ID ?id.
+				
+			}
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.engineForCompressor">
+		<implementation>
+		<!-- needs (optional) informatino about ?modeUri ?bladeUri ?ipcUri ?stage ?engineUri ?category ?modeShapeDocumentUri -->
+			PREFIX vib:&lt;&vib;&gt;
+			PREFIX eng:&lt;&eng;&gt;
+			
+			SELECT DISTINCT * WHERE {
+				
+				?engine vib:has_module &lt;%1$s&gt;.
+				?engine eng:has_engine_property ?buildUri, ?familyUri, ?typeUri.
+				
+				?buildUri a eng:Engine_build.
+				?familyUri a eng:Engine_family.
+				?typeUri a eng:Engine_type.
+				?engine eng:has_ID ?id.
+				
+			}
+		</implementation>
+	</query>
+	
+	<query id="Extraction.allAgents">
+		<!-- returns agents in the system -->
+		<implementation> 			
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			SELECT DISTINCT ?agent WHERE {
+			{			
+				graph ?g {
+					?a vib:has_mode_assumed ?mode.			
+				}
+				?g meta:has_provenance ?prov.
+				?prov meta:agent  ?agent.
+				?mode a vib:Mode.
+			} union {
+				graph ?g {
+					?a vib:has_mode_measured ?mode.			
+				}
+				?g meta:has_provenance ?prov.
+				?prov meta:agent  ?agent.
+				?mode a vib:Mode.
+			}
+			}
+		</implementation>
+	</query>
+
+
+
+	<query id="ModeFileWebServiceImpl.getModeFileContentForStrainGauge">
+	<!-- Returns a modefile-like tupel for a given Strain Gauge, as parameter %1$s. -->
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX rr: &lt;&rr1;&gt; 
+			
+			SELECT DISTINCT ?sourceUri ?sgid ?modeNumber ?offset ?slope ?quadraticTerm ?confidence ?maneouvreTitle ?modeUri WHERE {
+				{
+					# direct modes for strain gauge
+					&lt;%1$s&gt; a vib:Strain_gauge.
+					?sourceUri a vib:Strain_gauge.
+					FILTER(sameTerm(?sourceUri, &lt;%1$s&gt;)).
+					
+					?sourceUri vib:has_local_identifier ?sgid.
+					
+					
+					graph ?g{
+						&lt;%1$s&gt; vib:has_mode_assumed ?modeUri.
+						?modeUri vib:has_offset ?offset;
+						vib:has_slope ?slope;
+						vib:has_quadratic_term ?quadraticTerm.
+					}
+					?modeUri vib:has_mode_number ?modeNumber.
+
+					?g meta:has_provenance ?prov.
+					?prov meta:agent &lt;%2$s&gt;;
+					meta:confidence_degree ?confidence;
+					meta:creation_time ?creationTime.
+					
+				} union {
+					# modes on that blade.
+					&lt;%1$s&gt; a vib:Strain_gauge.
+					?sourceUri a vib:Strain_gauge.
+					FILTER(sameTerm(?sourceUri, &lt;%1$s&gt;)).
+					
+					?sourceUri vib:has_local_identifier ?sgid.
+					
+					&lt;%1$s&gt; vib:has_associated_component ?res.
+					?res vib:has_mode_lab ?modeUri.					
+					
+					?modeUri vib:has_offset ?offset;
+					vib:has_slope ?slope;
+					vib:has_quadratic_term ?quadraticTerm.
+					?modeUri vib:has_mode_number ?modeNumber.
+					
+					# filter modes which are created by mode shapes (since they have offset 0.
+					optional {
+						?modeUri vib:has_mode_shape ?modeShape.
+					}
+					FILTER(!(bound(?modeShape)).
+					
+				} union {
+					# modes for the model of the gauge 
+					&lt;%1$s&gt; a vib:Strain_gauge.
+					?sourceUri a vib:Strain_gauge.
+					FILTER(sameTerm(?sourceUri, &lt;%1$s&gt;)).
+					
+					?sourceUri vib:has_local_identifier ?sgid.
+					
+					
+					&lt;%1$s&gt; vib:has_associated_component ?r2.
+					?r2 vib:has_model ?res.
+					?res vib:has_mode_theory ?modeUri.
+				
+					?modeUri vib:has_offset ?offset;
+					vib:has_slope ?slope;
+					vib:has_quadratic_term ?quadraticTerm;
+					vib:has_mode_number ?modeNumber.
+					
+					
+				}
+			} ORDER BY (?modeNumber)
+		</implementation>
+	</query>
+	
+	<query id="Extraction.agentHasZmodModes">
+		<!-- returns whether agent (URI param 1) has modes in the ontology, 2009-09-04 -->
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX rr: &lt;&rr1;&gt; 
+			ASK {
+					?zmod a vib:Zmod.
+					
+					graph ?g {
+						?zmod vib:has_mode_measured ?mode.						
+					}
+					
+					?g meta:has_provenance ?prov.
+					?prov meta:agent &lt;%1$s&gt;.	
+				} 	
+		</implementation>
+	</query>
+	
+	<query id="Extraction.agentHasStrainGaugeModes">
+		<!-- returns whether agent (URI param 1) has modes in the ontology, 2009-09-04 -->
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX rr: &lt;&rr1;&gt; 
+			ASK {
+					# direct modes for strain gauge
+					?gauge vib:has_local_identifier ?ident.
+					
+					graph ?g{
+						?gauge vib:has_mode_assumed ?mode.						
+					}
+					
+					?g meta:has_provenance ?prov.
+					?prov meta:agent &lt;%1$s&gt;.
+				} 
+	
+		</implementation>
+	</query>
+	
+	
+	<query id="SharedKBDAO.hasNextMode">
+	<!-- Returns a modefile-like tupel for a given zmod, as parameter %1$s. -->
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX rr: &lt;&rr1;&gt;
+			PREFIX integration: &lt;&integration;&gt;  
+			ASK {
+				graph ?g2 {
+			       &lt;%1$s&gt; integration:is_followed_by ?mode.
+			  	}
+			}
+	</implementation>
+	</query>
+	
+	<query id="ModeFileWebServiceImpl.getModeFileContentForZmod">
+	<!-- Returns a modefile-like tupel for a given zmod, as parameter %1$s. -->
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX rr: &lt;&rr1;&gt;
+			PREFIX integration: &lt;&integration;&gt;  
+			SELECT DISTINCT ?sourceUri ?sgid ?modeNumber ?offset ?slope ?quadraticTerm ?confidence ?maneouvreTitle ?modeUri WHERE {
+				{
+					# direct modes for zmods
+					
+					&lt;%1$s&gt; a vib:Zmod.
+					?sourceUri a vib:Zmod.
+					FILTER(sameTerm(?sourceUri, &lt;%1$s&gt;)).
+					
+					&lt;%1$s&gt; vib:was_measured_in ?vibTest.
+					?vibTest vib:has_maneouvre_title ?maneouvreTitle.
+						
+					&lt;%1$s&gt; vib:application_of ?sg.
+					?sg vib:has_local_identifier ?sgid.
+					
+					# filter deleted and/or updated modes:
+					optional{
+					 graph ?g2 {
+				        optional{
+				            ?modeUri integration:is_followed_by ?mode.
+				        }
+				        # should be correct, but does not seem to work ...
+						FILTER(!bound(?mode)).
+				     	}
+			
+					}
+					
+					graph ?g{
+						&lt;%1$s&gt; vib:has_mode_measured ?modeUri.
+							?modeUri vib:has_offset ?offset;
+							vib:has_slope ?slope;
+							vib:has_quadratic_term ?quadraticTerm.
+							?modeUri vib:has_mode_number ?modeNumber.
+					}
+					
+					?g meta:has_provenance ?prov.
+					?prov meta:agent &lt;%2$s&gt;;
+					meta:confidence_degree ?confidence;
+					meta:creation_time ?creationTime.
+	
+				} union	{
+					# direct modes for strain gauge
+					
+					&lt;%1$s&gt; a vib:Zmod.
+					
+					&lt;%1$s&gt; vib:application_of ?sourceUri.
+					?sourceUri vib:has_local_identifier ?sgid.
+					
+					graph ?g{
+						?sourceUri vib:has_mode_assumed ?modeUri.
+						?modeUri vib:has_offset ?offset;
+						vib:has_slope ?slope;
+						vib:has_quadratic_term ?quadraticTerm.
+					}
+					?modeUri vib:has_mode_number ?modeNumber.
+					
+
+					?g meta:has_provenance ?prov.
+					?prov meta:agent &lt;%2$s&gt;;
+					meta:confidence_degree ?confidence;
+					meta:creation_time ?creationTime.
+				} union {
+					# modes on that blade.
+					
+					&lt;%1$s&gt; a vib:Zmod.
+					
+					&lt;%1$s&gt; vib:application_of ?ra.
+					?ra vib:has_local_identifier ?sgid.
+					
+					?ra vib:has_associated_component ?sourceUri.
+					?sourceUri vib:has_mode_lab ?modeUri.
+					?modeUri vib:has_mode_number ?modeNumber.
+
+					optional {
+						?modeUri vib:has_offset ?offset.
+					} optional {
+						?modeUri vib:has_slope ?slope.
+					} optional {
+						?modeUri vib:has_quadratic_term ?quadraticTerm.
+					}
+
+					# filter modes which are created by mode shapes (since they have offset 0.
+					optional {
+						?modeUri vib:has_mode_shape ?modeShape.
+					}
+					FILTER(!(bound(?modeShape))).
+					
+					
+				} union {
+					# theoretical model 
+					&lt;%1$s&gt; a vib:Zmod.
+					
+					&lt;%1$s&gt; vib:application_of ?ra.
+					?ra vib:has_local_identifier ?sgid.
+					
+					?ra a vib:Strain_gauge;
+					vib:has_associated_component ?r2.
+					?r2 vib:has_model ?sourceUri.
+					?sourceUri vib:has_mode_theory ?modeUri.
+					
+					?modeUri vib:has_mode_number ?modeNumber.
+					
+					?modeUri vib:has_offset ?offset;
+					optional {
+						?modeUri vib:has_slope ?slope.
+					} optional {
+						?modeUri vib:has_quadratic_term ?quadraticTerm. 
+					}
+				
+				}
+			} ORDER BY (?modeNumber)
+		</implementation>
+	</query>
+
+
+	<query id="SharedKBDAO.allResolutionsForZmod">
+		<!-- returns all strain gauges for a modeShape -->
+		<!-- %1 zmod URI -->
+		<implementation> 			 
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			SELECT * WHERE {
+				&lt;%1$s&gt; a vib:Zmod;
+					vib:has_rendering ?ontologyUri;
+					vib:was_measured_in ?vibrationTestUri. 
+						
+				?ontologyUri vib:has_start_frequency ?startFrequency;
+				vib:has_end_frequency ?endFrequency;
+				
+				vib:has_sample_rate ?sampleRate;
+				vib:has_frequency_range ?frequencyRange;
+			
+				vib:has_speed_range_start ?speedStart;
+				vib:has_speed_range_end ?speedStop.
+				
+				optional {
+					?ontologyUri meta:source ?documentUri;
+				}
+				
+			}
+			
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.strainGaugeFromZmod">
+		<!-- returns all strain gauges for a modeShape -->
+		<!-- %1 zmod URI -->
+		<implementation> 			 
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			SELECT * WHERE {
+				&lt;%1$s&gt; vib:application_of ?sg;
+					a vib:Zmod.
+				
+			}
+			
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.bladeForStrainGauge">
+		<!-- returns all strain gauges for a modeShape -->
+		<!-- %1 zmod URI -->
+		<implementation> 			 
+			PREFIX vib: &lt;&vib;&gt;
+			SELECT ?bladeUri WHERE {
+				&lt;%1$s&gt; vib:has_associated_component ?bladeUri.
+			}
+		</implementation>
+	</query>
+	
+	<query id="SharedKBDAO.bladeModelsForBlade">
+		<!-- returns all strain gauges for a modeShape -->
+		<!-- %1 zmod URI -->
+		<implementation> 			 
+			PREFIX vib: &lt;&vib;&gt;
+			SELECT ?model WHERE {
+				 &lt;%1$s&gt; vib:has_model ?model.
+			}
+		</implementation>
+	</query>
+	
+	
+	
+	<query id="SharedKBDAO.strainGauge">
+		<implementation> 
+			
+			PREFIX rr1: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			   
+			SELECT DISTINCT * WHERE { 
+				&lt;%1$s&gt; a vib:Strain_gauge;
+				    
+				vib:has_local_identifier ?id;
+				vib:has_gapos ?position;
+				vib:has_associated_component ?ipcUri.
+				
+			    }
+		</implementation>
+	</query>
+	
+	
+
+	<query id="SharedKBDAO.displayName">
+		<implementation> 			 
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX rdfs: &lt;&rdfs;&gt;
+			SELECT ?name WHERE {
+				{
+					&lt;%1$s&gt; rdfs:label ?name.
+				} union
+				{
+					&lt;%1$s&gt; a vib:Zmod;
+					vib:application_of ?sg.
+					?sg vib:has_local_identifier ?name.
+				}
+				
+			}
+			
+		</implementation>
+	</query>
+
+	<query id="SharedKBDAO.metadata">
+		<implementation> 			 
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			SELECT ?key ?value WHERE {
+			{			
+			&lt;%1$s&gt; ?key ?value.
+			FILTER (isLiteral(?value)).
+			} union {
+			&lt;%1$s&gt; a vib:Zmod;
+			vib:application_of ?sg.
+			?sg ?key ?value.
+			FILTER (isLiteral(?value)).
+			} union {
+			&lt;%1$s&gt; a vib:Mode_Shape;
+			?key ?value.
+			FILTER (isLiteral(?value)).
+			} union {
+			&lt;%1$s&gt; a vib:Mode_Shape.				
+			?mode vib:has_mode_shape &lt;%1$s&gt;;
+			?key ?value.
+			FILTER (isLiteral(?value)).					 
+			}
+			}				
+		</implementation>
+	</query>
+
+<query id="SearchSimilarZModsIndexer.filterEngineBuild">
+		<implementation>
+		<!-- Gauge-documentURI to engine build -->
+		PREFIX rr: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX eng:&lt;&eng;&gt;
+			PREFIX xs:&lt;http://www.w3.org/2001/XMLSchema#&gt;
+		SELECT DISTINCT ?enginebuild WHERE {
+			?zmodres meta:source &lt;%1$s&gt;.
+			?zmod vib:has_rendering ?zmodres.
+			?zmod vib:application_of ?gauge.
+			?met vib:uses ?gauge.
+			?met vib:has_associated_engine ?engine.
+			?engine eng:has_engine_property ?enginebuild.
+			?enginebuild a eng:Engine_build.
+		}
+		</implementation>
+	</query>
+	
+	<query id="SearchSimilarZModsIndexer.filterEngineType">
+		<implementation>
+		<!-- Gauge-documentURI to engine type -->
+		PREFIX rr: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX eng:&lt;&eng;&gt;
+			PREFIX xs:&lt;http://www.w3.org/2001/XMLSchema#&gt;
+		SELECT DISTINCT ?enginetype WHERE {
+			?zmodres meta:source &lt;%1$s&gt;.
+			?zmod vib:has_rendering ?zmodres.
+			?zmod vib:application_of ?gauge.
+			?met vib:uses ?gauge.
+			?met vib:has_associated_engine ?engine.
+			?engine eng:has_engine_property ?enginetype.
+			?enginetype a eng:Engine_type.
+		}
+		</implementation>
+	</query>
+	
+	<query id="SearchSimilarZModsIndexer.filterEngineFamily">
+		<implementation>
+		<!-- Gauge-documentURI to engine family -->
+		PREFIX rr: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX eng:&lt;&eng;&gt;
+			PREFIX xs:&lt;http://www.w3.org/2001/XMLSchema#&gt;
+		SELECT DISTINCT ?enginefamily WHERE {
+			?zmodres meta:source &lt;%1$s&gt;.
+			?zmod vib:has_rendering ?zmodres.
+			?zmod vib:application_of ?gauge.
+			?met vib:uses ?gauge.
+			?met vib:has_associated_engine ?engine.
+			?engine eng:has_engine_property ?enginefamily.
+			?enginefamily a eng:Engine_family.
+		}
+		</implementation>
+	</query>
+	
+	<query id="SearchSimilarZModsIndexer.filterEngineName">
+		<implementation>
+		<!-- Gauge-documentURI to engine name -->
+		PREFIX rr: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX eng:&lt;&eng;&gt;
+			PREFIX xs:&lt;http://www.w3.org/2001/XMLSchema#&gt;
+		SELECT DISTINCT ?enginename WHERE {
+			?zmodres meta:source &lt;%1$s&gt;.
+			?zmod vib:has_rendering ?zmodres.
+			?met vib:has_associated_engine ?engine.
+			?engine eng:has_ID ?enginename.
+		}
+		</implementation>
+	</query>
+	
+	<query id="SearchSimilarZModsIndexer.filterSpeedRangeStart">
+		<implementation>
+		<!-- Gauge-documentURI to engine name -->
+		PREFIX rr: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX eng:&lt;&eng;&gt;
+			PREFIX xs:&lt;http://www.w3.org/2001/XMLSchema#&gt;
+		SELECT DISTINCT ?speedrangestart WHERE {
+			?zmodres meta:source &lt;%1$s&gt;;
+			 	vib:has_speed_range_start ?speedrangestart.
+		}
+		</implementation>
+	</query>
+
+<query id="SearchSimilarZModsIndexer.filterSpeedRangeEnd">
+		<implementation>
+		<!-- Gauge-documentURI to engine name -->
+		PREFIX rr: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX eng:&lt;&eng;&gt;
+			PREFIX xs:&lt;http://www.w3.org/2001/XMLSchema#&gt;
+		SELECT DISTINCT ?speedrangeend WHERE {
+			?zmodres meta:source &lt;%1$s&gt;;
+				vib:has_speed_range_end ?speedrangeend.
+		}
+		</implementation>
+	</query>
+	
+	<query id="SearchSimilarZModsIndexer.filterGauge">
+		<implementation>
+		<!-- Gauge-documentURI to strain gauge -->
+		PREFIX rr: &lt;&rr1;&gt; 
+			PREFIX rdf: &lt;&rdf;&gt;
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX eng:&lt;&eng;&gt;
+			PREFIX xs:&lt;http://www.w3.org/2001/XMLSchema#&gt;
+		SELECT DISTINCT ?gaugeid WHERE {
+			?zmodres meta:source &lt;%1$s&gt;.
+			?zmod vib:has_rendering ?zmodres.
+			?zmod vib:application_of ?gauge.
+			?gauge vib:has_local_identifier ?gaugeid.
+			}
+		</implementation>
+	</query>
+	
+	<query id="SearchSimilarZModsIndexer.filterVibrationTest">
+		<implementation>
+		<!-- Gauge-documentURI to vibration test -->
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			PREFIX xs:&lt;http://www.w3.org/2001/XMLSchema#&gt;
+		SELECT DISTINCT ?vibtest WHERE {
+			?zmodres meta:source &lt;%1$s&gt;.
+			?zmod vib:has_rendering ?zmodres.
+			?zmod vib:was_measured_in ?vibtestUri.
+			?vibtestUri vib:has_maneouvre_title ?vibtest.
+		}
+		</implementation>
+	</query>
+	
+<query id="SharedKBDAO.metForVibrationTest">
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX eng:&lt;&eng;&gt;
+		SELECT * WHERE {
+			&lt;%1$s&gt; vib:was_performed_for ?ontologyUri.
+			?ontologyUri vib:has_met_number ?metNumber;
+				vib:has_associated_engine ?engineUri.
+			
+		}
+		</implementation>
+	</query>
+	
+	
+	<query id="SharedKBDAO.modeShapePredictions">
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX meta: &lt;&meta;&gt; 
+			
+			SELECT DISTINCT ?category ?userAgent ?confidence WHERE {
+				graph ?g {
+					&lt;%1$s&gt; vib:has_mode_shape_group_number ?category.
+				} 
+				?g meta:has_provenance ?prov.
+				?prov meta:agent ?userAgent;
+					meta:confidence_degree ?confidence.
+		} ORDER BY DESC(?confidence)
+		</implementation>
+	</query>
+	
+	<query id="PPlus.fromStrainGauge">
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX eng:&lt;&eng;&gt;
+		PREFIX EVtest2:&lt;&evtest2;&gt;
+		PREFIX rr1: &lt;&rr1;&gt; 
+SELECT distinct ?event ?eng ?hasModule ?hasDate ?hasTime ?hasPeakGaugeStress ?hasFrequency ?hasMagnitude 
+		?hasBladeNumber ?measuredWithStrainGauge ?hasGapos ?hasModeAssumed ?hasModeNumber
+        ?hasFeFrequency ?hasFrequencyError ?hasEngineOrder ?hasEoValue ?hasEndurance ?hasEnduranceValue
+		?hasN1Speed ?hasN2Speed ?hasN3Speed ?sensitivity  ?hasDescription ?feature ?annotationOf
+WHERE { ?event vib:measured_with_strain_gauge &lt;%1$s&gt;;
+			vib:measured_with_strain_gauge ?measuredWithStrainGauge;
+			  vib:has_associated_engine ?eng;
+			  vib:has_module ?hasModule;
+			  vib:has_date ?hasDate;
+			  vib:has_time ?hasTime;
+			  			  vib:has_sensitivity ?sensitivity;
+			  
+			  vib:has_peak_gauge_stress ?hasPeakGaugeStress;        
+			  vib:has_blade_number ?hasBladeNumber;
+			  vib:has_gapos ?hasGapos;
+			  vib:has_mode_assumed ?hasModeAssumed;
+			  vib:has_FE_frequency ?hasFeFrequency;
+			  vib:has_frequency_error ?hasFrequencyError;
+			  vib:has_engine_order ?hasEngineOrder;
+			  vib:has_endurance ?hasEndurance;
+			  EVtest2:has_N1_speed ?hasN1Speed;
+			  EVtest2:has_N2_speed ?hasN2Speed;
+			  EVtest2:has_N3_speed ?hasN3Speed;
+			  EVtest2:has_description ?hasDescription.
+		?hasPeakGaugeStress vib:has_frequency ?hasFrequency;
+							   vib:has_magnitude ?hasMagnitude.
+		?hasModeAssumed vib:has_mode_number ?hasModeNumber.
+		?hasEngineOrder vib:has_EO_value ?hasEoValue.
+		?hasEndurance vib:has_endurance_value ?hasEnduranceValue.
+        OPTIONAL {?event vib:annotation_of ?annotationOf }       
+}
+		
+		</implementation>
+	</query>
+	
+	<query id="PPlus.featuresForEvent">
+		<implementation>
+				PREFIX vib: &lt;&vib;&gt;
+			SELECT ?feature WHERE {
+				&lt;%1$s&gt; vib:associated_with_vibration_feature ?feature.
+			}
+		</implementation>
+        
+	</query>
+	
+	<query id="PPlus.fromZmodfile">
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX eng:&lt;&eng;&gt;
+		PREFIX EVtest2:&lt;&evtest2;&gt;
+		PREFIX rr1: &lt;&rr1;&gt;
+SELECT ?event ?eng ?hasModule ?sensitivity ?sensitivity ?hasDate ?hasTime ?hasPeakGaugeStress ?hasFrequency ?hasMagnitude 
+		?hasBladeNumber ?measuredWithStrainGauge ?hasGapos ?hasModeAssumed ?hasModeNumber
+        ?hasFeFrequency ?hasFrequencyError ?hasEngineOrder ?hasEoValue ?hasEndurance ?hasEnduranceValue
+		?hasN1Speed ?hasN2Speed ?hasN3Speed ?hasDescription ?feature ?annotationOf
+WHERE { ?event vib:annotation_of &lt;%1$s&gt;;
+			  vib:has_associated_engine ?eng;
+			  vib:has_module ?hasModule;
+			  vib:has_date ?hasDate;
+			  vib:has_time ?hasTime;
+			  vib:has_peak_gauge_stress ?hasPeakGaugeStress;        
+			  vib:has_blade_number ?hasBladeNumber;
+			  vib:measured_with_strain_gauge ?measuredWithStrainGauge;
+			  vib:has_gapos ?hasGapos;
+			  vib:has_mode_assumed ?hasModeAssumed;
+			  vib:has_FE_frequency ?hasFeFrequency;
+			  vib:has_frequency_error ?hasFrequencyError;
+			  vib:has_engine_order ?hasEngineOrder;
+			  vib:has_endurance ?hasEndurance;
+			  EVtest2:has_N1_speed ?hasN1Speed;
+			  EVtest2:has_N2_speed ?hasN2Speed;
+			  EVtest2:has_N3_speed ?hasN3Speed;
+			  vib:has_sensitivity ?sensitivity;
+			  EVtest2:has_description ?hasDescription.
+		?hasPeakGaugeStress vib:has_frequency ?hasFrequency;
+							   vib:has_magnitude ?hasMagnitude.
+		?hasModeAssumed vib:has_mode_number ?hasModeNumber.
+		?hasEngineOrder vib:has_EO_value ?hasEoValue.
+		?hasEndurance vib:has_endurance_value ?hasEnduranceValue.
+        OPTIONAL {?event vib:annotation_of ?annotationOf }        
+}
+		
+		</implementation>
+	</query>
+	
+	
+	
+	<query id="PPlus.fromModule">
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX eng:&lt;&eng;&gt;
+		PREFIX EVtest2:&lt;&evtest2;&gt;
+		PREFIX rr1: &lt;&rr1;&gt; 
+SELECT ?event ?eng ?hasModule ?hasDate ?hasTime ?sensitivity ?hasPeakGaugeStress ?hasFrequency ?hasMagnitude 
+		?hasBladeNumber ?measuredWithStrainGauge ?hasGapos ?hasModeAssumed ?hasModeNumber
+        ?hasFeFrequency ?hasFrequencyError ?hasEngineOrder ?hasEoValue ?hasEndurance ?hasEnduranceValue
+		?hasN1Speed ?hasN2Speed ?hasN3Speed ?hasDescription ?feature ?annotationOf
+WHERE { ?event vib:has_module &lt;%1$s&gt;;
+			  vib:has_associated_engine ?eng;
+			  vib:has_date ?hasDate;
+			  vib:has_time ?hasTime;
+			  			  vib:has_sensitivity ?sensitivity;
+			  
+			  vib:has_peak_gauge_stress ?hasPeakGaugeStress;        
+			  vib:has_blade_number ?hasBladeNumber;
+			  vib:measured_with_strain_gauge ?measuredWithStrainGauge;
+			  vib:has_gapos ?hasGapos;
+			  vib:has_mode_assumed ?hasModeAssumed;
+			  vib:has_FE_frequency ?hasFeFrequency;
+			  vib:has_frequency_error ?hasFrequencyError;
+			  vib:has_engine_order ?hasEngineOrder;
+			  vib:has_endurance ?hasEndurance;
+			  EVtest2:has_N1_speed ?hasN1Speed;
+			  EVtest2:has_N2_speed ?hasN2Speed;
+			  EVtest2:has_N3_speed ?hasN3Speed;
+			  EVtest2:has_description ?hasDescription.
+		?hasPeakGaugeStress vib:has_frequency ?hasFrequency;
+							   vib:has_magnitude ?hasMagnitude.
+		?hasModeAssumed vib:has_mode_number ?hasModeNumber.
+		?hasEngineOrder vib:has_EO_value ?hasEoValue.
+		?hasEndurance vib:has_endurance_value ?hasEnduranceValue.
+        OPTIONAL {?event vib:annotation_of ?annotationOf }        
+}
+		
+		</implementation>
+	</query>
+	
+	
+	
+	<query id="PPlus.fromEngineSerial">
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX eng:&lt;&eng;&gt;
+		PREFIX EVtest2:&lt;&evtest2;&gt;
+		PREFIX rr1: &lt;&rr1;&gt;
+SELECT ?event ?eng ?hasModule ?hasDate ?hasTime ?sensitivity ?hasPeakGaugeStress ?hasFrequency ?hasMagnitude 
+		?hasBladeNumber ?measuredWithStrainGauge ?hasGapos ?hasModeAssumed ?hasModeNumber
+        ?hasFeFrequency ?hasFrequencyError ?hasEngineOrder ?hasEoValue ?hasEndurance ?hasEnduranceValue
+		?hasN1Speed ?hasN2Speed ?hasN3Speed ?hasDescription ?feature ?annotationOf
+		WHERE {?event vib:has_associated_engine &lt;%1$s&gt;; 
+			  vib:has_associated_engine ?eng;
+			  vib:has_module ?hasModule;
+			  vib:has_date ?hasDate;
+			  vib:has_time ?hasTime;
+			  vib:has_peak_gauge_stress ?hasPeakGaugeStress;        
+			  			  vib:has_sensitivity ?sensitivity;
+			  vib:has_blade_number ?hasBladeNumber;
+			  vib:measured_with_strain_gauge ?measuredWithStrainGauge;
+			  vib:has_gapos ?hasGapos;
+			  vib:has_mode_assumed ?hasModeAssumed;
+			  vib:has_FE_frequency ?hasFeFrequency;
+			  vib:has_frequency_error ?hasFrequencyError;
+			  vib:has_engine_order ?hasEngineOrder;
+			  vib:has_endurance ?hasEndurance;
+			  EVtest2:has_N1_speed ?hasN1Speed;
+			  EVtest2:has_N2_speed ?hasN2Speed;
+			  EVtest2:has_N3_speed ?hasN3Speed;
+			  EVtest2:has_description ?hasDescription.
+		?hasPeakGaugeStress vib:has_frequency ?hasFrequency;
+							   vib:has_magnitude ?hasMagnitude.
+		?hasModeAssumed vib:has_mode_number ?hasModeNumber.
+		?hasEngineOrder vib:has_EO_value ?hasEoValue.
+		?hasEndurance vib:has_endurance_value ?hasEnduranceValue.
+        OPTIONAL {?event vib:annotation_of ?annotationOf }        
+}
+      	
+		</implementation>
+	</query>
+	
+	
+	<query id="PPlus.fromModeshape">
+		<implementation>
+			PREFIX vib: &lt;&vib;&gt;
+			PREFIX eng:&lt;&eng;&gt;
+		PREFIX EVtest2:&lt;&evtest2;&gt;
+		PREFIX rr1: &lt;&rr1;&gt;
+SELECT ?event ?eng ?hasModule ?hasDate ?hasTime ?hasPeakGaugeStress ?hasFrequency ?hasMagnitude 
+		?hasBladeNumber ?measuredWithStrainGauge ?hasGapos ?hasModeAssumed ?hasModeNumber
+        ?hasFeFrequency ?hasFrequencyError ?hasEngineOrder ?hasEoValue ?hasEndurance ?hasEnduranceValue
+		?hasN1Speed ?hasN2Speed ?hasN3Speed ?sensitivity ?hasDescription ?feature ?annotationOf
+		WHERE {
+		&lt;%1$s&gt; a vib:Mode_shape.
+		graph ?g {
+			&lt;%1$s&gt; vib:has_mode_shape_group_number ?category.
+		}
+		
+		?modeshapemode vib:has_mode_shape &lt;%1$s&gt;;
+			vib:has_mode_number ?hasModeNumber.
+		
+		?modeshapeblade vib:has_mode_lab ?modeshapemode;
+			rr1:part_of ?hasModule;
+			vib:has_blade_number2 ?hasBladeNumber.
+		?hasModule vib:in_stage ?modeshapestage.
+		?eng vib:has_module ?hasModule; a eng:Engine.
+		
+		?event  
+			  vib:has_associated_engine ?eng;
+			  vib:has_module ?hasModule;
+			  vib:has_date ?hasDate;
+			  vib:has_time ?hasTime;
+			  vib:has_peak_gauge_stress ?hasPeakGaugeStress;        
+					  vib:has_sensitivity ?sensitivity;
+			  vib:has_blade_number ?hasBladeNumber;
+			  vib:measured_with_strain_gauge ?measuredWithStrainGauge;
+			  vib:has_gapos ?hasGapos;
+			  vib:has_mode_assumed ?hasModeAssumed;
+			  vib:has_FE_frequency ?hasFeFrequency;
+			  vib:has_frequency_error ?hasFrequencyError;
+			  vib:has_engine_order ?hasEngineOrder;
+			  vib:has_endurance ?hasEndurance;
+			  EVtest2:has_N1_speed ?hasN1Speed;
+			  EVtest2:has_N2_speed ?hasN2Speed;
+			  EVtest2:has_N3_speed ?hasN3Speed;
+			  EVtest2:has_description ?hasDescription.
+		?hasPeakGaugeStress vib:has_frequency ?hasFrequency;
+			vib:has_magnitude ?hasMagnitude.
+		?hasModeAssumed vib:has_mode_number ?hasModeNumber.
+		?hasEngineOrder vib:has_EO_value ?hasEoValue.
+		?hasEndurance vib:has_endurance_value ?hasEnduranceValue.
+        OPTIONAL {?event vib:associated_with_vibration_feature ?feature }
+        OPTIONAL {?event vib:annotation_of ?annotationOf }        
+}
+      	
+		</implementation>
+	</query>
+	
+	
+	<query id="PPlus.solcaraQuery">
+		<implementation>SELECT ?ksearch__hasURL ?ksearch__hasKSearchVibrationFeatureType WHERE {?ksearch &lt;http://solcara.com/schemas/solsearch-connectors-20080507#hasKSearchVibrationFeatureTypeContainsText&gt; "%1$s" ; &lt;http://solcara.com/schemas/solsearch-connectors-20080507#hasURL&gt; ?ksearch__hasURL;&lt;http://solcara.com/schemas/solsearch-connectors-20080507#hasKSearchVibrationFeatureType&gt; ?ksearch__hasKSearchVibrationFeatureType.}</implementation>
+	</query>
+	
+</queries>

@@ -1,0 +1,10 @@
+/bin
+/output
+/.settings
+/.sonar
+/target
+/.classpath
+/.project
+/build.log
+/project.properties
+/sonar-project.properties

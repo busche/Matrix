@@ -1,0 +1,43 @@
+
+
+
+FILEFORMAT:
+
+matrix: 
+<numRows>\t<numCols>
+x[1,1] x[1,2] x[1,3] ... x[1,m]
+x[2,1] x[2,2] ...
+...
+x[n,1] x[n,2] ... x[n,m]
+
+
+vector:
+<length>
+<val1>
+<val2>
+...
+
+
+
+data:
+* train predictors: matrix
+* train targets: vector
+* test predictors: matrix
+* test targets: vector
+
+
+----------------------------------------------------------------------
+
+poss. #2:
+* train + test predictors: matrix
+* train + test targets: vector
+* train/test split: vector { 0,1 } 
+
+
+naming scheme:
+* <name>.predictors.txt: train + test predictors: matrix
+* <name>.targets.txt:    train + test targets: vector
+* <name>.split.txt:      train/test split: vector { 0,1 } 
+
+
+

@@ -1,0 +1,6 @@
+PgSql.dbname=busche
+PgSql.username=busche
+PgSql.hostname=acogpr
+PgSql.password=secret
+#PgSql.connectionString=jdbc:postgresql:busche
+#PgSql.connectionString=jdbc:postgresql://acogpr/busche

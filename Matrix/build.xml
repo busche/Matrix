@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ISMLL-Matrices" default="deploy" basedir=".">
+
+	<target name="init-constants">
+		<!-- enable logging of the build output-->
+		<record name="${basedir}/build.log" append="no" />
+
+
+		<!-- try to load a local properties file -->
+		<property file="project.properties" />
+
+		<fail message="Property module.version was not found. Have you copied project.properties.sample to project.properties and adjusted the parameters???" unless="module.version" />
+
+
+		<typedef resource="com/googlecode/svntask/svntask.xml">
+			<classpath>
+				<fileset dir="${basedir}/compile_libs">
+					<include name="svnkit.jar" />
+					<include name="svntask.jar" />
+				</fileset>
+			</classpath>
+		</typedef>
+
+		<!-- Do an update first to make sure you have the latest version -->
+		<!--<svn><update path="." force="true" recursive="true" /></svn>-->
+
+		<svn>
+			<info path="." revisionProperty="revisionVersion" />
+		</svn>
+		
+		<property name="svn.version" value="${revisionVersion}" />
+		
+
+
+		<!-- build bootstrap library -->
+
+		<!-- useNativePath - oder so: nachschlagen wg. Ant 1.8! -->
+		<!--ant antfile="${libs.bootstrap}/build.xml" target="jar" dir="${libs.bootstrap}" useNativeBasedir="true">
+			<property file="${libs.bootstrap}/project.properties"/>	
+		</ant-->
+		
+		<ant antfile="${libs.bootstrap}/build.xml" target="jar" dir="${libs.bootstrap}">
+			<property file="${libs.bootstrap}/project.properties"/>
+		</ant>
+
+		<!-- do not change these properties here, do change project.properties file, instead -->
+
+		<property name="build.path" value="build">
+		</property>
+		<property name="source.java" value="${basedir}/src/java" />
+		<property name="source.java.kdd2010" value="${basedir}/src/kdd2010/java" />
+		<property name="source.java.kdd2011" value="${basedir}/src/kdd2011/java" />
+		<property name="tests.java" value="${basedir}/src/tests/java" />
+
+		<patternset id="thirdparty.patternset">
+			<include name="*.jar" />
+		</patternset>
+
+		<!-- The combined library classpath -->
+		<path id="thirdparty.classpath">
+			<fileset dir="${libs.common}">
+				<patternset refid="thirdparty.patternset" />
+			</fileset>
+			<!--			<fileset dir="${basedir}/lib_compiletime">
+				<patternset refid="thirdparty.patternset" />
+			</fileset>-->
+		</path>
+
+		<!-- The classpath required to build classes. -->
+		<path id="javac.classpath">
+			<path refid="thirdparty.classpath" />
+			<fileset file="${libs.bootstrap}/output/*.jar" />
+		</path>
+
+	</target>
+
+	<!-- ================================================================== -->
+	<!-- clean the whole output folder                                      -->
+	<!-- ================================================================== -->
+	<target name="clean" depends="init-constants">
+		<record name="${basedir}/build.log" action="stop" />
+		<delete file="${base-dir}/build.log" quiet="true" failonerror="false" />
+		<delete dir="${build.path}/classes" />
+		<delete dir="${basedir}/output" />
+	</target>
+
+	<!-- Compile all class files -->
+	<target name="compile-classes" depends="init-constants">
+		<mkdir dir="${build.path}/classes" />
+		<javac destdir="${build.path}/classes" 
+				optimize="${maven.compile.optimize}" 
+				debug="${maven.compile.debug}" 
+				depend="${javac.depend}" 
+				verbose="${maven.compile.verbose}" 
+				deprecation="${maven.compile.deprecation}" 
+				includeAntRuntime="${javac.include.ant.runtime}" 
+				includeJavaRuntime="${javac.include.java.runtime}" 
+				failonerror="true">
+			<src path="${source.java}" />
+			<classpath refid="javac.classpath" />
+		</javac>
+	</target>
+
+	<target name="compile-KDD2010-classes" depends="init-constants">
+		<mkdir dir="${build.path}/classes" />
+		<javac destdir="${build.path}/classes" 
+				optimize="${maven.compile.optimize}" 
+				debug="${maven.compile.debug}" 
+				depend="${javac.depend}"
+				verbose="${maven.compile.verbose}" 
+				deprecation="${maven.compile.deprecation}" 
+				includeAntRuntime="${javac.include.ant.runtime}" 
+				includeJavaRuntime="${javac.include.java.runtime}" 
+				failonerror="true">
+			<src path="${source.java.kdd2010};${source.java}" />
+			<classpath refid="javac.classpath"/>
+		</javac>
+	</target>
+
+
+	<target name="compile-KDD2011-classes" depends="init-constants">
+		<mkdir dir="${build.path}/classes" />
+		<javac destdir="${build.path}/classes" 
+				optimize="${maven.compile.optimize}" 
+				debug="${maven.compile.debug}" 
+				depend="${javac.depend}"
+				verbose="${maven.compile.verbose}" 
+				deprecation="${maven.compile.deprecation}" 
+				includeAntRuntime="${javac.include.ant.runtime}" 
+				includeJavaRuntime="${javac.include.java.runtime}" 
+				failonerror="true">
+			<src path="${source.java.kdd2011};${source.java}" />
+			<classpath refid="javac.classpath"/>
+		</javac>
+	</target>
+
+	<target name="compile-optional-andre" depends="compile-classes" if="opt.andre_playground" 
+		description="Compile andres playground.">
+		<javac destdir="${build.path}/classes" 
+				optimize="${maven.compile.optimize}" 
+				debug="${maven.compile.debug}" 
+				depend="${javac.depend}" 
+				verbose="${maven.compile.verbose}" 
+				deprecation="${maven.compile.deprecation}" 
+				includeAntRuntime="${javac.include.ant.runtime}" 
+				includeJavaRuntime="${javac.include.java.runtime}" 
+				failonerror="true">
+			<src path="${basedir}/${opt.andre_playground}/java" />
+			<classpath >
+				<path refid="thirdparty.classpath" />
+				<fileset file="${libs.bootstrap}/output/*.jar" />
+				<path path="${build.path}/classes">
+				</path>
+			</classpath>
+		</javac>
+		<copy todir="${build.path}/classes">
+			<fileset dir="${source.java}">
+				<exclude name="**/*.class" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target 
+		name="compile-optional" 
+		depends="compile-classes, compile-optional-andre" 
+		description="Compile optional source files for the core module." />
+
+	<target name="compile" depends="compile-classes" description="Compile all source files for the core module.">
+		<copy todir="${build.path}/classes">
+			<fileset dir="${source.java}">
+				<exclude name="**/*.class" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<echo message="${svn.version}" file="${build.path}/classes/svn.version"/>
+	</target>
+
+	<target name="compileKDD2010" depends="compile-KDD2010-classes" description="Compile all source files for the core module.">
+		<copy todir="${build.path}/classes">
+			<fileset dir="${source.java.kdd2010}">
+				<exclude name="**/*.class" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<copy todir="${build.path}/classes">
+			<fileset dir="${source.java}">
+				<exclude name="**/*.class" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="compileKDD2011" depends="compile-KDD2011-classes" description="Compile all source files for the core module.">
+		<copy todir="${build.path}/classes">
+			<fileset dir="${source.java.kdd2011}">
+				<exclude name="**/*.class" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<copy todir="${build.path}/classes">
+			<fileset dir="${source.java}">
+				<exclude name="**/*.class" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="jar" depends="compile" description="Builds jars for core module.">
+		<delete dir="${basedir}/output" />
+		<mkdir dir="${basedir}/output" />
+		<jar jarfile="${basedir}/output/${module.name}-${module.version}.jar">
+			<fileset dir="${build.path}/classes" includes="**" />
+		</jar>
+	</target>
+
+	<target name="deploy" depends="compile, compile-optional" description="Builds jars for core module." >
+		<delete dir="${basedir}/output" />
+		<mkdir dir="${basedir}/output" />
+		<jar jarfile="${basedir}/output/${module.name}-${module.version}.jar">
+			<fileset dir="${build.path}/classes" includes="**" />
+		</jar>
+		<copy todir="${basedir}/output">
+			<fileset dir="${libs.common}">
+				<include name="**/*.jar" />
+			</fileset>
+			<fileset dir="${libs.bootstrap}/output" >
+				<include name="**"/>
+			</fileset>
+			<fileset dir="${libs.bootstrap}/scripts" >
+                                <include name="run.sh"/>
+                        </fileset>
+			<fileset dir="${basedir}/scripts">
+				<!--<include name="*.sh" />
+				<include name="*.bat" />-->
+				<exclude name="run.sh.sample"/>
+			</fileset>
+		</copy>
+		<chmod perm="0755">
+			<fileset dir="${basedir}/output">
+				<include name="**/*.sh" />
+			</fileset>
+		</chmod>
+	</target>
+
+	<target name="kdd2010" depends="compileKDD2010" description="Builds jars KDD-2010 module.">
+		<delete dir="${basedir}/output" />
+		<mkdir dir="${basedir}/output" />
+		<jar jarfile="${basedir}/output/kdd2010.jar" manifest="src/kdd2010/java/META-INF/MANIFEST.MF">
+			<fileset dir="${build.path}/classes" includes="**" />
+		</jar>
+		<copy todir="${basedir}/output">
+			<fileset dir="${libs.common}">
+				<include name="**/*.jar" />
+			</fileset>
+			<fileset file="${libs.bootstrap}/output*" >
+				<include name="**"/>
+			</fileset>
+		</copy>
+		<copy todir="${basedir}/output">
+			<fileset dir="${basedir}/scripts">
+				<include name="*.sh" />
+				<include name="*.bat" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="kdd2011" depends="compileKDD2011" description="Builds jars KDD-2011 module.">
+		<delete dir="${basedir}/output" />
+		<mkdir dir="${basedir}/output" />
+		<jar jarfile="${basedir}/output/kdd2011.jar">
+			<fileset dir="${build.path}/classes" includes="**" />
+		</jar>
+
+		<copy todir="${basedir}/output">
+			<fileset dir="${libs.common}">
+				<include name="**/*.jar" />
+			</fileset>
+			<fileset dir="${libs.bootstrap}/output" >
+				<include name="**"/>
+			</fileset>
+			<fileset dir="${basedir}/scripts">
+				<exclude name="run.sh.sample"/>
+			</fileset>
+		</copy>
+
+		<chmod perm="0755">
+			<fileset dir="${basedir}/output">
+				<include name="**/*.sh" />
+			</fileset>
+		</chmod>
+	</target>
+
+</project>
+

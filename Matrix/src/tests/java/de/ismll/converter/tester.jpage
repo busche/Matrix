@@ -1,0 +1,4 @@
+System.out.println(de.ismll.utilities.Tools.parseFloat("0.0093334345"));
+
+System.out.println(java.lang.Float.parseFloat("-Inf"));
+
