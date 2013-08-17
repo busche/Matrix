@@ -4,3 +4,11 @@
 *.jar
 *.war
 *.ear
+/bin
+/build
+/output
+/target
+/.project
+/build.log
+/project.properties
+/sonar-project.properties
