@@ -2,8 +2,8 @@ package de.ismll.evaluation;
 
 import java.util.Arrays;
 
-import de.ismll.experimental.Output;
-import de.ismll.experimental.SinkTest;
+import de.ismll.experimental.MessageConsumer;
+import de.ismll.experimental.MessageConsumerFactory;
 import de.ismll.table.IntVector;
 import de.ismll.table.IntVectors;
 import de.ismll.table.Matrices;
@@ -39,39 +39,6 @@ public class ClassNormalizedAccuracy implements Evaluator{
 		public static AggregatedNominalPerformanceStatistics aggregate(
 				NominalPerformanceStatistics[] perf) {
 			AggregatedNominalPerformanceStatistics ret = new AggregatedNominalPerformanceStatistics();
-
-			//
-			//
-			//			double sum_accuracy=0;
-			//			double[] sum_precisionPerClass=new double[perf[0].precisionPerClass.length];
-			//			double sum_unnormalizedError=0;
-			//			double sum_unnormalizedCorrect=0;
-			//			double[] sum_errorsPerClass=new double[perf[0].errorsPerClass.length];
-			//			double sum_classnormalizedError=0;
-			//			double sum_classnormalizedCorrect=0;
-			//			double[] sum_recallPerClass=new double[perf[0].recallPerClass.length];
-			//			double[] sum_fmeasurePerClass=new double[perf[0].fmeasurePerClass.length];
-			//			double sum_matthewsCorrelationCoefficient=0;
-			//			double sum_cohensKappa=0;
-			//
-			//
-			//			for (NominalPerformanceStatistics c : perf) {
-			//				sum_accuracy += c.accuracy;
-			//				add(sum_precisionPerClass,  c.precisionPerClass);
-			//				sum_unnormalizedError += c.unnormalizedError;
-			//				sum_unnormalizedCorrect += c.unnormalizedCorrect;
-			//				add(sum_errorsPerClass,  c.errorsPerClass);
-			//
-			//				sum_classnormalizedError += c.classnormalizedError;
-			//				sum_classnormalizedCorrect += c.classnormalizedCorrect;
-			//				add(sum_recallPerClass,  c.recallPerClass);
-			//
-			//				add(sum_fmeasurePerClass,  c.fmeasurePerClass);
-			//
-			//				sum_matthewsCorrelationCoefficient += c.matthewsCorrelationCoefficient;
-			//				sum_cohensKappa += c.cohensKappa;
-			//
-			//			}
 
 			Vector accuracies = new DefaultVector(perf.length);
 
@@ -120,13 +87,6 @@ public class ClassNormalizedAccuracy implements Evaluator{
 			return ret;
 		}
 
-		//		private static void add(double[] sum_precisionPerClass,
-		//				double[] precisionPerClass2) {
-		//			for (int i = 0; i < precisionPerClass2.length; i++) {
-		//				sum_precisionPerClass[i] += precisionPerClass2[i];
-		//			}
-		//		}
-
 	}
 
 	public static class AggregatedNominalPerformanceStatistics extends NominalPerformanceStatistics {
@@ -141,7 +101,7 @@ public class ClassNormalizedAccuracy implements Evaluator{
 
 	}
 
-	private SinkTest reporter;
+	private MessageConsumerFactory reporter;
 
 
 	@Override
@@ -170,7 +130,7 @@ public class ClassNormalizedAccuracy implements Evaluator{
 		int b = targetsTestPredicted.size();
 		Assert.assertTrue(a == b, "vectors have equal length (" + a + "!=" + b + ")");
 
-		Output reporterTarget = reporter.getTarget();
+		MessageConsumer reporterTarget = reporter.getTarget();
 
 		int maxtrue = IntVectors.max(targetsTestTrue);
 		int maxpred = IntVectors.max(targetsTestPredicted);
@@ -208,7 +168,7 @@ public class ClassNormalizedAccuracy implements Evaluator{
 	 * @param t where to log / print results to
 	 * @param raw_counts a 2-d array class confusion matrix
 	 */
-	public static void printStatistics(Output t, int[][] raw_counts) {
+	public static void printStatistics(MessageConsumer t, int[][] raw_counts) {
 		computeAndprintStatistics(t, raw_counts, null);
 	}
 
@@ -217,7 +177,7 @@ public class ClassNormalizedAccuracy implements Evaluator{
 	 * @param raw_counts a 2-d array class confusion matrix
 	 * @param classname optionally includes the class name on the output
 	 */
-	public static void printStatistics(Output t, NominalPerformanceStatistics statistics, String[] classlabels) {
+	public static void printStatistics(MessageConsumer t, NominalPerformanceStatistics statistics, String[] classlabels) {
 
 
 		t.message("Accuracy: " + statistics.accuracy);
@@ -248,7 +208,7 @@ public class ClassNormalizedAccuracy implements Evaluator{
 	 * @param raw_counts a 2-d array class confusion matrix
 	 * @param classname optionally includes the class name on the output
 	 */
-	public static void printStatistics(Output t, AggregatedNominalPerformanceStatistics statistics, String[] classlabels) {
+	public static void printStatistics(MessageConsumer t, AggregatedNominalPerformanceStatistics statistics, String[] classlabels) {
 
 		//		NominalPerformanceStatistics statistics = computeStatistics(raw_counts);
 
@@ -282,33 +242,11 @@ public class ClassNormalizedAccuracy implements Evaluator{
 	 * @param raw_counts a 2-d array class confusion matrix
 	 * @param classname optionally includes the class name on the output
 	 */
-	public static void computeAndprintStatistics(Output t, int[][] raw_counts, String[] classlabels) {
+	public static void computeAndprintStatistics(MessageConsumer t, int[][] raw_counts, String[] classlabels) {
 
 		NominalPerformanceStatistics statistics = computeStatistics(raw_counts);
 
 		printStatistics(t, statistics, classlabels);
-
-		//		t.message("Accuracy: " + statistics.accuracy);
-		//		if (classlabels != null)
-		//			t.message("Class labels: " + Arrays.toString(classlabels));
-		//		t.message("Precision per class: " + Arrays.toString(statistics.precisionPerClass));
-		//		t.message("UnnormalizedError: " + statistics.unnormalizedError);
-		//		t.message("UnnormalizedCorrect: " + statistics.unnormalizedCorrect);
-		//		t.message("Errors per class: " + Arrays.toString(statistics.errorsPerClass));
-		//		t.message("ClassnormalizedError: " + statistics.classnormalizedError);
-		//		t.message("ClassnormalizedCorrect: " + statistics.classnormalizedCorrect);
-		//		t.message("Correct per class: " + Arrays.toString(statistics.precisionPerClass));
-		//
-		//		t.message("Recall per class: " + Arrays.toString(statistics.recallPerClass));
-		//		t.message("F-Measure per class: " + Arrays.toString(statistics.fmeasurePerClass));
-		//
-		//
-		//		if (statistics.binaryProblem) {
-		//			// binary problem!
-		//
-		//			t.message("MatthewsCorrelationCoefficient: " + statistics.matthewsCorrelationCoefficient);
-		//			t.message("CohensKappa: " + statistics.cohensKappa);
-		//		}
 
 	}
 
@@ -454,11 +392,11 @@ public class ClassNormalizedAccuracy implements Evaluator{
 		return ret;
 	}
 
-	public SinkTest getReporter() {
+	public MessageConsumerFactory getReporter() {
 		return reporter;
 	}
 
-	public void setReporter(SinkTest reporter) {
+	public void setReporter(MessageConsumerFactory reporter) {
 		this.reporter = reporter;
 	}
 
