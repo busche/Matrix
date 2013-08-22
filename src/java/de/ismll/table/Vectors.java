@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 import de.ismll.processing.Normalizer;
-import de.ismll.table.Matrices.ReaderConfig;
 import de.ismll.table.impl.DefaultBitVector;
 import de.ismll.table.impl.DefaultIntVector;
 import de.ismll.table.impl.DefaultVector;

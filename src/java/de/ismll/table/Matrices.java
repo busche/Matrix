@@ -852,9 +852,9 @@ public class Matrices {
 
 			break;
 		case 0x01: // basic compression.
-			GZIPInputStream is = new GZIPInputStream(dis);
+			
 
-			try {
+			try (GZIPInputStream is = new GZIPInputStream(dis)) {
 				int numRows = readInt(is);
 				int numCols = readInt(is);
 				m = new DefaultIntMatrix(numRows, numCols);
@@ -878,8 +878,6 @@ public class Matrices {
 			} catch (IOException e ) {
 				e.printStackTrace();
 				throw e;
-			} finally {
-				is.close();
 			}
 			break;
 		default:
@@ -947,9 +945,9 @@ public class Matrices {
 
 			break;
 		case 0x01: // basic compression.
-			GZIPInputStream is = new GZIPInputStream(dis);
+			
 
-			try {
+			try (GZIPInputStream is = new GZIPInputStream(dis)){
 				int numRows = readInt(is);
 				int numCols = readInt(is);
 				m = new DefaultMatrix(numRows, numCols);
@@ -973,9 +971,7 @@ public class Matrices {
 			} catch (IOException e ) {
 				e.printStackTrace();
 				throw e;
-			} finally {
-				is.close();
-			}
+			} 
 			break;
 		default:
 			throw new RuntimeException("Strange. Version in file does not exceed the supported ones, and the version is still not supported ...");
@@ -1078,24 +1074,6 @@ public class Matrices {
 		}
 	}
 
-
-	/**
-	 * TODO: Add support for stripping leading and trailing whitespaces
-	 * 
-	 * @author Andre Busche
-	 */
-	public static class ReaderConfig{
-		public char fieldSeparator = ',';
-		public int progressTicker = 100000;
-		public int skipLines=0;
-		public int numRows=-1;
-		public int numColumns = -1;
-		public boolean autodetectFormat=false;
-		@Deprecated
-		public int bufferSize=8192;
-		// just in case the dense format contains no field information (e.g., two \t\t occurr in byte sequence), this value is used instead.
-		public String defaultValue;
-	}
 
 	/**
 	 * TODO: Use ReaderConfig, instead of progress

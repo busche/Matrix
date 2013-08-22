@@ -11,9 +11,9 @@ import java.util.TreeSet;
 
 import de.ismll.bootstrap.CommandLineParser;
 import de.ismll.table.Matrices;
-import de.ismll.table.Matrices.ReaderConfig;
 import de.ismll.table.Matrix;
 import de.ismll.table.MatrixTest;
+import de.ismll.table.ReaderConfig;
 import de.ismll.table.io.weka.ArffDataset;
 
 public class DefaultMatrixTest extends MatrixTest{

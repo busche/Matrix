@@ -6,7 +6,7 @@ import java.io.InputStream;
 
 import de.ismll.table.Matrices;
 import de.ismll.table.Matrix;
-import de.ismll.table.Matrices.ReaderConfig;
+import de.ismll.table.ReaderConfig;
 import de.ismll.utilities.Buffer;
 
 
