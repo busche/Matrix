@@ -11,7 +11,7 @@ import weka.classifiers.trees.RandomForest;
 import de.ismll.bootstrap.BootstrapException;
 import de.ismll.bootstrap.Parameter;
 import de.ismll.evaluation.ClassNormalizedAccuracy;
-import de.ismll.experimental.SinkTest;
+import de.ismll.experimental.MessageConsumerFactory;
 import de.ismll.table.IntVector;
 import de.ismll.table.Matrix;
 import de.ismll.table.Vector;
@@ -49,7 +49,7 @@ public class DenseDataClassifier implements Runnable{
 	private DatasetProviderFactory provider;
 
 	@Parameter(cmdline="performanceTarget")
-	private SinkTest performanceReporterTarget;
+	private MessageConsumerFactory performanceReporterTarget;
 
 	@Override
 	public void run() {
@@ -190,11 +190,11 @@ public class DenseDataClassifier implements Runnable{
 		this.provider = provider;
 	}
 
-	public SinkTest getPerformanceReporterTarget() {
+	public MessageConsumerFactory getPerformanceReporterTarget() {
 		return performanceReporterTarget;
 	}
 
-	public void setPerformanceReporterTarget(SinkTest performanceReporterTarget) {
+	public void setPerformanceReporterTarget(MessageConsumerFactory performanceReporterTarget) {
 		this.performanceReporterTarget = performanceReporterTarget;
 	}
 

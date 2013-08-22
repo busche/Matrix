@@ -4,7 +4,7 @@ import de.ismll.table.IntVector;
 import de.ismll.table.Vector;
 import de.ismll.utilities.Assert;
 
-public class Accuracy implements Evaluator{
+public class Accuracy implements IEvaluator{
 
 	@Override
 	public float evaluate(Vector targetsTestTrue, Vector targetsTestPredicted) {

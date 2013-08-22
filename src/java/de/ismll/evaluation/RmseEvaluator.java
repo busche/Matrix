@@ -21,7 +21,7 @@ import de.ismll.table.Vector;
  * @author lucas
  *
  */
-public class RmseEvaluator implements Evaluator{
+public class RmseEvaluator implements IEvaluator{
 
 	private float error;
 

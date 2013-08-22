@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import weka.classifiers.Classifier;
 import weka.core.Instances;
 import de.ismll.evaluation.Accuracy;
-import de.ismll.evaluation.Evaluator;
+import de.ismll.evaluation.IEvaluator;
 import de.ismll.table.IntVector;
 import de.ismll.table.Matrices;
 import de.ismll.table.Matrix;
@@ -54,7 +54,7 @@ public abstract class WekaClassifierbasedEnsemble implements Ensemble{
 		System.out.println(internal_measure.getClass().getName() +  " on train data (WARNING: trained on this, should be 100%!): " + evaluate);
 	}
 
-	private Evaluator internal_measure;
+	private IEvaluator internal_measure;
 
 
 	@Override

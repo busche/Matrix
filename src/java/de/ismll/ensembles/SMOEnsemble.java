@@ -13,7 +13,7 @@ import weka.classifiers.functions.supportVector.PolyKernel;
 import weka.core.Instance;
 import weka.core.Instances;
 import de.ismll.evaluation.Accuracy;
-import de.ismll.evaluation.Evaluator;
+import de.ismll.evaluation.IEvaluator;
 import de.ismll.table.IntVector;
 import de.ismll.table.Matrices;
 import de.ismll.table.Matrix;
@@ -35,7 +35,7 @@ public class SMOEnsemble implements Ensemble{
 
 	ExecutorService p = Executors.newFixedThreadPool(threads);
 	private boolean evaluateOnTrain = true;
-	private Evaluator internal_measure;
+	private IEvaluator internal_measure;
 
 	public SMOEnsemble() {
 		internal_measure = new Accuracy();

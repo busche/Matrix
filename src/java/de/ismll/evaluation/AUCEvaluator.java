@@ -15,7 +15,7 @@ import de.ismll.table.Vectors;
  * @author Lars Schmidt-Thieme
  * @version 1.0
  */
-public class AUCEvaluator implements Evaluator {
+public class AUCEvaluator implements IEvaluator {
 
 	protected float min_pred = -1;
 	protected float max_pred = 1;

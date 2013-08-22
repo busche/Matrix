@@ -14,7 +14,7 @@ import de.ismll.table.Vector;
  * @author Lars Schmidt-Thieme
  * @version 1.0
  */
-public class HingeLossEvaluator implements Evaluator {
+public class HingeLossEvaluator implements IEvaluator {
 
 	/**
 	 * Evaluate the predictions of a classifier.

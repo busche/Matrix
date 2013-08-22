@@ -3,7 +3,7 @@ package de.ismll.classifier.wekabridge;
 import de.ismll.bootstrap.BootstrapAssertions;
 import de.ismll.bootstrap.Parameter;
 import de.ismll.evaluation.ClassNormalizedAccuracy;
-import de.ismll.experimental.SinkTest;
+import de.ismll.experimental.MessageConsumerFactory;
 import de.ismll.table.IntVector;
 import de.ismll.table.Matrix;
 import de.ismll.table.dataset.CategoricalDatasetProvider;
@@ -22,7 +22,7 @@ public class ModelEvaluator implements Runnable {
 
 	@Parameter(cmdline="reporter")
 	private
-	SinkTest reporter;
+	MessageConsumerFactory reporter;
 
 
 	@Override
@@ -84,12 +84,12 @@ public class ModelEvaluator implements Runnable {
 	}
 
 
-	public SinkTest getReporter() {
+	public MessageConsumerFactory getReporter() {
 		return reporter;
 	}
 
 
-	public void setReporter(SinkTest reporter) {
+	public void setReporter(MessageConsumerFactory reporter) {
 		this.reporter = reporter;
 	}
 

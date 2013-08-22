@@ -13,7 +13,7 @@ import de.ismll.table.impl.DefaultIntMatrix;
 import de.ismll.table.impl.DefaultVector;
 import de.ismll.utilities.Assert;
 
-public class ClassNormalizedAccuracy implements Evaluator{
+public class ClassNormalizedAccuracy implements IEvaluator{
 
 	public static class NominalPerformanceStatistics {
 

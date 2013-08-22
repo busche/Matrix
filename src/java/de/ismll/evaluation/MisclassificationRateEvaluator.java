@@ -14,7 +14,7 @@ import de.ismll.table.Vector;
  * @author Lars Schmidt-Thieme
  * @version 1.0
  */
-public class MisclassificationRateEvaluator implements Evaluator {
+public class MisclassificationRateEvaluator implements IEvaluator {
 
 	float threshold;
 
