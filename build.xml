@@ -11,25 +11,6 @@
 
 		<fail message="Property module.version was not found. Have you copied project.properties.sample to project.properties and adjusted the parameters???" unless="module.version" />
 
-<!--
-		<typedef resource="com/googlecode/svntask/svntask.xml">
-			<classpath>
-				<fileset dir="${basedir}/compile_libs">
-					<include name="svnkit.jar" />
-					<include name="svntask.jar" />
-				</fileset>
-			</classpath>
-		</typedef>
--->
-		<!-- Do an update first to make sure you have the latest version -->
-		<!--<svn><update path="." force="true" recursive="true" /></svn>-->
-<!--
-		<svn>
-			<info path="." revisionProperty="revisionVersion" />
-		</svn>
-		
-		<property name="svn.version" value="${revisionVersion}" />
-	-->	
 
 
 		<!-- build bootstrap library -->
@@ -64,9 +45,6 @@
 			<fileset dir="${basedir}/lib">
 				<patternset refid="thirdparty.patternset" />
 			</fileset>
-			<!--			<fileset dir="${basedir}/lib_compiletime">
-				<patternset refid="thirdparty.patternset" />
-			</fileset>-->
 		</path>
 
 		<!-- The classpath required to build classes. -->
@@ -111,9 +89,6 @@
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
-		<!--
-		<echo message="${svn.version}" file="${build.path}/classes/svn.version"/>
-		-->
 	</target>
 
 	<target name="jar" depends="compile" description="Builds jars for core module.">
@@ -144,8 +119,6 @@
                                 <include name="run.sh"/>
                         </fileset>
 			<fileset dir="${basedir}/scripts">
-				<!--<include name="*.sh" />
-				<include name="*.bat" />-->
 				<exclude name="run.sh.sample"/>
 			</fileset>
 		</copy>
