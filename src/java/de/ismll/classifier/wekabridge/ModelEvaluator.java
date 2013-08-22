@@ -6,7 +6,7 @@ import de.ismll.evaluation.ClassNormalizedAccuracy;
 import de.ismll.experimental.MessageConsumerFactory;
 import de.ismll.table.IntVector;
 import de.ismll.table.Matrix;
-import de.ismll.table.dataset.CategoricalDatasetProvider;
+import de.ismll.table.dataset.ICategoricalDatasetProvider;
 import de.ismll.table.dataset.DatasetProvider;
 import de.ismll.table.dataset.DatasetProviderFactory;
 
@@ -33,12 +33,12 @@ public class ModelEvaluator implements Runnable {
 
 		DatasetProvider p = dataset.getTarget();
 
-		if (!(p instanceof CategoricalDatasetProvider)) {
+		if (!(p instanceof ICategoricalDatasetProvider)) {
 			BootstrapAssertions.assertTrue(false, "Implementation only working for categorical Datasets!");
 			return;
 		}
 
-		CategoricalDatasetProvider p_ = (CategoricalDatasetProvider)p;
+		ICategoricalDatasetProvider p_ = (ICategoricalDatasetProvider)p;
 
 		Matrix testData = p.getTestData();
 		IntVector labels = p_.getTestLabels();

@@ -2,7 +2,7 @@ package de.ismll.table.dataset;
 
 import de.ismll.table.IntVector;
 
-public interface CategoricalDatasetProvider extends DatasetProvider{
+public interface ICategoricalDatasetProvider extends DatasetProvider{
 
 	public IntVector getTestLabels();
 

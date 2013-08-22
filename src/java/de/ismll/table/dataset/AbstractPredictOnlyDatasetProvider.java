@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import de.ismll.table.IntVector;
 import de.ismll.table.Matrix;
 
-public class AbstractPredictOnlyDatasetProvider implements CategoricalDatasetProvider{
+public class AbstractPredictOnlyDatasetProvider implements ICategoricalDatasetProvider{
 
 
 	protected Matrix trainingData;
