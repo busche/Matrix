@@ -6,9 +6,6 @@
 
 package de.ismll.table;
 
-// import java.io.*;
-// import java.util.*;
-
 /**
  * A generic (int) vector interface.
  * 
@@ -21,10 +18,6 @@ public interface IntVector {
 	 * Get the size.
 	 */
 	public int size();
-
-
-	// ----------------------------------------------------------------------
-	// Cell contents:
 
 	/**
 	 * Get the value of a cell.

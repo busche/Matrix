@@ -25,9 +25,6 @@ public interface Matrix {
 	public int getNumColumns();
 
 
-	// ----------------------------------------------------------------------
-	// Cell contents:
-
 	/**
 	 * Get the value of a cell.
 	 */

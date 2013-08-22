@@ -6,9 +6,6 @@
 
 package de.ismll.table;
 
-// import java.io.*;
-// import java.util.*;
-
 /**
  * A generic (float) vector interface.
  * 
@@ -22,9 +19,6 @@ public interface Vector {
 	 */
 	public int size();
 
-
-	// ----------------------------------------------------------------------
-	// Cell contents:
 
 	/**
 	 * Get the value of a cell.
