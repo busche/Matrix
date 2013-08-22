@@ -21,11 +21,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import de.ismll.processing.Normalizer;
 import de.ismll.table.Matrices.ReaderConfig;
 import de.ismll.table.impl.DefaultBitVector;
 import de.ismll.table.impl.DefaultIntVector;
 import de.ismll.table.impl.DefaultVector;
-import de.ismll.table.processing.Normalizer;
 import de.ismll.table.projections.ColumnSubsetVectorView;
 import de.ismll.table.projections.RowSubsetVector;
 import de.ismll.table.projections.RowSubsetVectorView;

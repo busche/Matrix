@@ -1,4 +1,4 @@
-package de.ismll.table.processing;
+package de.ismll.processing;
 
 import de.ismll.table.Vector;
 import de.ismll.table.Vectors;

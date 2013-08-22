@@ -61,7 +61,6 @@ import de.ismll.table.io.weka.IsmllArffDataset;
 import de.ismll.table.projections.ColumnSubsetIntVectorView;
 import de.ismll.table.projections.ColumnSubsetMatrixView;
 import de.ismll.table.projections.ColumnSubsetVectorView;
-import de.ismll.table.projections.RowMatrixAsVector;
 import de.ismll.table.projections.RowSubsetMatrixView;
 import de.ismll.table.projections.RowSubsetVectorView;
 import de.ismll.utilities.Assert;
