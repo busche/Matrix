@@ -2,7 +2,7 @@ package de.ismll.table.projections;
 
 import de.ismll.table.Matrix;
 
-public class MatrixTransposeView implements Matrix{
+public class TransposeMatrix implements Matrix{
 
 	private Matrix toTranspose;
 
@@ -26,7 +26,7 @@ public class MatrixTransposeView implements Matrix{
 		toTranspose.set(columnIndex, rowIndex, value);
 	}
 
-	public MatrixTransposeView(Matrix toTranspose) {
+	public TransposeMatrix(Matrix toTranspose) {
 		this.toTranspose = toTranspose;
 
 	}
