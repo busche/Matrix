@@ -1,9 +1,6 @@
 
-This read.me is mostly copied from our Wiki (http://147.172.223.228/ismllwiki/index.php/Matrices) and contains:
-
 1) "Installation"
 2) Build
-3) Command line usage
 
 === "Installation" instructions ===
 
@@ -19,27 +16,3 @@ Ant is used to build the project. There are four (important) targets:
 
    1. jar is used to compile the sources into a jar-file which is versioned according to the version in the project.properties file. One single jar-file is placed in ./output after building this target.
    2. deploy compiles everything, and puts jars, scripts, etc. to ./output
-   3. kdd2010 is a special build-target used for the KDD challenge 2010. It creates a "fully-fledged" Java application having shell-scripts, referenced libraries, etc. placed all in the ./output folder. 
-   4. kdd2011 is a special build-target used for the KDD challenge 2011. It creates a "fully-fledged" Java application having shell-scripts, referenced libraries, etc. placed all in the ./output folder. 
-
-=== Basic Usage instructions (command line) === 
-
-This section contains information on how to use the project.
-
-Under $project$/scripts, some Linux shell scripts are placed:
-
-    * run.sh actually calls the jar-file. It also contains directives for the OGE. Please adjust this script according to your Java-environment.
-    * All other scripts use run.sh to call some main-method from the project.
-          o The Main-Class mentioned in the Manifest of the jar-file is able to dispatch the call to the targeted main()-method by using reflection. You can, e.g., use in your script: 
-
-./run.sh de.ismll.kdd2010.SubmissionGenerator "$@"
-
-Note that the first argument to the run.sh Script may be any fully-qualified class name either:
-* having a main()-method
-* implementing Runnable-Interface with parameterless constructor. 
-
-to call the main method in de.ismll.kdd2010.SubmissionGenerator. Please see $project$/scripts/convert2Submission.sh for more details.
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!
-    For the KDD and deploy build target, all scripts are copied to $project$/output and need to be called from that location! 
-!!!!!!!!!!!!!!!!!!!!!!!!!!
