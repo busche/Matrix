@@ -6,6 +6,5 @@ public interface BitVector{
 
 	public void set(int position, boolean value);
 
-
 	public int size();
 }
