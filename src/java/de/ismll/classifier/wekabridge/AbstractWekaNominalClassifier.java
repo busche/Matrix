@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
-import de.ismll.classifier.NominalClassifier;
+import de.ismll.classifier.INominalClassifier;
 import de.ismll.table.IntVector;
 import de.ismll.table.Matrices;
 import de.ismll.table.Matrix;
@@ -22,7 +22,7 @@ import de.ismll.table.projections.IntMatrixView;
 import de.ismll.table.projections.MatrixView;
 import de.ismll.utilities.Assert;
 
-public abstract class AbstractWekaNominalClassifier implements NominalClassifier {
+public abstract class AbstractWekaNominalClassifier implements INominalClassifier {
 	protected static final char CONVERT_SPLIT_CHAR = ',';
 
 	private Logger logger = LogManager.getLogger(getClass());

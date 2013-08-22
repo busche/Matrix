@@ -20,9 +20,9 @@ import de.ismll.table.impl.DefaultIntVector;
  * @author Lars Schmidt-Thieme
  * @version 1.0
  */
-public class MyMajorityClassClassifier implements NominalClassifier {
+public class MyMajorityClassClassifier implements INominalClassifier {
 
-	public NominalClassifier copy() {
+	public INominalClassifier copy() {
 		MyMajorityClassClassifier ret = new MyMajorityClassClassifier();
 		ret.setHyperparameters(getHyperparameters());
 		return ret;

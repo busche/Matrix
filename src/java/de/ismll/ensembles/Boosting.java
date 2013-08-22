@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import de.ismll.classifier.NominalClassifier;
+import de.ismll.classifier.INominalClassifier;
 import de.ismll.evaluation.Accuracy;
 import de.ismll.sampling.StratifiedSample;
 import de.ismll.table.IntMatrix;
@@ -29,7 +29,7 @@ public class Boosting implements Ensemble {
 
 	private int numRuns=10000;
 
-	private NominalClassifier baseClassifier;
+	private INominalClassifier baseClassifier;
 
 	private boolean reportAccuracy=true;
 
@@ -51,7 +51,7 @@ public class Boosting implements Ensemble {
 		DefaultIntVector labels1 = new DefaultIntVector(new RowSubsetIntVector (train_labels, train1.getIndex()));
 		//		RowSubsetIntVector testlabels1 = RowSubsetIntVector.create(train_labels, train1.getIndex());
 		Matrix trainData1 = new RowSubsetMatrixView(train, train1.getIndex());
-		NominalClassifier classifier1;
+		INominalClassifier classifier1;
 		try {
 			classifier1 = getBaseClassifier().copy();
 		} catch (Exception e1) {
@@ -96,7 +96,7 @@ public class Boosting implements Ensemble {
 		IntVector labels2 = new RowSubsetIntVector(new ColumnSubsetIntVectorView(trainLabels1, 0), train2.getIndex());
 		Matrix trainData2 = new RowSubsetMatrixView(allTrainWithoutPart1, train2.getIndex());
 
-		NominalClassifier classifier2;
+		INominalClassifier classifier2;
 		try {
 			classifier2 = getBaseClassifier().copy();
 		} catch (Exception e2) {
@@ -155,7 +155,7 @@ public class Boosting implements Ensemble {
 		 */
 		IntVector labels3 = new RowSubsetIntVector(new ColumnSubsetIntVectorView(trainLabels1, 0), incorrectlyClassifiedInstances.getIndex());
 
-		NominalClassifier classifier3;
+		INominalClassifier classifier3;
 		try {
 			classifier3 = getBaseClassifier().copy();
 		} catch (Exception e1) {
@@ -199,11 +199,11 @@ public class Boosting implements Ensemble {
 		return ensemble;
 	}
 
-	public void setBaseClassifier(NominalClassifier baseClassifier) {
+	public void setBaseClassifier(INominalClassifier baseClassifier) {
 		this.baseClassifier = baseClassifier;
 	}
 
-	public NominalClassifier getBaseClassifier() {
+	public INominalClassifier getBaseClassifier() {
 		return baseClassifier;
 	}
 

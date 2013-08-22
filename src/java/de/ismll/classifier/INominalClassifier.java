@@ -16,7 +16,7 @@ import de.ismll.table.Vector;
  * @author John
  *
  */
-public interface NominalClassifier extends HasHyperparameter<NominalClassifier> {
+public interface INominalClassifier extends HasHyperparameter<INominalClassifier> {
 
 	public void train(Matrix predictorsTrain, IntVector targetsTrain) throws Exception;
 

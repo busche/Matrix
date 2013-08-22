@@ -14,7 +14,7 @@ import weka.core.Instances;
 import de.ismll.bootstrap.BootstrapException;
 import de.ismll.bootstrap.CommandLineParser;
 import de.ismll.bootstrap.Parameter;
-import de.ismll.classifier.NominalClassifier;
+import de.ismll.classifier.INominalClassifier;
 import de.ismll.table.IntVector;
 import de.ismll.table.Matrices;
 import de.ismll.table.Matrix;
@@ -32,7 +32,7 @@ import de.ismll.utilities.Tools;
  * @author Andre Busche
  *
  */
-public class DeserializedWekaClassifier implements NominalClassifier{
+public class DeserializedWekaClassifier implements INominalClassifier{
 
 	private Logger logger = LogManager.getLogger(getClass());
 
@@ -108,7 +108,7 @@ public class DeserializedWekaClassifier implements NominalClassifier{
 	}
 
 	@Override
-	public NominalClassifier copy() throws Exception {
+	public INominalClassifier copy() throws Exception {
 		Classifier copy = AbstractClassifier.makeCopy(classifier);
 		return new DeserializedWekaClassifier(copy);
 	}

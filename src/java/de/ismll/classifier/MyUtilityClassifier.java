@@ -14,9 +14,9 @@ import de.ismll.table.projections.RowSubsetIntVector;
 import de.ismll.table.projections.RowSubsetMatrixView;
 import de.ismll.utilities.Assert;
 
-public class MyUtilityClassifier implements NominalClassifier {
+public class MyUtilityClassifier implements INominalClassifier {
 
-	private NominalClassifier baseClassifier;
+	private INominalClassifier baseClassifier;
 
 	private Vector hyperparameters;
 
@@ -110,11 +110,11 @@ public class MyUtilityClassifier implements NominalClassifier {
 		return baseClassifier.predict(predictorsTest);
 	}
 
-	public void setBaseClassifier(NominalClassifier baseClassifier) {
+	public void setBaseClassifier(INominalClassifier baseClassifier) {
 		this.baseClassifier = baseClassifier;
 	}
 
-	public NominalClassifier getBaseClassifier() {
+	public INominalClassifier getBaseClassifier() {
 		return baseClassifier;
 	}
 
