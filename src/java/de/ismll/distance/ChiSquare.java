@@ -2,7 +2,7 @@ package de.ismll.distance;
 
 import de.ismll.table.Vector;
 
-public class ChiSquare implements DistanceMeasure{
+public class ChiSquare implements IDistanceMeasure{
 
 	@Override
 	public double distance(Vector a, Vector b) {

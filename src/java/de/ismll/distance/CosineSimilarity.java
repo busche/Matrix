@@ -4,7 +4,7 @@ import de.ismll.table.Vector;
 import de.ismll.table.Vectors;
 import de.ismll.table.impl.DefaultVector;
 
-public class CosineSimilarity implements DistanceMeasure{
+public class CosineSimilarity implements IDistanceMeasure{
 
 	@Override
 	public double distance(Vector a, Vector b) {

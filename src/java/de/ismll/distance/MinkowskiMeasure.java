@@ -2,7 +2,7 @@ package de.ismll.distance;
 
 import de.ismll.table.Vector;
 
-public class MinkowskiMeasure implements DistanceMeasure, SequentialDistanceMeasure {
+public class MinkowskiMeasure implements IDistanceMeasure, SequentialDistanceMeasure {
 
 	@Override
 	public double distance(Vector h, Vector k) {
