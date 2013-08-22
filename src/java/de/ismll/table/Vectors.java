@@ -888,5 +888,38 @@ public class Vectors {
 	}
 
 
+	public static double var(Vector c) {
+		float a = 0, c_=0;
+		double mean2 = avg(c);
+		for (int i=0;i<c.size();i++) {
+			a+=((c.get(i)-mean2))*((c.get(i)-mean2));
+			c_++;
+		}
+		return Math.sqrt( a/c_ );
+	}
+
+
+	public static double avg(Vector c) {
+		float a = 0, c_ = 0;
+		for (int i=0;i<c.size();i++) {
+			a+=c.get(i);
+			c_++;
+		}
+		return ( a/c_ );
+	}
+
+
+	/**
+	 * sets all data from data to sink.
+	 * 
+	 * @param sink
+	 * @param data
+	 */
+	public static void set(Vector sink, Vector data) {
+		for (int i = 0; i < data.size(); i++)
+			sink.set(i, data.get(i));
+	}
+
+
 }
 

@@ -19,6 +19,7 @@ import de.ismll.table.IntVector;
 import de.ismll.table.Matrices;
 import de.ismll.table.Matrix;
 import de.ismll.table.Vector;
+import de.ismll.table.Vectors;
 import de.ismll.table.impl.DefaultIntVector;
 import de.ismll.table.impl.DefaultMatrix;
 import de.ismll.table.projections.ColumnUnionMatrixView;

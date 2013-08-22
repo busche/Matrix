@@ -58,33 +58,6 @@ public class DefaultMatrixTest extends MatrixTest{
 
 	}
 
-	//	@Test
-	public void testSpeedWeka() throws IOException {
-		//		File f = File.createTempFile("matrix", "speed");
-		//		DefaultMatrix createSparseMatrix = createSparseMatrix(100, 15000, 0.0f);
-		//		Matrices.writeArff(f, createSparseMatrix);
-		File f = new File("C:\\Users\\John\\AppData\\Local\\Temp\\matrix2315492038445811510speed");
-		System.out.println(f);
-
-		//	    for (int i = 0; i < 10; i++) {
-		BufferedInputStream bis = new BufferedInputStream(new FileInputStream(f), 32*1024);
-
-		long start = System.currentTimeMillis();
-		ArffDataset slow = Matrices.readWekaSlow(bis, 1000, f.length());
-		long readSlow = System.currentTimeMillis();
-		long durationSlow = readSlow-start;
-		start=System.currentTimeMillis();
-		ArffDataset fast = Matrices.readWeka(f);
-		long endFast = System.currentTimeMillis();
-		long durationFast = endFast-start;
-		System.out.println("Read fast in " + durationFast);
-		System.out.println("Read slow in " + durationSlow);
-		//	    }
-		//		super.checkSame(slow.data, fast.data);
-	}
-
-
-
 
 	//	@Test
 	public void testAutodetectFormatBlankLines() throws IOException {

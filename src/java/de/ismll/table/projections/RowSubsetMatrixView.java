@@ -34,7 +34,7 @@ public class RowSubsetMatrixView implements Matrix{
 	}
 
 	protected final IntVector index;
-	@Deprecated
+	
 	private boolean writes = true;
 
 	@Deprecated
@@ -54,8 +54,8 @@ public class RowSubsetMatrixView implements Matrix{
 	 *  split contains integers, representing split-IDs. whether or not a row is available/used in this view depends on whether the row-value in split == splitvalue.
 	 * 
 	 * @param matrix
-	 * @param split
-	 * @param splitValue
+	 * @param mask
+	 * @param writes2
 	 */
 	public RowSubsetMatrixView(Matrix matrix, IntVector split, int splitValue) {
 		this.matrix = matrix;
@@ -91,9 +91,10 @@ public class RowSubsetMatrixView implements Matrix{
 	 * @param view
 	 * @param pointers
 	 */
-	public RowSubsetMatrixView(Matrix view, BitVector pointers) {
+	public RowSubsetMatrixView(Matrix view, BitVector pointers, boolean writes) {
 		super();
 		matrix = view;
+		this.writes = writes;
 
 		index=Vectors.convert2Pointers(pointers);
 	}
