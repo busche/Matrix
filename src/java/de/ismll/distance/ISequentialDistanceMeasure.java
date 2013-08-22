@@ -7,7 +7,7 @@ package de.ismll.distance;
  * @author Andre
  *
  */
-public interface SequentialDistanceMeasure {
+public interface ISequentialDistanceMeasure {
 
 	/**
 	 * during distance calculation, accumultes an old (partial) distance value (previousTmpValue) with the new one calculated between the two given values x1_i and x2_i for the dimension i.

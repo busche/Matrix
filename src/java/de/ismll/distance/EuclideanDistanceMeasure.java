@@ -2,7 +2,7 @@ package de.ismll.distance;
 
 import de.ismll.table.Vector;
 
-public class EuclideanDistanceMeasure implements IDistanceMeasure, SequentialDistanceMeasure {
+public class EuclideanDistanceMeasure implements IDistanceMeasure, ISequentialDistanceMeasure {
 
 	@Override
 	public double distance(Vector h, Vector k) {

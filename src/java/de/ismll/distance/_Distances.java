@@ -11,7 +11,7 @@ class _Distances {
 
 	}
 
-	public static double measure(SequentialDistanceMeasure dm, Vector h, Vector k) {
+	public static double measure(ISequentialDistanceMeasure dm, Vector h, Vector k) {
 		sameDimension(h, k);
 		int hSize = h.size();
 

@@ -2,7 +2,7 @@ package de.ismll.distance;
 
 import de.ismll.table.Vector;
 
-public class KLDivergence implements IDistanceMeasure, SequentialDistanceMeasure {
+public class KLDivergence implements IDistanceMeasure, ISequentialDistanceMeasure {
 
 	@Override
 	public double distance(Vector h, Vector k) {
