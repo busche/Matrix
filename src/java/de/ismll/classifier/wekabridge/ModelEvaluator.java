@@ -7,7 +7,7 @@ import de.ismll.experimental.MessageConsumerFactory;
 import de.ismll.table.IntVector;
 import de.ismll.table.Matrix;
 import de.ismll.table.dataset.ICategoricalDatasetProvider;
-import de.ismll.table.dataset.DatasetProvider;
+import de.ismll.table.dataset.IDatasetProvider;
 import de.ismll.table.dataset.DatasetProviderFactory;
 
 public class ModelEvaluator implements Runnable {
@@ -31,7 +31,7 @@ public class ModelEvaluator implements Runnable {
 		BootstrapAssertions.notNull(this, dataset, "dataset");
 		BootstrapAssertions.notNull(this, reporter, "reporter");
 
-		DatasetProvider p = dataset.getTarget();
+		IDatasetProvider p = dataset.getTarget();
 
 		if (!(p instanceof ICategoricalDatasetProvider)) {
 			BootstrapAssertions.assertTrue(false, "Implementation only working for categorical Datasets!");

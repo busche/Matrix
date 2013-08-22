@@ -14,11 +14,11 @@ import de.ismll.stub.AbstractProxy;
  * @author Andre Busche
  *
  */
-public class DatasetProviderFactory extends AbstractProxy<DatasetProvider>{
+public class DatasetProviderFactory extends AbstractProxy<IDatasetProvider>{
 
 	public static final String CONVERSION_PATTERN = "<classname>\"[\"key1\"=\"value1[,key2\"=\"value]*]";
 
-	public DatasetProviderFactory(DatasetProvider p) {
+	public DatasetProviderFactory(IDatasetProvider p) {
 		super(p);
 	}
 
@@ -40,8 +40,8 @@ public class DatasetProviderFactory extends AbstractProxy<DatasetProvider>{
 		} catch (ClassNotFoundException e) {
 			throw new InvalidConversionFormatException(null, in, CONVERSION_PATTERN);
 		}
-		Class<? extends DatasetProvider> asSubclass = c.asSubclass(DatasetProvider.class);
-		DatasetProvider instance;
+		Class<? extends IDatasetProvider> asSubclass = c.asSubclass(IDatasetProvider.class);
+		IDatasetProvider instance;
 		try {
 			instance = asSubclass.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {

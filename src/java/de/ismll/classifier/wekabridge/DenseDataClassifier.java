@@ -17,7 +17,7 @@ import de.ismll.table.Matrix;
 import de.ismll.table.Vector;
 import de.ismll.table.Vectors;
 import de.ismll.table.dataset.ICategoricalDatasetProvider;
-import de.ismll.table.dataset.DatasetProvider;
+import de.ismll.table.dataset.IDatasetProvider;
 import de.ismll.table.dataset.DatasetProviderFactory;
 import de.ismll.utilities.Buffer;
 
@@ -56,7 +56,7 @@ public class DenseDataClassifier implements Runnable{
 
 		log.info("Reading data ...");
 
-		DatasetProvider dp = provider.getTarget();
+		IDatasetProvider dp = provider.getTarget();
 
 		if (!(dp instanceof ICategoricalDatasetProvider)) {
 			throw new RuntimeException("Need a categorical dataset Provider");
