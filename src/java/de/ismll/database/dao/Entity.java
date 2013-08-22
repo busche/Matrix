@@ -16,7 +16,7 @@ import de.ismll.bootstrap.CommandLineParser;
  * @author Busche
  *
  */
-public abstract class Entity implements ContentHolder{
+public abstract class Entity implements IContentHolder{
 
 
 	private static Logger logger = LogManager.getLogger(Entity.class);
@@ -115,10 +115,10 @@ public abstract class Entity implements ContentHolder{
 	//	}
 
 	/**
-	 * calls {@link #setValues(ContentHolder, boolean)} while using normal (non-native) names.
+	 * calls {@link #setValues(IContentHolder, boolean)} while using normal (non-native) names.
 	 * @param cache
 	 */
-	public void setValues(final ContentHolder cache) {
+	public void setValues(final IContentHolder cache) {
 		setValues(cache, this.data, false);
 	}
 
@@ -131,11 +131,11 @@ public abstract class Entity implements ContentHolder{
 	 * @param cache
 	 * @param nativeNames
 	 */
-	public void setValues(final ContentHolder cache, final boolean nativeNames) {
+	public void setValues(final IContentHolder cache, final boolean nativeNames) {
 		setValues(cache, this.data, nativeNames);
 	}
 
-	private Object[] setValuesImpl(final ContentHolder cache, final boolean nativeNames) {
+	private Object[] setValuesImpl(final IContentHolder cache, final boolean nativeNames) {
 		final Vector fields = type.getFields();
 		final int size = fields.size();
 		final Object[] d;
@@ -148,7 +148,7 @@ public abstract class Entity implements ContentHolder{
 		return d;
 	}
 
-	private final void setValues(final ContentHolder cache, final Object[] d, final boolean nativeNames) {
+	private final void setValues(final IContentHolder cache, final Object[] d, final boolean nativeNames) {
 		final Vector<Column> fields = type.getFields();
 		final int size = fields.size();
 		for (int i = size-1; i >= 0; i--) {

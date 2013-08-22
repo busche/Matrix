@@ -7,7 +7,7 @@ package de.ismll.database.dao;
  * @author Busche
  *
  */
-public interface ContentHolder {
+public interface IContentHolder {
 	public Object get(String key);
 	public <T> T get(String key, Class<T> type);
 	public boolean isEmpty();

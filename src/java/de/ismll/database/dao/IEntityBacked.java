@@ -10,12 +10,12 @@ import java.util.TreeSet;
 
 import de.ismll.bootstrap.CommandLineParser;
 
-public class IEntityBacked implements Iterator<ContentHolder>, AutoCloseable{
+public class IEntityBacked implements Iterator<IContentHolder>, AutoCloseable{
 
 	private ResultSet q;
 	private Connection s;
 	private boolean hasNext;
-	private ContentHolder ch;
+	private IContentHolder ch;
 
 	public IEntityBacked(ResultSet executeQuery, Connection toClose) throws SQLException {
 		super();
@@ -27,7 +27,7 @@ public class IEntityBacked implements Iterator<ContentHolder>, AutoCloseable{
 		for (int i = 0; i < ccount; i++) {
 			columns.add(metaData.getColumnLabel(i+1));
 		}
-		ch = new ContentHolder() {
+		ch = new IContentHolder() {
 
 			@Override
 			public int size() {
@@ -106,7 +106,7 @@ public class IEntityBacked implements Iterator<ContentHolder>, AutoCloseable{
 	}
 
 	@Override
-	public ContentHolder next() {
+	public IContentHolder next() {
 		return ch;
 	}
 

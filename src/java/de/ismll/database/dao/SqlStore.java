@@ -303,7 +303,7 @@ public abstract class SqlStore extends DataStore{
 		IEntityBacked query = query(sql);
 		boolean exists=false;
 		if (query.hasNext()) {
-			ContentHolder next = query.next();
+			IContentHolder next = query.next();
 			Integer object = next.get("a", Integer.class);
 			if (object.intValue()>0) exists=true;
 			query.close();
