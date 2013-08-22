@@ -6,17 +6,12 @@
 
 package de.ismll.table.projections;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import de.ismll.table.BitVector;
 import de.ismll.table.IntVector;
 import de.ismll.table.Matrices;
 import de.ismll.table.Matrix;
 import de.ismll.table.Vectors;
 import de.ismll.table.impl.DefaultIntVector;
-import de.ismll.table.impl.DefaultMatrix;
 
 
 /**
