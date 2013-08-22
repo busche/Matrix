@@ -2,8 +2,8 @@ package de.ismll.evaluation;
 
 import java.util.Arrays;
 
-import de.ismll.experimental.MessageConsumer;
-import de.ismll.experimental.MessageConsumerFactory;
+import de.ismll.messageSink.MessageConsumer;
+import de.ismll.messageSink.MessageConsumerFactory;
 import de.ismll.table.IntVector;
 import de.ismll.table.IntVectors;
 import de.ismll.table.Matrices;

@@ -1,4 +1,4 @@
-package de.ismll.experimental;
+package de.ismll.messageSink;
 
 import java.io.File;
 import java.io.IOException;

@@ -3,7 +3,7 @@ package de.ismll.classifier.wekabridge;
 import de.ismll.bootstrap.BootstrapAssertions;
 import de.ismll.bootstrap.Parameter;
 import de.ismll.evaluation.ClassNormalizedAccuracy;
-import de.ismll.experimental.MessageConsumerFactory;
+import de.ismll.messageSink.MessageConsumerFactory;
 import de.ismll.table.IntVector;
 import de.ismll.table.Matrix;
 import de.ismll.table.dataset.ICategoricalDatasetProvider;

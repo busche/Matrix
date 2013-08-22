@@ -11,7 +11,7 @@ import weka.classifiers.trees.RandomForest;
 import de.ismll.bootstrap.BootstrapException;
 import de.ismll.bootstrap.Parameter;
 import de.ismll.evaluation.ClassNormalizedAccuracy;
-import de.ismll.experimental.MessageConsumerFactory;
+import de.ismll.messageSink.MessageConsumerFactory;
 import de.ismll.table.IntVector;
 import de.ismll.table.Matrix;
 import de.ismll.table.Vector;
