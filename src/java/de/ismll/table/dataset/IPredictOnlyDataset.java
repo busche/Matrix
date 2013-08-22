@@ -1,6 +1,6 @@
 package de.ismll.table.dataset;
 
-public interface PredictOnlyDataset {
+public interface IPredictOnlyDataset {
 
 	public int getClassColumn();
 }

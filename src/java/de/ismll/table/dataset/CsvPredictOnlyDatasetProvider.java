@@ -19,7 +19,7 @@ import de.ismll.table.projections.ColumnSubsetMatrixView;
  * 
  */
 public class CsvPredictOnlyDatasetProvider extends
-AbstractPredictOnlyDatasetProvider implements PredictOnlyDataset {
+AbstractPredictOnlyDatasetProvider implements IPredictOnlyDataset {
 
 	@Parameter(cmdline = "clazz")
 	protected int classColumn;
