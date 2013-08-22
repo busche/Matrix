@@ -9,28 +9,8 @@ maven.compile.source=1.5
 maven.compile.deprecation=off
 
 module.name=ISMLLMatrices
-module.version=0.3.1
+module.version=1.0
 
-# get from svn+ssh://svn.ismll.de/srv/svn/repositories/software/buza/MatrixLibs
-libs.common=/home/busche/MatrixLibs
-# get from svn+ssh://svn.ismll.de/srv/svn/repositories/software/andre/trunk/Bootstrap
-libs.bootstrap=/home/busche/Bootstrap
+# get from https://github.com/busche/bootstrap
+libs.bootstrap=<absolute-or-relative path>
 
-
-# # # # #      optional section        # # # # # # 
-
-# for additional source folders to be added to the final library, do the following:
-# 1) uncomment/define an opt.<name> property here and give it the value of the source folder name
-# 2) in build.xml:
-# 2a) Take target "compile-optional-andre" as an example and copy-paste it to your own target name.
-#     Adjust the if-condition to reflect your novel property name
-# 2b) Add your target  as a referenced target at the end of the dependency list of the target whose name is "compile-optional"
-# 2c) Do, in your target, whatever you want.
-#
-# NOTE: Dependencies between these "optional" targets should be kept at a minimum!
-#       Inter-Optional-Dependencies are not tested yet, but should work, if "your" target 
-#       references an other optional one, and these properties are properly defined. 
-#
-# NOTE 2: Intentionally, no "global" properties for custom ant tasks have been defined!
-
-#opt.andre_playground=src-andre-playground
