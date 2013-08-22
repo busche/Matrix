@@ -4,7 +4,7 @@ import de.ismll.table.IntMatrix;
 import de.ismll.table.Matrix;
 import de.ismll.table.impl.DefaultMatrix;
 
-public class AverageClassifier implements BinaryIntbasedClassifier {
+public class AverageClassifier implements IBinaryIntbasedClassifier {
 
 	public Matrix classifyBinary(IntMatrix predictorsTrain,
 			IntMatrix predictorsTest, Matrix targetsTrain) {
