@@ -20,7 +20,7 @@ import de.ismll.table.impl.DefaultVector;
  * @author Lars Schmidt-Thieme
  * @version 1.0
  */
-public class MajorityClassClassifier implements BinaryClassifier {
+public class MajorityClassClassifier implements IBinaryClassifier {
 
 	/**
 	 * Get the actual vector of hyperparameters.

@@ -15,7 +15,7 @@ import de.ismll.table.Vector;
  * @author Lars Schmidt-Thieme
  * @version 1.0
  */
-public interface BinaryClassifier {
+public interface IBinaryClassifier {
 
 	/**
 	 * Learn a binary classifier: predictors --> targets (0 or 1)

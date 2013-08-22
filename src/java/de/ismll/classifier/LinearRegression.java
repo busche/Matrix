@@ -7,7 +7,7 @@ import de.ismll.table.impl.DefaultMatrix;
 import de.ismll.table.impl.DefaultVector;
 import de.ismll.table.projections.ColumnUnionMatrixView;
 
-public class LinearRegression implements BinaryClassifier{
+public class LinearRegression implements IBinaryClassifier{
 
 	public Vector classifyBinary(Matrix predictorsTrain, final Matrix predictorsTest,
 			final Vector targetsTrain) {
