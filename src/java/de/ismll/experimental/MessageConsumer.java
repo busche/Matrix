@@ -2,12 +2,10 @@ package de.ismll.experimental;
 
 /**
  * 
- * uggh! - name!!!
- * 
  * @author Andre Busche
  *
  */
-public interface Output {
+public interface MessageConsumer {
 
 	void message(String string);
 
