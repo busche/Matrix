@@ -37,11 +37,11 @@ public class Buffer {
 
 	private static int default_buffer=8192;
 
-	public static int getBufferSize(File f) {
+	public static synchronized int getBufferSize(File f) {
 		return getBufferSize(f, false);
 	}
 
-	public static int getBufferSize(File f, boolean measure) {
+	public static synchronized int getBufferSize(File f, boolean measure) {
 
 		if (!f.exists()) {
 			return default_buffer;
