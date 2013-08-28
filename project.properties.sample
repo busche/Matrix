@@ -8,7 +8,7 @@ maven.compile.debug=on
 maven.compile.source=1.5
 maven.compile.deprecation=off
 
-module.name=ISMLLMatrices
+module.name=Matrix
 module.version=1.0
 
 # get from https://github.com/busche/bootstrap
