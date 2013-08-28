@@ -6,6 +6,7 @@ import de.ismll.table.impl.DefaultMatrix;
 
 public class AverageClassifier implements IBinaryIntbasedClassifier {
 
+	
 	public Matrix classifyBinary(IntMatrix predictorsTrain,
 			IntMatrix predictorsTest, Matrix targetsTrain) {
 		DefaultMatrix ret= new DefaultMatrix(predictorsTest.getNumRows(), 2);
