@@ -15,6 +15,11 @@ import de.ismll.utilities.Assert;
 
 public class ClassNormalizedAccuracy implements IEvaluator{
 
+
+	public enum ConfidenceBound {
+		c95, c99
+	}
+	
 	public static class NominalPerformanceStatistics {
 
 		public double accuracy;
@@ -36,11 +41,14 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 		 * @param perf
 		 * @return
 		 */
-		public static AggregatedNominalPerformanceStatistics aggregate(
-				NominalPerformanceStatistics[] perf) {
+		public static AggregatedNominalPerformanceStatistics aggregate(NominalPerformanceStatistics[] perf) {
+			return aggregate(perf, ConfidenceBound.c95);
+		}
+		public static AggregatedNominalPerformanceStatistics aggregate(NominalPerformanceStatistics[] perf, ConfidenceBound ci) {
 			AggregatedNominalPerformanceStatistics ret = new AggregatedNominalPerformanceStatistics();
 
 			Vector accuracies = new DefaultVector(perf.length);
+			Vector sqAccuracies = new DefaultVector(perf.length);
 
 			Vector unnormalizedError= new DefaultVector(perf.length);
 			Vector unnormalizedCorrect= new DefaultVector(perf.length);
@@ -50,9 +58,12 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 			Vector cohensKappa= new DefaultVector(perf.length);
 
 			boolean binary=true;
-
+			
+//			sumRec=0;sumPrec=0;sumSqRec=0;sumSqPrec=0;sumHinge=0;sumNDCG=0;sumBE=0;sumAUC=0;sumSqHinge=0;sumSqNDCG=0;sumSqBE=0;sumSqAUC=0;
+			
 			for (int i = 0; i < perf.length; i++) {
 				accuracies.set(i, (float) perf[i].accuracy);
+				sqAccuracies.set(i, (float) (perf[i].accuracy*perf[i].accuracy));
 				unnormalizedError.set(i, (float) perf[i].unnormalizedError);
 				unnormalizedCorrect.set(i, (float) perf[i].unnormalizedCorrect);
 				classnormalizedError.set(i, (float) perf[i].classnormalizedError);
@@ -61,9 +72,22 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 				cohensKappa.set(i, (float) perf[i].cohensKappa);
 				binary &= perf[i].binaryProblem;
 			}
+			double significanceMultiplier=0;
 
+			switch (ci) {
+				case c95: significanceMultiplier=1.96; break;
+				case c99: significanceMultiplier=2.32; break;
+			}
+			/*
+			 * added implementation from Lucas' awk script
+			 */
 			ret.accuracy = Vectors.average(accuracies);
 			ret.accuracyVar = Vectors.variance(accuracies);
+			float sum = Vectors.sum(sqAccuracies);
+			float sum2 = Vectors.sum(accuracies);
+			double sqrt = Math.sqrt(perf.length);
+			double sqrt2 = Math.sqrt(sum/perf.length - (sum2/perf.length)*(sum2/perf.length));
+			ret.accuracyConfidence = significanceMultiplier*sqrt2/sqrt;
 			ret.unnormalizedError = Vectors.average(unnormalizedError);
 			ret.unnormalizedErrorVar = Vectors.variance(unnormalizedError);
 			ret.unnormalizedCorrect = Vectors.average(unnormalizedCorrect);
@@ -91,6 +115,10 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 
 	public static class AggregatedNominalPerformanceStatistics extends NominalPerformanceStatistics {
 
+		/**
+		 * the confidence interval for the given accuracy
+		 */
+		public double accuracyConfidence=-1;
 		public double cohensKappaVar;
 		public double matthewsCorrelationCoefficientVar;
 		public double classnormalizedCorrectVar;
@@ -212,7 +240,7 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 
 		//		NominalPerformanceStatistics statistics = computeStatistics(raw_counts);
 
-		t.message("Accuracy: " + statistics.accuracy + " (" + statistics.accuracyVar + ")");
+		t.message("Accuracy: " + statistics.accuracy + " (" + statistics.accuracyVar + ")" + (statistics.accuracyConfidence>=0?" (confidence: " + statistics.accuracyConfidence + ")": ""));
 		if (classlabels != null)
 			t.message("Class labels: " + Arrays.toString(classlabels));
 		t.message("Precision per class: " + Arrays.toString(statistics.precisionPerClass));
