@@ -54,6 +54,7 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 			Vector unnormalizedCorrect= new DefaultVector(perf.length);
 			Vector classnormalizedError= new DefaultVector(perf.length);
 			Vector classnormalizedCorrect= new DefaultVector(perf.length);
+			Vector sqClassnormalizedCorrect= new DefaultVector(perf.length);
 			Vector matthewsCorrelationCoefficient= new DefaultVector(perf.length);
 			Vector cohensKappa= new DefaultVector(perf.length);
 
@@ -68,6 +69,7 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 				unnormalizedCorrect.set(i, (float) perf[i].unnormalizedCorrect);
 				classnormalizedError.set(i, (float) perf[i].classnormalizedError);
 				classnormalizedCorrect.set(i, (float) perf[i].classnormalizedCorrect);
+				sqClassnormalizedCorrect.set(i, (float) (perf[i].classnormalizedCorrect*perf[i].classnormalizedCorrect));
 				matthewsCorrelationCoefficient.set(i, (float) perf[i].matthewsCorrelationCoefficient);
 				cohensKappa.set(i, (float) perf[i].cohensKappa);
 				binary &= perf[i].binaryProblem;
@@ -96,6 +98,7 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 			ret.classnormalizedErrorVar = Vectors.variance(classnormalizedError);
 			ret.classnormalizedCorrect = Vectors.average(classnormalizedCorrect);
 			ret.classnormalizedCorrectVar = Vectors.variance(classnormalizedCorrect);
+			ret.classnormalizedCorrectConfidence = significanceMultiplier*((Math.sqrt(Vectors.sum(sqClassnormalizedCorrect)/perf.length - (Vectors.sum(classnormalizedCorrect)/perf.length)*(Vectors.sum(classnormalizedCorrect)/perf.length)))/sqrt);
 			ret.matthewsCorrelationCoefficient = Vectors.average(matthewsCorrelationCoefficient);
 			ret.matthewsCorrelationCoefficientVar = Vectors.variance(matthewsCorrelationCoefficient);
 			ret.cohensKappa = Vectors.average(cohensKappa);
@@ -115,6 +118,7 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 
 	public static class AggregatedNominalPerformanceStatistics extends NominalPerformanceStatistics {
 
+		public double classnormalizedCorrectConfidence;
 		/**
 		 * the confidence interval for the given accuracy
 		 */
@@ -248,7 +252,7 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 		t.message("UnnormalizedCorrect: " + statistics.unnormalizedCorrect + " (" + statistics.unnormalizedCorrectVar + ")");
 		t.message("Errors per class: " + Arrays.toString(statistics.errorsPerClass));
 		t.message("ClassnormalizedError: " + statistics.classnormalizedError + " (" + statistics.classnormalizedErrorVar + ")");
-		t.message("ClassnormalizedCorrect: " + statistics.classnormalizedCorrect + " (" + statistics.classnormalizedCorrectVar + ")");
+		t.message("ClassnormalizedCorrect: " + statistics.classnormalizedCorrect + " (" + statistics.classnormalizedCorrectConfidence + ")" + (statistics.classnormalizedCorrectConfidence>=0?" (confidence: " + statistics.classnormalizedCorrectConfidence + ")": ""));
 		t.message("Correct per class: " + Arrays.toString(statistics.precisionPerClass));
 
 		t.message("Recall per class: " + Arrays.toString(statistics.recallPerClass));
