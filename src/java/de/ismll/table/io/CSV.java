@@ -19,25 +19,10 @@ import de.ismll.utilities.Buffer;
 @Deprecated
 public class CSV {
 
-	static ReaderConfig csvReaderConfig;
-	static {
-		csvReaderConfig = new ReaderConfig();
-		csvReaderConfig.autodetectFormat=true;
-
-
-	}
 	@Deprecated
 	public static Matrix read(File in) throws IOException{
-		InputStream newInputStream = Buffer.newInputStream(in);
-		try {
-			return Matrices.readDense(newInputStream, csvReaderConfig);
-
-		} finally {
-			try {
-				newInputStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		try(InputStream newInputStream = Buffer.newInputStream(in)) {
+			return Matrices.readDense(newInputStream, ReaderConfig.CSV);
+		} 
 	}
 }

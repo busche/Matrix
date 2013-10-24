@@ -18,18 +18,6 @@
 					<exclude>**/*.java</exclude>
 				</excludes>
 			</resource>
-			<resource>
-				<directory>src/kdd2010/java</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-			<resource>
-				<directory>src-andre-playground/java</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
 		</resources>
 		<testResources>
 			<testResource>

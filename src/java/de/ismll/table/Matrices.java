@@ -68,13 +68,21 @@ import de.ismll.utilities.Buffer;
 import de.ismll.utilities.Tools;
 
 /**
- * Some utiltiy functions for matrices.
+ * TODO: Ismll and IsmllAnnotated have different field separators. Change this! 
+ * 
  * 
  * @author Lars Schmidt-Thieme
  * @version 1.0
  */
 public class Matrices {
 
+	/**
+	 * deprecated. Use the FileType in ReaderConfig instead!
+	 * 
+	 * @author Andre Busche
+	 *
+	 */
+	@Deprecated
 	public enum FileType {
 		Binary, Ismll, Arff, Csv, HeaderlessCsv, AnnotatedIsmll
 	}
@@ -537,7 +545,7 @@ public class Matrices {
 
 		long start = System.nanoTime();
 
-		byte[] buffer = new byte[conf.bufferSize];
+		byte[] buffer = new byte[16384];
 		StringBuilder sb = new StringBuilder();
 
 		int numRows, numColumns, numAnnotations = -1;
@@ -883,8 +891,7 @@ public class Matrices {
 	public static void readDense(InputStream fis, int showProgress, int bufferSize, MatrixCallback c) throws IOException {
 		ReaderConfig rc = new ReaderConfig();
 		rc.progressTicker=showProgress;
-		rc.bufferSize=bufferSize;
-		readDense(fis, rc, c);
+		readDense(new BufferedInputStream(fis, bufferSize), rc, c);
 	}
 
 	/**
@@ -909,7 +916,7 @@ public class Matrices {
 
 		long start = System.nanoTime();
 
-		byte[] buffer = new byte[conf.bufferSize];
+		byte[] buffer = new byte[16384];
 		StringBuilder sb = new StringBuilder();
 
 		int numRows, numColumns = -1;
@@ -2333,6 +2340,63 @@ public class Matrices {
 			out.write("\n");
 		}
 		out.close();
+	}
+
+	public static Matrix read(File f, ReaderConfig rc) throws IOException {
+		if (f == null) throw new IOException("File to read from is null!");
+
+		Matrix ret = null;
+		if (rc.type==null) {
+			// autodetect
+			
+			logger.info("Trying autosensind the file type for " + f + " ...");
+			for (ReaderConfig.FileType currenttype : ReaderConfig.FileType.values()) {
+				logger.debug(" ... trying " + currenttype);
+				try {
+					ReaderConfig rc2 = rc.copy();
+					rc2.type=currenttype;
+					ret = read(f,rc2);
+					if (ret != null) break;
+				} catch (RuntimeException e) {
+					logger.error(currenttype + " ... failed.");
+					logger.debug(e);
+				} catch (Exception e) {
+					logger.error(currenttype + " ... failed.");
+					logger.debug(e);
+				}
+			}
+			logger.warn("Unable to autosense file format. Returning null (expect a crash soon...)");
+			ret= null;
+			
+		} else {
+			switch (rc.type) {
+			case Binary:
+				ret= readBinary(f); 
+				break;
+			case Ismll:
+				try(InputStream is = Buffer.newInputStream(f)){
+					ret= readDense(is, rc);
+				}
+				break;
+			case AnnotatedIsmll:
+				ret= readAnnotatedDense(f);
+				break;
+			case Arff:
+				ret= readWeka(f).data;
+				break;
+			case Csv:
+				try(InputStream is = Buffer.newInputStream(f)){
+					ret= readCsv(is,rc);
+				}
+				break;
+			default:
+				throw new RuntimeException("Unknown type");
+			}
+			
+		}
+				
+		
+		return ret;
 	}
 
 }
