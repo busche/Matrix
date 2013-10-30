@@ -62,6 +62,9 @@ public class FileStorageTarget implements StorageTarget{
 		if (value instanceof String) {
 			writeString(targetFile, (String)value);
 		}
+		if (value instanceof Number) {
+			writeString(targetFile, ((Number)value).toString());
+		}
 		if (value instanceof Vector) {
 			writeVector(targetFile, (Vector)value);
 		}
