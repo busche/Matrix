@@ -27,6 +27,20 @@ public class FileStorageTarget implements StorageTarget{
 	public boolean store(Map<String, Object> values) throws StorageException {
 		if (targetDirectory == null)
 			throw new StorageException("Storage directory not intiialized!");
+		boolean override = Boolean.parseBoolean(System.getProperty("de.ismll.storage.FileStorageTarget.override"));
+		
+		if (targetDirectory.exists()) {
+			if (override) {
+				// all OK - should override resources
+				targetDirectory.delete();
+				targetDirectory.mkdirs();
+			} else {
+				throw new StorageException("Storage directory " + targetDirectory + " already exists and it should not be overridden automatically. You may want to use \"-Dde.ismll.storage.FileStorageTarget.override=true\" to automatically override existing storage targets.");
+			}
+		} else {
+			targetDirectory.mkdirs();			
+		}
+		
 		if (!targetDirectory.isDirectory())
 			throw new StorageException("Storage directory " + targetDirectory + " does not point to a directory.");
 		
