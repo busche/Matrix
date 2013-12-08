@@ -50,6 +50,12 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 			Vector accuracies = new DefaultVector(perf.length);
 			Vector sqAccuracies = new DefaultVector(perf.length);
 
+			int numClasses = perf[0].precisionPerClass.length;
+
+			float[][] precisions = new float[perf.length][numClasses];
+			float[][] recall = new float[perf.length][numClasses];
+			float[][] f1 = new float[perf.length][numClasses];
+			
 			Vector unnormalizedError= new DefaultVector(perf.length);
 			Vector unnormalizedCorrect= new DefaultVector(perf.length);
 			Vector classnormalizedError= new DefaultVector(perf.length);
@@ -65,6 +71,13 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 			for (int i = 0; i < perf.length; i++) {
 				accuracies.set(i, (float) perf[i].accuracy);
 				sqAccuracies.set(i, (float) (perf[i].accuracy*perf[i].accuracy));
+
+				for (int c = 0; c < numClasses; c++) precisions[i][c] = (float) perf[i].precisionPerClass[c];
+				for (int c = 0; c < numClasses; c++) recall[i][c] = (float) perf[i].recallPerClass[c];
+				for (int c = 0; c < numClasses; c++) f1[i][c] = (float) perf[i].fmeasurePerClass[c];
+				
+//				System.arraycopy(perf[i].precisionPerClass, 0, precisions[i], 0,1 );
+				
 				unnormalizedError.set(i, (float) perf[i].unnormalizedError);
 				unnormalizedCorrect.set(i, (float) perf[i].unnormalizedCorrect);
 				classnormalizedError.set(i, (float) perf[i].classnormalizedError);
@@ -106,10 +119,26 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 			ret.binaryProblem=binary;
 			// TODO: Aggregate arrays
 
-			ret.precisionPerClass=new double[0];
+			
+			ret.precisionPerClass=new double[numClasses];
+			ret.recallPerClass=new double[numClasses];
+			ret.fmeasurePerClass=new double[numClasses];
+			for (int c = 0; c < numClasses; c++) {
+				double sumI = 0;
+				for (int r = 0; r < precisions.length; r++) sumI += precisions[r][c];
+				ret.precisionPerClass[c] = sumI / (double)precisions.length;
+			}
+			for (int c = 0; c < numClasses; c++) {
+				double sumI = 0;
+				for (int r = 0; r < recall.length; r++) sumI += recall[r][c];
+				ret.recallPerClass[c] = sumI / (double)recall.length;
+			}
+			for (int c = 0; c < numClasses; c++) {
+				double sumI = 0;
+				for (int r = 0; r < f1.length; r++) sumI += f1[r][c];
+				ret.fmeasurePerClass[c] = sumI / (double)f1.length;
+			}
 			ret.errorsPerClass=new double[0];
-			ret.recallPerClass=new double[0];
-			ret.fmeasurePerClass=new double[0];
 
 			return ret;
 		}
