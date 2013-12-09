@@ -52,9 +52,9 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 
 			int numClasses = perf[0].precisionPerClass.length;
 
-			float[][] precisions = new float[perf.length][numClasses];
-			float[][] recall = new float[perf.length][numClasses];
-			float[][] f1 = new float[perf.length][numClasses];
+			float[][] precisions = new float[numClasses][perf.length];
+			float[][] recall = new float[numClasses][perf.length];
+			float[][] f1 = new float[numClasses][perf.length];
 			
 			Vector unnormalizedError= new DefaultVector(perf.length);
 			Vector unnormalizedCorrect= new DefaultVector(perf.length);
@@ -72,9 +72,9 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 				accuracies.set(i, (float) perf[i].accuracy);
 				sqAccuracies.set(i, (float) (perf[i].accuracy*perf[i].accuracy));
 
-				for (int c = 0; c < numClasses; c++) precisions[i][c] = (float) perf[i].precisionPerClass[c];
-				for (int c = 0; c < numClasses; c++) recall[i][c] = (float) perf[i].recallPerClass[c];
-				for (int c = 0; c < numClasses; c++) f1[i][c] = (float) perf[i].fmeasurePerClass[c];
+				for (int c = 0; c < numClasses; c++) precisions[c][i] = (float) perf[i].precisionPerClass[c];
+				for (int c = 0; c < numClasses; c++) recall[c][i] = (float) perf[i].recallPerClass[c];
+				for (int c = 0; c < numClasses; c++) f1[c][i] = (float) perf[i].fmeasurePerClass[c];
 				
 //				System.arraycopy(perf[i].precisionPerClass, 0, precisions[i], 0,1 );
 				
@@ -123,20 +123,20 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 			ret.precisionPerClass=new double[numClasses];
 			ret.recallPerClass=new double[numClasses];
 			ret.fmeasurePerClass=new double[numClasses];
+			ret.precisionPerClassVar=new double[numClasses];
+			ret.recallPerClassVar=new double[numClasses];
+			ret.fmeasurePerClassVar=new double[numClasses];
 			for (int c = 0; c < numClasses; c++) {
-				double sumI = 0;
-				for (int r = 0; r < precisions.length; r++) sumI += precisions[r][c];
-				ret.precisionPerClass[c] = sumI / (double)precisions.length;
+				ret.precisionPerClass[c] = Vectors.average(DefaultVector.wrap(precisions[c]));
+				ret.precisionPerClassVar[c] = Vectors.variance(DefaultVector.wrap(precisions[c]));
 			}
 			for (int c = 0; c < numClasses; c++) {
-				double sumI = 0;
-				for (int r = 0; r < recall.length; r++) sumI += recall[r][c];
-				ret.recallPerClass[c] = sumI / (double)recall.length;
+				ret.recallPerClass[c] = Vectors.average(DefaultVector.wrap(recall[c]));
+				ret.recallPerClassVar[c] = Vectors.variance(DefaultVector.wrap(recall[c]));
 			}
 			for (int c = 0; c < numClasses; c++) {
-				double sumI = 0;
-				for (int r = 0; r < f1.length; r++) sumI += f1[r][c];
-				ret.fmeasurePerClass[c] = sumI / (double)f1.length;
+				ret.fmeasurePerClass[c] = Vectors.average(DefaultVector.wrap(f1[c]));
+				ret.fmeasurePerClassVar[c] = Vectors.variance(DefaultVector.wrap(f1[c]));
 			}
 			ret.errorsPerClass=new double[0];
 
@@ -159,6 +159,10 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 		public double unnormalizedCorrectVar;
 		public double unnormalizedErrorVar;
 		public double accuracyVar;
+		public double[] precisionPerClassVar;
+		public double[] recallPerClassVar;
+		public double[] fmeasurePerClassVar;
+
 
 	}
 
@@ -277,6 +281,7 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 		if (classlabels != null)
 			t.message("Class labels: " + Arrays.toString(classlabels));
 		t.message("Precision per class: " + Arrays.toString(statistics.precisionPerClass));
+		t.message("Precision Variances per class: " + Arrays.toString(statistics.precisionPerClassVar));
 		t.message("UnnormalizedError: " + statistics.unnormalizedError + " (" + statistics.unnormalizedErrorVar + ")");
 		t.message("UnnormalizedCorrect: " + statistics.unnormalizedCorrect + " (" + statistics.unnormalizedCorrectVar + ")");
 		t.message("Errors per class: " + Arrays.toString(statistics.errorsPerClass));
@@ -285,7 +290,9 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 		t.message("Correct per class: " + Arrays.toString(statistics.precisionPerClass));
 
 		t.message("Recall per class: " + Arrays.toString(statistics.recallPerClass));
+		t.message("Recall Variances per class: " + Arrays.toString(statistics.recallPerClassVar));
 		t.message("F-Measure per class: " + Arrays.toString(statistics.fmeasurePerClass));
+		t.message("F-Measure Variances per class: " + Arrays.toString(statistics.fmeasurePerClassVar));
 
 
 		if (statistics.binaryProblem) {
@@ -354,7 +361,7 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 
 		}
 		ret.precisionPerClass = precisionPerClass;
-
+		
 		// uerrors:
 		int uerrorsCnt=0;
 		for (int i = 0; i < maxIdx-1; i++) {
@@ -389,7 +396,7 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 			recallPerClass[i] =   (double)counts[i][i] / (double)counts[maxIdx-1][i];
 		}
 		ret.recallPerClass = recallPerClass;
-
+		
 
 		double[] fmeasurePerClass = new double[maxIdx-1];
 		for (int i = 0; i < maxIdx-1; i++) {
@@ -397,7 +404,7 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 			fmeasurePerClass[i] =   2*(precisionPerClass[i]*recallPerClass[i])/(precisionPerClass[i]+recallPerClass[i]);
 		}
 		ret.fmeasurePerClass = fmeasurePerClass;
-
+		
 
 		if (maxIdx == 3) {
 			// binary problem!
