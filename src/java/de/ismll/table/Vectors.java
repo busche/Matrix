@@ -117,7 +117,8 @@ public class Vectors {
 	 */
 	public static float sum(IntVector x) {
 		int sum = 0;
-		for (int i = 0; i < x.size(); ++i)
+		int size = x.size();
+		for (int i = 0; i < size; ++i)
 			sum += x.get(i);
 		return sum;
 	}
@@ -180,9 +181,10 @@ public class Vectors {
 		PrintStream ps = null;
 		try {
 			ps = new PrintStream(file);
-			ps.println("" + x.size());
+			int size = x.size();
+			ps.println("" + size);
 
-			for (int i = 0; i < x.size(); ++i)
+			for (int i = 0; i < size; ++i)
 				ps.println("" + x.get(i));
 
 		} catch (IOException e) {
@@ -699,7 +701,8 @@ public class Vectors {
 
 
 	public static void set(IntVector target, int value) {
-		for (int i = 0; i < target.size(); i++) {
+		int size = target.size();
+		for (int i = 0; i < size; i++) {
 			target.set(i, value);
 		}
 	}

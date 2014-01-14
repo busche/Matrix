@@ -29,7 +29,8 @@ public class IntVectors {
 	 */
 	public static int max(IntVector x) {
 		int max = x.get(0);
-		for (int i = 1; i < x.size(); ++i)
+		int size = x.size();
+		for (int i = 1; i < size; ++i)
 			if (x.get(i) > max)
 				max = x.get(i);
 		return max;
@@ -37,7 +38,8 @@ public class IntVectors {
 
 	public static int min(IntVector x) {
 		int min = x.get(0);
-		for (int i = 1; i < x.size(); ++i)
+		int size = x.size();
+		for (int i = 1; i < size; ++i)
 			if (x.get(i) < min)
 				min = x.get(i);
 		return min;
@@ -48,7 +50,8 @@ public class IntVectors {
 	 */
 	public static long sum(IntVector x) {
 		long sum = 0;
-		for (int i = 0; i < x.size(); ++i)
+		int size = x.size();
+		for (int i = 0; i < size; ++i)
 			sum += x.get(i);
 		return sum;
 	}
@@ -57,7 +60,8 @@ public class IntVectors {
 	 * Set all values of a vector.
 	 */
 	public static void set (IntVector x, int value) {
-		for (int i = 0; i < x.size(); ++i)
+		int size = x.size();
+		for (int i = 0; i < size; ++i)
 			x.set(i, value);
 	}
 
@@ -67,7 +71,8 @@ public class IntVectors {
 	 */
 	public static int count(IntVector x, int value) {
 		int num = 0;
-		for (int i = 0; i < x.size(); ++i)
+		int size = x.size();
+		for (int i = 0; i < size; ++i)
 			if (x.get(i) == value)
 				++num;
 		return num;
@@ -75,9 +80,10 @@ public class IntVectors {
 
 	public static void write(IntVector x, String fn) throws IOException {
 		BufferedWriter out = new BufferedWriter(new FileWriter(fn));
-		out.write("" + x.size());
+		int size = x.size();
+		out.write("" + size);
 		out.newLine();
-		for (int i = 0; i < x.size(); ++i) {
+		for (int i = 0; i < size; ++i) {
 			out.write("" + x.get(i));
 			out.newLine();
 		}
@@ -92,11 +98,12 @@ public class IntVectors {
 	public static void write(IntVector x,
 			File fn, boolean header) throws IOException {
 		BufferedWriter out = new BufferedWriter(new FileWriter(fn));
+		int size = x.size();
 		if (header) {
-			out.write("" + x.size());
+			out.write("" + size);
 			out.newLine();
 		}
-		for (int i = 0; i < x.size(); ++i) {
+		for (int i = 0; i < size; ++i) {
 			out.write("" + x.get(i));
 			out.newLine();
 		}
@@ -104,12 +111,13 @@ public class IntVectors {
 	}
 
 	public static void print(IntVector x) {
-		if (x.size() == 0) {
+		int size = x.size();
+		if (size == 0) {
 			System.out.println("vector of size 0");
 			return;
 		}
 		System.out.print(x.get(0));
-		for (int i = 1; i < x.size(); ++i)
+		for (int i = 1; i < size; ++i)
 			System.out.print(" " + x.get(i));
 		System.out.println();
 	}
@@ -167,7 +175,8 @@ public class IntVectors {
 	}
 
 	public static void fill(DefaultIntVector v, int value) {
-		for (int i = 0; i < v.size(); i++)
+		int size = v.size();
+		for (int i = 0; i < size; i++)
 			v.set(i, value);
 
 	}

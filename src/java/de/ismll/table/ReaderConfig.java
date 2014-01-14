@@ -33,6 +33,13 @@ public class ReaderConfig{
 		ISMLL_ANNOTATED_MATRIX.fieldSeparator='\t';
 	}
 	
+	public static final ReaderConfig ISMLL;
+	
+	static {
+		ISMLL = new ReaderConfig();
+		ISMLL.type=FileType.Ismll;
+		ISMLL.fieldSeparator='\t';
+	}
 	
 	public ReaderConfig copy() {
 		ReaderConfig ret = new ReaderConfig();

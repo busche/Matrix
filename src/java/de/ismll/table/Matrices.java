@@ -225,9 +225,11 @@ public class Matrices {
 	public static float[][] asArray(Matrix a) {
 		 if (a instanceof DefaultMatrix)
 			 return ((DefaultMatrix)a).data;
-		 float[][] ret = new float[a.getNumRows()][a.getNumColumns()];
-		 for (int i = 0; i< a.getNumRows(); i++)
-			 for (int j = 0; j < a.getNumColumns(); j++)
+		 int numColumns = a.getNumColumns();
+		int numRows = a.getNumRows();
+		float[][] ret = new float[numRows][numColumns];
+		 for (int i = 0; i< numRows; i++)
+			 for (int j = 0; j < numColumns; j++)
 				 ret[i][j]=a.get(i, j);
 		 return ret;
 	 }
@@ -2349,7 +2351,7 @@ public class Matrices {
 		if (rc.type==null) {
 			// autodetect
 			
-			logger.info("Trying autosensind the file type for " + f + " ...");
+			logger.info("Trying autosensing the file type for " + f + " ...");
 			for (ReaderConfig.FileType currenttype : ReaderConfig.FileType.values()) {
 				logger.debug(" ... trying " + currenttype);
 				try {

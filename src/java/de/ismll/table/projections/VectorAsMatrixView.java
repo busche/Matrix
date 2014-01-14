@@ -7,13 +7,15 @@ public class VectorAsMatrixView implements Matrix {
 
 	private final Vector vector;
 
+	final int vectorSize;
 	public VectorAsMatrixView(final Vector vector) {
 		this.vector = vector;
+		vectorSize = vector.size();
 	}
 
 	@Override
 	public int getNumRows() {
-		return vector.size();
+		return vectorSize;
 	}
 
 	@Override
@@ -22,7 +24,7 @@ public class VectorAsMatrixView implements Matrix {
 	}
 
 	@Override
-	public float get(int rowIndex, int columnIndex) {
+	public final float get(int rowIndex, int columnIndex) {
 		return vector.get(rowIndex);
 	}
 
