@@ -21,7 +21,7 @@ public class FileStorageTarget implements StorageTarget{
 	@Parameter(cmdline="targetDirectory")
 	private File targetDirectory;
 	
-	protected Logger log = LogManager.getLogger(getClass());
+	protected static Logger log = LogManager.getLogger(FileStorageTarget.class);
 	
 	@Override
 	public boolean store(Map<String, Object> values) throws StorageException {
@@ -58,7 +58,7 @@ public class FileStorageTarget implements StorageTarget{
 		return ret;
 	}
 
-	public void store(File targetFile, Object value) throws IOException {
+	public static void store(File targetFile, Object value) throws IOException {
 		if (value instanceof String) {
 			writeString(targetFile, (String)value);
 		}
@@ -74,17 +74,17 @@ public class FileStorageTarget implements StorageTarget{
 			
 	}
 
-	public void writeMatrix(File targetFile, Matrix value) throws IOException {
+	public static void writeMatrix(File targetFile, Matrix value) throws IOException {
 		log.info("Storing a " + value.getNumRows() + "x" + value.getNumColumns() + " matrix to " + targetFile);
 		Matrices.write(value, targetFile);
 	}
 
-	public void writeVector(File targetFile, Vector value) throws IOException {
+	public static void writeVector(File targetFile, Vector value) throws IOException {
 		log.info("Storing a vector of length " + value.size() + " to " + targetFile);
 		Vectors.write(value, targetFile);
 	}
 
-	public void writeString(File targetFile, String value) throws IOException {
+	public static void writeString(File targetFile, String value) throws IOException {
 		log.info("Storing a string of length " + value.length() + " to " + targetFile);
 		
 		try (FileWriter fw = new FileWriter(targetFile)){			
