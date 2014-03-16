@@ -16,7 +16,7 @@ public class LogStorage implements StorageTarget {
 		super();
 		Class<?> forName = Class.forName(clazzIdentifier);
 		log = LogManager.getLogger(forName);
-
+		logPriority = org.apache.log4j.Level.INFO;
 	}
 
 	@Override
