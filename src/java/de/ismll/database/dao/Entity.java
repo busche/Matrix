@@ -71,11 +71,10 @@ public abstract class Entity implements IContentHolder{
 
 	protected Entity(final Table type) {
 		super();
-		if (this.type == null) {
-			this.type = type;
-			KEY_FIELD=type.getKeyField();
-		}
-
+	
+		this.type = type;
+		KEY_FIELD=type.getKeyField();
+		
 		Vector<Column> fields = type.getFields();
 		lookup=new HashMap<String, Column>(fields.size()+1);
 		for (Column c : fields) {
