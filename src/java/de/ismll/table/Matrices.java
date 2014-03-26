@@ -14,15 +14,12 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.LineNumberReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -53,7 +50,6 @@ import de.ismll.table.impl.DefaultIntMatrix;
 import de.ismll.table.impl.DefaultIntVector;
 import de.ismll.table.impl.DefaultMatrix;
 import de.ismll.table.impl.DefaultMatrix.DefaultMatrixParser;
-import de.ismll.table.impl.DefaultVector;
 import de.ismll.table.io.weka.ArffDataset;
 import de.ismll.table.io.weka.ArffEncoder;
 import de.ismll.table.io.weka.ArffEncoderHelper;
@@ -63,7 +59,6 @@ import de.ismll.table.projections.ColumnSubsetMatrixView;
 import de.ismll.table.projections.ColumnSubsetVectorView;
 import de.ismll.table.projections.RowSubsetMatrixView;
 import de.ismll.table.projections.RowSubsetVectorView;
-import de.ismll.utilities.Assert;
 import de.ismll.utilities.Buffer;
 import de.ismll.utilities.Tools;
 
@@ -1881,7 +1876,7 @@ public class Matrices {
 			private int where_to_reset = 0;
 			private int current_position = 0;
 			public void close() {}
-			public void mark() { where_to_reset = current_position; }
+//			public void mark() { where_to_reset = current_position; }
 			public boolean markSupported() { return true; }
 			public int read() {
 				if (current_position<buffer.size()) {
