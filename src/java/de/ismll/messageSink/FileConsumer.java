@@ -23,14 +23,8 @@ public class FileConsumer implements MessageConsumer {
 	public void message(String string) {
 		PrintStream ps = ensurePrintStream();
 
-		if (ps == null) {
-			System.out.println("aaarg!");
-			return;
-		}
 		ps.println(string);
 	}
-
-	int cnt = 0;
 
 	private PrintStream ensurePrintStream() {
 		PrintStream ret = null;
