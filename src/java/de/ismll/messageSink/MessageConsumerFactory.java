@@ -39,7 +39,10 @@ public class MessageConsumerFactory extends AbstractProxy<MessageConsumer>{
 		case SCHEME_FILE:
 			try {
 				File file = new File(where);
-				file.createNewFile();
+				boolean created = file.createNewFile();
+				if (!created) {
+					throw new BootstrapException("Could not create file " + file.getAbsolutePath() + " as being a target for a Message Consumer. I don't know why - createNewFile() returned false :-(");
+				}
 				ret.setTarget(new FileConsumer(file));
 			} catch (IOException e1) {
 				throw new BootstrapException("Output file not found / accessible / valid", e1);
