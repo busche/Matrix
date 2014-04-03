@@ -44,7 +44,10 @@ public class FileStorageTarget implements StorageTarget{
 				throw new StorageException("Storage directory " + targetDirectory + " already exists and it should not be overridden automatically. You may want to use \"-Dde.ismll.storage.FileStorageTarget.override=true\" to automatically override existing storage targets.");
 			}
 		} else {
-			targetDirectory.mkdirs();			
+			boolean targetDirectoriesCreated = targetDirectory.mkdirs();
+			if (!targetDirectoriesCreated) {
+				log.warn("Target directory " + targetDirectory + " could somehow not be created (mkdirs() returned false; though no Exception was thrown). This should lead to errors or exceptions soon, I suppose...");
+			}
 		}
 		
 		if (!targetDirectory.isDirectory())
