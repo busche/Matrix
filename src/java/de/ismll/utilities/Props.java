@@ -13,9 +13,29 @@ import org.apache.log4j.Logger;
 
 public class Props extends Properties{
 
-	static Logger logger = LogManager.getLogger(Props.class);
+	private static final class PropsFileCloser implements Runnable {
+		@Override
+		public void run() {
+			for (Props p : propsMap.values()) {
+				try {
+					p.store(Buffer.newOutputStream(p.source), "");
+				} catch (FileNotFoundException e) {
+					logger.warn("File " + p.source + " not found. Properties are not stored on disc!", e);
+				} catch (IOException e) {
+					logger.warn("I/O Exception while writing to file " + p.source + ". Properties are likely not stored on disc!", e);
+				}
+			}
+		}
+	}
 
-	
+	/**
+	 * for serialization
+	 */
+	private static final long serialVersionUID = 6599776814601581289L;
+
+
+	private static Logger logger = LogManager.getLogger(Props.class);
+
 	private final File source;
 
 	public Props(File source) throws FileNotFoundException, IOException {
@@ -23,8 +43,13 @@ public class Props extends Properties{
 		this.source = source;
 		if (source.isFile())
 			load(Buffer.newInputStream(source));
-		else
-			source.createNewFile();
+		else {
+			boolean sourcefileCreated = source.createNewFile();
+			if (!sourcefileCreated) {
+				logger.warn(source + " is not a file and it could not be created either. Properties are likely not stored on JVM shutdown.");
+			}
+			
+		}
 	}
 
 	private static Map<String, Props> propsMap = new HashMap<String, Props>();
@@ -33,7 +58,7 @@ public class Props extends Properties{
 		return getProps(forInstance.getClass());
 	}
 
-	static boolean shutdownHookRegistered=false;
+	private static boolean shutdownHookRegistered=false;
 
 	public static Props getProps(Class<?> forClass) {
 		String identifier = forClass.getName();
@@ -44,9 +69,14 @@ public class Props extends Properties{
 				throw new RuntimeException("No Properties available for anaonymous classes!");
 
 			File baseDir = new File(System.getProperty("user.home"), ".acogpr");
-			if (!baseDir.exists())
-				baseDir.mkdirs();
-
+			if (!baseDir.exists()) {
+				boolean baseDirCreated = baseDir.mkdirs();
+				if (!baseDirCreated) {
+					logger.warn("Could not create directory " + baseDir + ", and no exception was thrown either; mkdirs() returned false. It is likely that properties are not stored on JVM shutdown.");					
+				}
+				
+			}
+				
 			File loadFrom = new File(baseDir, simpleName);
 
 			try {
@@ -61,23 +91,7 @@ public class Props extends Properties{
 		}
 
 		if (!shutdownHookRegistered) {
-			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					for (Props p : propsMap.values()) {
-						try {
-							p.store(Buffer.newOutputStream(p.source), "");
-						} catch (FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
-			}));
+			Runtime.getRuntime().addShutdownHook(new Thread(new PropsFileCloser()));
 
 			shutdownHookRegistered=true;
 		}
