@@ -142,8 +142,8 @@ public class SparseRowIntMatrix implements IntMatrix {
 //			int colIdx = Integer.parseInt(lne[1]);
 //			float val = Float.parseFloat(lne[2]);
 
-			if (rowIdx < 0)
-				System.out.println("line " + line);
+//			if (rowIdx < 0)
+//				System.out.println("line " + line);
 //			++lineNumber;
 			++rowLength[rowIdx];
 		}
