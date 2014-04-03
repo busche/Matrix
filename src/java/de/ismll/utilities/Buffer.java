@@ -412,7 +412,7 @@ public class Buffer {
 			}
 		}
 		// TODO: implement command line switch to override auto-load of buffers.
-		System.out.println(Buffer.getBufferSize(new File(args[0]), justMeasure));
+		logger.info(Buffer.getBufferSize(new File(args[0]), justMeasure));
 	}
 
 	public static InputStream newInputStream(File file) throws FileNotFoundException {
