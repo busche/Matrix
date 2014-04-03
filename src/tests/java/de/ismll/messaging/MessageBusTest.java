@@ -12,7 +12,7 @@ import de.ismll.messaging.MessageBus.BroadcastStatistics;
 
 public class MessageBusTest {
 
-	private final class MessageRecieverImplementation implements
+	private static final class MessageRecieverImplementation implements
 	MessageReciever {
 		private boolean accepts;
 
@@ -34,7 +34,7 @@ public class MessageBusTest {
 		}
 	}
 
-	private final class MessageImplementation implements Message {
+	private static final class MessageImplementation implements Message {
 		private int messageId;
 
 		public MessageImplementation(int i) {
@@ -58,7 +58,6 @@ public class MessageBusTest {
 
 		@Override
 		public Object getSource() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 	}
