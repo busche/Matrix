@@ -1,0 +1,3 @@
+#!/bin/bash
+sourcein 'general' general
+specific_dir=${target_dir}/specific
