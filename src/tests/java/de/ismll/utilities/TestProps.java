@@ -19,6 +19,8 @@ public class TestProps {
 		
 		Assert.assertEquals("value1", expanded.getProperty("key1"));
 		Assert.assertEquals("value1", expanded.getProperty("key2"));
+
+		Assert.assertEquals("${key1}", simple.getProperty("key2"));
 		
 	}
 	
@@ -41,6 +43,10 @@ public class TestProps {
 		simple.setProperty("key3", "${key2}");
 		
 		expanded = Props.expandProperties(simple);
+		
+		Assert.assertEquals("value1", simple.getProperty("key1"));
+		Assert.assertEquals("${key1}", simple.getProperty("key2"));
+		Assert.assertEquals("${key2}", simple.getProperty("key3"));
 		
 		Assert.assertEquals("value1", expanded.getProperty("key1"));
 		Assert.assertEquals("value1", expanded.getProperty("key2"));

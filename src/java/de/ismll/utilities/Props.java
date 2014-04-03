@@ -121,7 +121,7 @@ public class Props extends Properties{
 					continue;
 				}
 				String variable = value.substring(start+2, end);
-				System.out.println("Detected variable usage of " + variable);
+				logger.debug("Detected variable usage of " + variable);
 				
 				String propertyValue = p.getProperty(variable);
 				if (propertyValue == null) {
