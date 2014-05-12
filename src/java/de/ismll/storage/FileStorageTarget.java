@@ -68,6 +68,14 @@ public class FileStorageTarget implements StorageTarget{
 	}
 
 	public static void store(File targetFile, Object value) throws IOException {
+		
+		/*
+		 * determine parent directory and create it, if it does not exist.
+		 */
+		File parent = targetFile.getParentFile();
+		if (!parent.exists())
+			parent.mkdirs();
+		
 		if (value instanceof String) {
 			writeString(targetFile, (String)value);
 		}
