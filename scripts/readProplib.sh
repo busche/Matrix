@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # taken from http://it.toolbox.com/blogs/shell-functions/property-files-with-with-shell-functions-57410
 # and adapted for the following
 # * support for non-properties-lines and normal bash functions (lines without equals = sign). WARNING: Disambiguation is a crude heuristic!!! Everything without a equals sign is simply echoed. E.g., bash functions will not work!!!
