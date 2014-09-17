@@ -1,7 +1,6 @@
 package de.ismll.database.pgsql;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -262,12 +261,12 @@ public class PostgresSQL implements AutoCloseable{
 
 	private Connection preparedStatementConnection;
 
-	public long executeNonQuery(ISqlStatementSource arg0, boolean writes)
-			throws SQLException {
-		final SqlStatement stmt = arg0.getStatement();
-
-		return executeNonQuery(stmt, writes);
-	}
+//	public long executeNonQuery(ISqlStatementSource arg0, boolean writes)
+//			throws SQLException {
+//		final SqlStatement stmt = arg0.getStatement();
+//
+//		return executeNonQuery((SqlStatement)stmt, writes);
+//	}
 
 	public synchronized long executeNonQuery(SqlStatement stmt, boolean writes, boolean isDdlCommand, boolean retrieveKey) throws SQLException {
 

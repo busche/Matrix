@@ -319,17 +319,17 @@ public class SparseRowMatrix implements Matrix {
 		System.out.println("create format file for " + fn + " (2nd pass)...");
 		int[] rowLength = new int[numRows];
 		read = new LineNumberReader(new FileReader(fn));
-		long lineNumber = 0;
+//		long lineNumber = 0;
 		for (int i = 0; i < numTriples; ++i) {
 			String[] lne=read.readLine().split("\t");
 
 			int rowIdx = Integer.parseInt(lne[0])+ rowOffset;
-			int colIdx = Integer.parseInt(lne[1]);
-			float val = Float.parseFloat(lne[2]);
+//			int colIdx = Integer.parseInt(lne[1]);
+//			float val = Float.parseFloat(lne[2]);
 
 			if (rowIdx < 0)
 				System.out.println("line " + line);
-			++lineNumber;
+//			++lineNumber;
 			++rowLength[rowIdx];
 		}
 		read.close();
@@ -365,6 +365,10 @@ public class SparseRowMatrix implements Matrix {
 		LineNumberReader readFormat = new LineNumberReader(new FileReader(formatFile));
 
 		String formatHeader = readFormat.readLine();
+		if(null == formatHeader) {
+			readFormat.close();
+			throw new IOException("Could not read header format");
+		}
 		String[] split = formatHeader.split("\t");
 
 		int numRows = Integer.parseInt(split[0]);
@@ -373,6 +377,10 @@ public class SparseRowMatrix implements Matrix {
 		int rowOffset = Integer.parseInt(split[3]);
 
 		String counts = readFormat.readLine();
+		if(null == counts) {
+			readFormat.close();
+			throw new IOException("Could not read header counts");
+		}
 		String[] countsSplit = counts.split("\t");
 
 		int[] rowLength = new int[numRows];
@@ -397,6 +405,11 @@ public class SparseRowMatrix implements Matrix {
 				System.out.print("\r " + i);
 			}
 			String dataLine = readData.readLine();
+			if(null == dataLine) {
+				readFormat.close();
+				readData.close();
+				throw new IOException("Could not read row " + i);
+			}
 			String[] splitData = dataLine.split("\t");
 
 			int rowIdx = Integer.parseInt(splitData[0]) + rowOffset;
@@ -429,6 +442,10 @@ public class SparseRowMatrix implements Matrix {
 		LineNumberReader readFormat = new LineNumberReader(new FileReader(formatFile));
 
 		String formatHeader = readFormat.readLine();
+		if(null == formatHeader) {
+			readFormat.close();
+			throw new IOException("Could not read header format");
+		}
 		String[] split = formatHeader.split("\t");
 
 		int numRows = Integer.parseInt(split[0]);
@@ -437,6 +454,10 @@ public class SparseRowMatrix implements Matrix {
 		int rowOffset = Integer.parseInt(split[3]);
 
 		String counts = readFormat.readLine();
+		if(null == counts) {
+			readFormat.close();
+			throw new IOException("Could not read header counts");
+		}
 		String[] countsSplit = counts.split("\t");
 
 		int[] rowLength = new int[numRows];
@@ -460,6 +481,11 @@ public class SparseRowMatrix implements Matrix {
 				System.out.print("\r " + i);
 			}
 			String dataLine = readData.readLine();
+			if(null == dataLine) {
+				readFormat.close();
+				readData.close();
+				throw new IOException("Could not read row " + i);
+			}
 			String[] splitData = dataLine.split("\t");
 
 			int rowIdx = Integer.parseInt(splitData[0]) + rowOffset;

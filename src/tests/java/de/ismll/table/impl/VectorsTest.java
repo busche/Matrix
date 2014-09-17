@@ -22,12 +22,12 @@ public class VectorsTest {
 	public void testRemoveAll() {
 		IntVector base = new DefaultIntVector(100);
 		IntVector removeIndizes = new DefaultIntVector(10);
-		IntVector assumedResult = new DefaultIntVector(90);
+//		IntVector assumedResult = new DefaultIntVector(90);
 		for (int i = 0; i < base.size(); i++)
 			base.set(i, i);
 		for (int i = 0; i < removeIndizes.size(); i++)
 			removeIndizes.set(i, i*i);
-		int assumedIdx=0;
+//		int assumedIdx=0;
 
 		//		System.out.println(assumedResult);
 		//			base.set(i, i);

@@ -24,7 +24,7 @@ public abstract class AbstractLocalConfiguration {
 	protected static final String INITIALIZED = KEY_NAMESPACE + ".initialized";
 
 
-	protected static Props p = Props.getProps(AbstractLocalConfiguration.class);
+	protected static final Props p = Props.getProps(AbstractLocalConfiguration.class);
 
 
 	static {

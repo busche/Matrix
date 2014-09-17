@@ -17,7 +17,7 @@ import de.ismll.bootstrap.CommandLineParser;
  */
 public class MessageBus {
 
-	public class BroadcastStatistics {
+	static public final class BroadcastStatistics {
 
 		public boolean aborted = false;
 		public String message;

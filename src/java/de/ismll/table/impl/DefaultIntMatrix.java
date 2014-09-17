@@ -36,7 +36,7 @@ public class DefaultIntMatrix implements IntMatrix {
 	}
 
 
-	private static boolean debug;
+//	private static boolean debug;
 	protected int numRows;
 	protected int numColumns;
 	public int[][] data;
@@ -270,7 +270,7 @@ public class DefaultIntMatrix implements IntMatrix {
 			 private int where_to_reset = 0;
 			 private int current_position = 0;
 			 public void close() {}
-			 public void mark() { where_to_reset = current_position; }
+//			 public void mark() { where_to_reset = current_position; }
 			 public boolean markSupported() { return true; }
 			 public int read() {
 				 if (current_position<buffer.size()) {

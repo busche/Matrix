@@ -20,7 +20,6 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.util.Arrays;
-import java.util.Comparator;
 
 import de.ismll.table.Matrices;
 import de.ismll.table.Matrix;
@@ -288,7 +287,7 @@ public class DefaultMatrix implements Matrix {
 			private int where_to_reset = 0;
 			private int current_position = 0;
 			public void close() {}
-			public void mark() { where_to_reset = current_position; }
+//			public void mark() { where_to_reset = current_position; }
 			public boolean markSupported() { return true; }
 			public int read() {
 				if (current_position<buffer.size()) {

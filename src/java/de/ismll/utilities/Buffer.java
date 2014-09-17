@@ -35,7 +35,7 @@ public class Buffer {
 
 	private static Map<String, Integer> bufferSizes;
 
-	private static int default_buffer=8192;
+	private static int default_buffer=32*1024;
 
 	public static synchronized int getBufferSize(File f) {
 		return getBufferSize(f, false);
@@ -239,12 +239,23 @@ public class Buffer {
 			logger.debug("Awaiting termination");
 			waitFor = exec.waitFor();
 			logger.debug("Exit value is " + waitFor);
-			if (waitFor==0) {
-				// normal termination
-				fstab = new ArrayList<String>();
-				logger.debug("Parsing fstab output...");
+		} catch (InterruptedException e) {
+			logger.info(e.getMessage(),e);
+			return;
+		} catch (IOException e) {
+			logger.info(e.getMessage(),e);
+			return;
+		}
+		
+		if (waitFor==0) {
+			// normal termination
+			fstab = new ArrayList<String>();
+			logger.debug("Parsing fstab output...");
+			
+			try (
 				InputStream inputStream = exec.getInputStream();
-				LineNumberReader read = new LineNumberReader(new InputStreamReader(inputStream));
+				LineNumberReader read = new LineNumberReader(new InputStreamReader(inputStream));){
+				
 				String line = null;
 				while ((line = read.readLine())!=null) {
 					int oldLen = Integer.MAX_VALUE;
@@ -252,7 +263,7 @@ public class Buffer {
 						oldLen = line.length();
 						line = line.replaceAll("  ", " ");
 					} while (oldLen>line.length());
-
+					
 					String[] split = line.split(" ");
 					if (split.length<MOUNT_POINT_COLUMN_FSTAB+1)
 						continue;
@@ -264,11 +275,9 @@ public class Buffer {
 					fstab.add(mountPoint);
 				}
 				fstab_present=true;
-			}
-		} catch (InterruptedException e) {
-			logger.info(e.getMessage(),e);
-		} catch (IOException e) {
-			logger.info(e.getMessage(),e);
+			} catch (IOException e) {
+				logger.warn("I/O Exception while reading /etc/fstab", e);
+			} 
 		}
 	}
 
@@ -277,8 +286,7 @@ public class Buffer {
 		File bufferMetadataFile = findFile(BUFFER_METADATA_FILENAME, false);
 		if (bufferMetadataFile!=null) {
 			// read file
-			try {
-				LineNumberReader read = new LineNumberReader(new FileReader(bufferMetadataFile));
+			try (LineNumberReader read = new LineNumberReader(new FileReader(bufferMetadataFile))){				
 				String line=null;
 				while ((line = read.readLine())!=null) {
 					String[] split = line.split("=");
@@ -388,110 +396,8 @@ public class Buffer {
 		,(int) Math.pow(2, 19)
 		,(int) Math.pow(2, 20)
 	};
+
 	static int numTimes=20;
-
-	//	static void determineBuffersize(){
-	//		File remoteFile = null;
-	////		remoteFile = new File("C:/Users/John/en_windows_xp_professional_with_service_pack_3_x86_cd_x14-80428.iso");
-	//		remoteFile = new File("C:/Users/John/rock_n_roll.wav");
-	////		remoteFile = new File("S:/s1/JGR0NE~9.BIN");
-	//		long testFileSize=-1; // 30 MB
-	//		if (remoteFile==null) {
-	//			testFileSize=1024*1024*100; // 30 MB
-	//				try {
-	//				remoteFile = File.createTempFile("test", "file");
-	//				remoteFile.deleteOnExit();
-	//			} catch (IOException e) {
-	//				throw new RuntimeException(e);
-	//			}
-	//			System.out.println("Filling test file " + remoteFile + "...");
-	//			PrintStream ps;
-	//			try {
-	//				ps = new PrintStream(new BufferedOutputStream(new FileOutputStream(remoteFile), 65536));
-	//			} catch (FileNotFoundException e) {
-	//				throw new RuntimeException(e);
-	//			}
-	//			for (int i = 0; i < testFileSize; i++)
-	//				ps.print("t");
-	//			ps.close();
-	//
-	//		} else {
-	//			testFileSize=remoteFile.length();
-	//		}
-	//		System.out.println("File size: " + testFileSize);
-	//
-	//		TreeMap<Long, Integer> time2Buffersize = new TreeMap<Long, Integer>();
-	//		TreeMap<Integer, Long> buffersize2time = new TreeMap<Integer, Long>();
-	//
-	//		for (int bufferSize : bufferTestSizes){
-	//			System.out.println("Buffer size " + bufferSize);
-	//
-	//			long start = System.nanoTime();
-	//			for (int i = 0; i < numTimes; i++){
-	//				FileInputStream fis;
-	//				try {
-	//					fis = new FileInputStream(remoteFile);
-	//				} catch (FileNotFoundException e) {
-	//					throw new RuntimeException(e);
-	//				}
-	//				BufferedInputStream bis = new BufferedInputStream(fis, bufferSize);
-	//				byte[] buf  = new byte[bufferSize];
-	//				int current=-1;
-	//				try {
-	//					while ((current = bis.read(buf))>=0){
-	//
-	//					}
-	//				} catch (IOException e) {
-	//					throw new RuntimeException(e);
-	//				}
-	//				try {
-	//					bis.close();
-	//				} catch (IOException e) {
-	//					e.printStackTrace();
-	//				}
-	//			}
-	//
-	//			long end = System.nanoTime();
-	//			time2Buffersize.put(Long.valueOf((end-start)), Integer.valueOf(bufferSize));
-	//			buffersize2time.put(Integer.valueOf(bufferSize), Long.valueOf((end-start)));
-	//		}
-	//
-	//		for (Entry<Integer, Long> e : buffersize2time.entrySet()) {
-	//			long time = e.getValue().longValue();
-	//			double mbps = (testFileSize * 1000000000) / (double) (time*1000000);
-	//			System.out.println(e.getKey() + " --> " + String.format("%4.4s", mbps) + " MB/s");
-	//		}
-	//		System.out.println(time2Buffersize.toString());
-	//
-	//	}
-
-
-	//	private static void read1(int numTimes, File tmpFile, int bufferSize) {
-	//		for (int i = 0; i < numTimes; i++){
-	//			FileInputStream fis;
-	//			try {
-	//				fis = new FileInputStream(tmpFile);
-	//			} catch (FileNotFoundException e) {
-	//				throw new RuntimeException(e);
-	//			}
-	//			BufferedInputStream bis = new BufferedInputStream(fis, bufferSize);
-	//
-	//			int current=-1;
-	//			try {
-	//				while ((current = bis.read())>=0){
-	//
-	//				}
-	//			} catch (IOException e) {
-	//				throw new RuntimeException(e);
-	//			}
-	//			try {
-	//				bis.close();
-	//			} catch (IOException e) {
-	//				e.printStackTrace();
-	//			}
-	//		}
-	//	}
-
 
 	public static void main(String[] args) {
 		if (args.length<1) {
@@ -506,7 +412,7 @@ public class Buffer {
 			}
 		}
 		// TODO: implement command line switch to override auto-load of buffers.
-		System.out.println(Buffer.getBufferSize(new File(args[0]), justMeasure));
+		logger.info(Buffer.getBufferSize(new File(args[0]), justMeasure));
 	}
 
 	public static InputStream newInputStream(File file) throws FileNotFoundException {

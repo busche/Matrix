@@ -21,7 +21,7 @@ public class FileStorageTarget implements StorageTarget{
 	@Parameter(cmdline="targetDirectory")
 	private File targetDirectory;
 	
-	protected static Logger log = LogManager.getLogger(FileStorageTarget.class);
+	protected static final Logger log = LogManager.getLogger(FileStorageTarget.class);
 	
 	@Override
 	public boolean store(Map<String, Object> values) throws StorageException {
@@ -32,13 +32,22 @@ public class FileStorageTarget implements StorageTarget{
 		if (targetDirectory.exists()) {
 			if (override) {
 				// all OK - should override resources
-				targetDirectory.delete();
-				targetDirectory.mkdirs();
+				boolean delete = targetDirectory.delete();
+				if (!delete) {
+					throw new StorageException("Storage directory " + targetDirectory + " already exists but could not be deleted (for an unknown reason; delete() returned false; This was tried due to the automatic override switch).");
+				}
+				boolean mkdirs = targetDirectory.mkdirs();
+				if (!mkdirs) {
+					throw new StorageException("Storage directory " + targetDirectory + " could not be re-created (for an unknown reason; mkdirs() returned false).");
+				}
 			} else {
 				throw new StorageException("Storage directory " + targetDirectory + " already exists and it should not be overridden automatically. You may want to use \"-Dde.ismll.storage.FileStorageTarget.override=true\" to automatically override existing storage targets.");
 			}
 		} else {
-			targetDirectory.mkdirs();			
+			boolean targetDirectoriesCreated = targetDirectory.mkdirs();
+			if (!targetDirectoriesCreated) {
+				log.warn("Target directory " + targetDirectory + " could somehow not be created (mkdirs() returned false; though no Exception was thrown). This should lead to errors or exceptions soon, I suppose...");
+			}
 		}
 		
 		if (!targetDirectory.isDirectory())
@@ -59,6 +68,14 @@ public class FileStorageTarget implements StorageTarget{
 	}
 
 	public static void store(File targetFile, Object value) throws IOException {
+		
+		/*
+		 * determine parent directory and create it, if it does not exist.
+		 */
+		File parent = targetFile.getParentFile();
+		if (!parent.exists())
+			parent.mkdirs();
+		
 		if (value instanceof String) {
 			writeString(targetFile, (String)value);
 		}

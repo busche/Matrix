@@ -14,15 +14,12 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.LineNumberReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -53,7 +50,6 @@ import de.ismll.table.impl.DefaultIntMatrix;
 import de.ismll.table.impl.DefaultIntVector;
 import de.ismll.table.impl.DefaultMatrix;
 import de.ismll.table.impl.DefaultMatrix.DefaultMatrixParser;
-import de.ismll.table.impl.DefaultVector;
 import de.ismll.table.io.weka.ArffDataset;
 import de.ismll.table.io.weka.ArffEncoder;
 import de.ismll.table.io.weka.ArffEncoderHelper;
@@ -63,7 +59,6 @@ import de.ismll.table.projections.ColumnSubsetMatrixView;
 import de.ismll.table.projections.ColumnSubsetVectorView;
 import de.ismll.table.projections.RowSubsetMatrixView;
 import de.ismll.table.projections.RowSubsetVectorView;
-import de.ismll.utilities.Assert;
 import de.ismll.utilities.Buffer;
 import de.ismll.utilities.Tools;
 
@@ -666,7 +661,6 @@ public class Matrices {
 
 		long end = System.nanoTime();
 		if (debug) {
-			System.out.println("Loaded from input stream in " + (end-start) + " nanoseconds.");
 			logger.debug("Loaded from input stream in " + (end-start) + " nanoseconds.");
 		}
 	}
@@ -768,7 +762,7 @@ public class Matrices {
 
 		long end = System.nanoTime();
 		if (debug)
-			System.out.println("Loaded from binary input stream in " + (end-start) + " nanoseconds.");
+			logger.debug("Loaded from binary input stream in " + (end-start) + " nanoseconds.");
 
 		assert(m!=null);
 		if (m == null)
@@ -858,7 +852,7 @@ public class Matrices {
 		}
 		long end = System.nanoTime();
 		if (debug)
-			System.out.println("Loaded " + fn + " fast        in " + (end-start) + " nanoseconds.");
+			logger.debug("Loaded " + fn + " fast        in " + (end-start) + " nanoseconds.");
 	}
 
 
@@ -964,7 +958,7 @@ public class Matrices {
 					if (lineBreak && colNr>0) {
 						rowNr++;
 						if (showProgress>0 && rowNr>0 && rowNr % showProgress == 0)
-							System.out.println(rowNr);
+							logger.info("Automated row analysis is at row " + rowNr);
 
 					}
 					if (lineBreak) {
@@ -1064,7 +1058,7 @@ public class Matrices {
 						if (lineBreak && colNr>0) {
 							rowNr++;
 							if (showProgress > 0 && rowNr>0 && rowNr % showProgress == 0)
-								System.out.println(rowNr);
+								logger.info("Reading row " + rowNr);
 
 						}
 						if (lineBreak)
@@ -1085,7 +1079,6 @@ public class Matrices {
 
 		long end = System.nanoTime();
 		if (debug) {
-			System.out.println("Loaded from input stream in " + (end-start) + " nanoseconds.");
 			logger.debug("Loaded from input stream in " + (end-start) + " nanoseconds.");
 		}
 	}
@@ -1199,7 +1192,7 @@ public class Matrices {
 
 		long end = System.nanoTime();
 		if (debug)
-			System.out.println("Loaded from binary input stream in " + (end-start) + " nanoseconds.");
+			logger.debug("Loaded from binary input stream in " + (end-start) + " nanoseconds.");
 
 		assert(m!=null);
 		if (m == null)
@@ -1589,7 +1582,7 @@ public class Matrices {
 					if (!lastWasLinebreak)
 						currentRow++;
 					if (!lastWasLinebreak && (currentRow % progress) == 0) {
-						System.out.print(".");
+						logger.info("Wrote line " + currentRow);
 					}
 					skipUntilLinebreak=false;
 					lastWasLinebreak=true;
@@ -1881,7 +1874,7 @@ public class Matrices {
 			private int where_to_reset = 0;
 			private int current_position = 0;
 			public void close() {}
-			public void mark() { where_to_reset = current_position; }
+//			public void mark() { where_to_reset = current_position; }
 			public boolean markSupported() { return true; }
 			public int read() {
 				if (current_position<buffer.size()) {
@@ -2041,7 +2034,9 @@ public class Matrices {
 
 		out.write("@DATA \n");
 		for (int i = 0; i < m.getNumRows(); ++i) {
-			if ( (i+1) % showProgress == 0) System.out.print(".");
+			if ( (i+1) % showProgress == 0) {
+				logger.info("Wrote line " + i);
+			}
 			for (int j = 0; j < m.getNumColumns(); ++j) {
 				String encode = enc.encode(j, m.get(i, j));
 				out.write(encode+((j!=m.getNumColumns()-1)?",":"\n"));
@@ -2074,7 +2069,7 @@ public class Matrices {
 		out.write("@DATA \n");
 		for (int i = 0; i < numRows; ++i) {
 			if ( (i+1) % showProgress == 0)
-				System.out.print(".");
+				logger.info("Wrote line " + i);
 			for (int j = 0; j < numColumns; ++j)
 				out.write(m.get(i, j)+((j!=numColumns-1)?",":"\n"));
 		}

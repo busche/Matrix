@@ -12,7 +12,7 @@ import de.ismll.messaging.MessageBus.BroadcastStatistics;
 
 public class MessageBusTest {
 
-	private final class MessageRecieverImplementation implements
+	private static final class MessageRecieverImplementation implements
 	MessageReciever {
 		private boolean accepts;
 
@@ -34,7 +34,7 @@ public class MessageBusTest {
 		}
 	}
 
-	private final class MessageImplementation implements Message {
+	private static final class MessageImplementation implements Message {
 		private int messageId;
 
 		public MessageImplementation(int i) {
@@ -58,7 +58,6 @@ public class MessageBusTest {
 
 		@Override
 		public Object getSource() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 	}
@@ -83,7 +82,7 @@ public class MessageBusTest {
 		testingBus.subscribe(2, mr1);
 
 		Message m1 = new MessageImplementation(100);
-		Message m2 = new MessageImplementation(101);
+//		Message m2 = new MessageImplementation(101);
 		BroadcastStatistics broadcast1 = testingBus.broadcast(1, m1);
 		System.out.println(broadcast1);
 		Assert.assertNull(broadcast1.message);
@@ -93,7 +92,7 @@ public class MessageBusTest {
 
 	@Test
 	public void testAbort() {
-		MessageReciever mr1 = new MessageRecieverImplementation(true);
+//		MessageReciever mr1 = new MessageRecieverImplementation(true);
 		MessageReciever mr2 = new MessageRecieverImplementation(false);
 		testingBus.subscribe(1, mr2);
 

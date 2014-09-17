@@ -34,7 +34,7 @@ public class DefaultMatrixTest extends MatrixTest{
 		DefaultMatrix ok = DefaultMatrix.readWithReader(new BufferedReader(new FileReader(f)), 100000);
 		System.out.println("check ...");
 		DefaultMatrix check = DefaultMatrix.read(f, 100000);
-		FileInputStream fis = new FileInputStream(f);
+//		FileInputStream fis = new FileInputStream(f);
 		System.out.println("check2 ...");
 		//		DefaultMatrix check2 = DefaultMatrix.readWithFileChannel(fis.getChannel(), 100000);
 

@@ -93,7 +93,7 @@ public class ChainedFilter implements Filter{
 				continue;
 			}
 
-			Integer position = new Integer(key.substring(KEY_START.length()+1, key.length()));
+			Integer position = Integer.valueOf(key.substring(KEY_START.length()+1, key.length()));
 
 			if (filters.containsKey(position)) {
 				log.warn("Overriding filter definition at position " + position + ". Is this really intended????");

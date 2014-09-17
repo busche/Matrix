@@ -85,7 +85,7 @@ public class Scaler {
 		}
 	}
 
-	static class SuppressionRunnable implements Runnable {
+	private static class SuppressionRunnable implements Runnable {
 
 		@Override
 		public void run() {
