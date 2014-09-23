@@ -298,6 +298,9 @@ public abstract class SqlStore extends DataStore{
 
 		if (existingTables.contains(type))
 			return; // already loaded.
+		
+		
+		
 		// TODO: consider adding some kind of updating methodology when schema is enhanced
 		SqlStatement sql = new SqlStatement("SELECT COUNT (relname) as a FROM pg_class WHERE relname = '" + type.nativeName + "'");
 		IEntityBacked query = query(sql);
@@ -305,7 +308,9 @@ public abstract class SqlStore extends DataStore{
 		if (query.hasNext()) {
 			IContentHolder next = query.next();
 			Integer object = next.get("a", Integer.class);
+			System.out.println(object);
 			if (object.intValue()>0) exists=true;
+			System.out.println(exists);
 			query.close();
 		}
 		if (!exists) {
