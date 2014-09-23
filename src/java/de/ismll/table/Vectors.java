@@ -49,9 +49,12 @@ public class Vectors {
 	 */
 	public static float max(Vector x) {
 		float max = x.get(0);
-		for (int i = 1; i < x.size(); ++i)
-			if (x.get(i) > max)
-				max = x.get(i);
+		int x_size = x.size();
+		for (int i = 1; i < x_size; ++i) {
+			float x_i = x.get(i);
+			if (x_i > max)
+				max = x_i;
+		}
 		return max;
 	}
 
@@ -67,11 +70,14 @@ public class Vectors {
 	public static int maxIdx(Vector x) {
 		float max = x.get(0);
 		int idx= 0;
-		for (int i = 1; i < x.size(); ++i)
-			if (x.get(i) > max) {
-				max = x.get(i);
+		int x_size = x.size();
+		for (int i = 1; i < x_size; ++i) {
+			float x_i = x.get(i);
+			if (x_i > max) {
+				max = x_i;
 				idx=i;
 			}
+		}
 		return idx;
 	}
 
@@ -80,25 +86,31 @@ public class Vectors {
 	 * Compute the maximum.
 	 */
 	public static float min(Vector x) {
-		if (x.size() == 0)
+		int x_size = x.size();
+		if (x_size == 0)
 			return Float.NaN;
 		float min = x.get(0);
-		for (int i = 1; i < x.size(); ++i)
-			if (x.get(i) < min)
-				min = x.get(i);
+		for (int i = 1; i < x_size; ++i) {
+			float x_i = x.get(i);
+			if (x_i < min)
+				min = x_i;
+		}
 		return min;
 	}
 
 	public static int minIdx(Vector x) {
-		if (x.size() == 0)
+		int x_size = x.size();
+		if (x_size == 0)
 			return -1;
 		float min = x.get(0);
 		int idx = 0;
-		for (int i = 1; i < x.size(); ++i)
-			if (x.get(i) < min) {
-				min = x.get(i);
+		for (int i = 1; i < x_size; ++i) {
+			float x_i = x.get(i);
+			if (x_i < min) {
+				min = x_i;
 				idx = i;
 			}
+		}
 		return idx;
 	}
 
@@ -107,7 +119,8 @@ public class Vectors {
 	 */
 	public static float sum(Vector x) {
 		float sum = 0;
-		for (int i = 0; i < x.size(); ++i)
+		int x_size = x.size();
+		for (int i = 0; i < x_size; ++i)
 			sum += x.get(i);
 		return sum;
 	}
@@ -128,7 +141,8 @@ public class Vectors {
 	 * Set all values of a vector.
 	 */
 	public static void set (Vector x, float value) {
-		for (int i = 0; i < x.size(); ++i)
+		int x_size = x.size();
+		for (int i = 0; i < x_size; ++i)
 			x.set(i, value);
 	}
 
@@ -242,14 +256,15 @@ public class Vectors {
 	// urghh
 	public static IntVector order(Vector x) {
 		// create entry objects (urgh)
-		Entry[] entries = new Entry[x.size()];
-		for (int i = 0; i < x.size(); ++i)
+		int x_size = x.size();
+		Entry[] entries = new Entry[x_size];
+		for (int i = 0; i < x_size; ++i)
 			entries[i] = new Entry(i, x.get(i));
 		Arrays.sort(entries);
 
 		// copy order:
-		IntVector order = new DefaultIntVector(x.size());
-		for (int i = 0; i < x.size(); ++i)
+		IntVector order = new DefaultIntVector(x_size);
+		for (int i = 0; i < x_size; ++i)
 			order.set(i, entries[i].index);
 		return order;
 	}
@@ -280,10 +295,11 @@ public class Vectors {
 	 */
 	public static double average(Vector v) {
 		double sum = 0.;
-		for (int i = 0; i < v.size(); i++)
+		int v_size = v.size();
+		for (int i = 0; i < v_size; i++)
 			sum += v.get(i);
 
-		return sum/v.size();
+		return sum/v_size;
 	}
 
 	/**
@@ -296,8 +312,10 @@ public class Vectors {
 	public static double variance(Vector v) {
 		double a = 0, c=0;
 		double mean2 = average(v);
-		for (int i=0;i<v.size();i++) {
-			a+=((v.get(i)-mean2)*(v.get(i)-mean2));
+		int v_size = v.size();
+		for (int i=0;i<v_size;i++) {
+			float v_i = v.get(i);
+			a+=((v_i-mean2)*(v_i-mean2));
 			c++;
 		}
 		return Math.sqrt( a/c );
@@ -549,8 +567,9 @@ public class Vectors {
 	public static String toString(Vector vector) {
 		StringBuilder sb = new StringBuilder();
 		String s = "\n";
-		sb.append(vector.size() + s);
-		for (int i = 0; i < vector.size(); i++)
+		int vec_size = vector.size();
+		sb.append(vec_size + s);
+		for (int i = 0; i < vec_size; i++)
 			sb.append(vector.get(i) + s);
 
 		return sb.toString();
@@ -558,37 +577,40 @@ public class Vectors {
 	public static String toString(IntVector vector) {
 		StringBuilder sb = new StringBuilder();
 		String s = "\n";
-		sb.append(vector.size() + s);
-		for (int i = 0; i < vector.size(); i++)
+		int vec_size = vector.size();
+		sb.append(vec_size + s);
+		for (int i = 0; i < vec_size; i++)
 			sb.append(vector.get(i) + s);
 
 		return sb.toString();
 	}
 
 	public static double covariance(Vector vec1, Vector vec2) {
-		if (vec1.size()!=vec2.size()) return Double.NaN;
+		int vec1_size = vec1.size();
+		if (vec1_size!=vec2.size()) return Double.NaN;
 		double averageVec1 = average(vec1);
 		double averageVec2 = average(vec2);
 		double sum = 0.;
-		for (int i = 0; i < vec1.size(); i++)
+		for (int i = 0; i < vec1_size; i++)
 			sum += (vec1.get(i)-averageVec1)*
 			(vec2.get(i)-averageVec2);
 
-		return sum / vec1.size();
+		return sum / vec1_size;
 	}
 
 
 	public static double correlation(Vector vec1, Vector vec2) {
-		if (vec1.size()!=vec2.size()) return Double.NaN;
+		int vec1_size = vec1.size();
+		if (vec1_size!=vec2.size()) return Double.NaN;
 		double averageVec1 = average(vec1);
 		double averageVec2 = average(vec2);
 		double varianceVec1 = variance(vec1);
 		double varianceVec2 = variance(vec2);
 		double sum = 0.;
-		for (int i = 0; i < vec1.size(); i++)
+		for (int i = 0; i < vec1_size; i++)
 			sum += (vec1.get(i)-averageVec1)*(vec2.get(i)-averageVec2);
 
-		return (sum / vec1.size())/(varianceVec1*varianceVec2);
+		return (sum / vec1_size)/(varianceVec1*varianceVec2);
 	}
 
 
@@ -618,11 +640,13 @@ public class Vectors {
 		int idxA=0, idxB=0;
 		int valB = removeEntries.get(idxB);
 		int numCommons = 0;
-		while (idxA < baseSet.size()) {
+		int baseset_size = baseSet.size();
+		int removeentries_size = removeEntries.size();
+		while (idxA < baseset_size) {
 			int nextA = baseSet.get(idxA++);
 			assert (nextA> lastA);
 			lastA = nextA;
-			while (valB < nextA && idxB < removeEntries.size()) {
+			while (valB < nextA && idxB < removeentries_size) {
 				valB = removeEntries.get(idxB++);
 				assert (valB> lastB);
 				lastB = valB;
@@ -630,15 +654,15 @@ public class Vectors {
 			if (valB == nextA)
 				numCommons++;
 		}
-		int retSize = baseSet.size()-numCommons;
+		int retSize = baseset_size-numCommons;
 		DefaultIntVector ret = new DefaultIntVector(retSize);
 		int retIdx=0;
 		idxA=0;
 		idxB=0;
 		valB = removeEntries.get(idxB);
-		while (idxA < baseSet.size()) {
+		while (idxA < baseset_size) {
 			int nextA = baseSet.get(idxA++);
-			while (valB < nextA && idxB < removeEntries.size()) {
+			while (valB < nextA && idxB < removeentries_size) {
 				valB = removeEntries.get(idxB++);
 			}
 			if (valB != nextA)
@@ -756,8 +780,9 @@ public class Vectors {
 
 	}
 	public static int[] toIntArray(Vector v) {
-		int[] ret = new int[v.size()];
-		for (int i = 0; i < v.size(); i++)
+		int v_size = v.size();
+		int[] ret = new int[v_size];
+		for (int i = 0; i < v_size; i++)
 			ret[i]=(int) v.get(i);
 
 
@@ -769,30 +794,34 @@ public class Vectors {
 	}
 
 	public static float[] toFloatArray(Vector v) {
-		float[] ret = new float[v.size()];
-		for (int i = 0; i < v.size() ; i++) {
+		int v_size = v.size();
+		float[] ret = new float[v_size];
+		for (int i = 0; i < v_size ; i++) {
 			ret[i] = v.get(i);
 		}
 		return ret;
 	}
 
 	public static int[] toIntArray(IntVector v) {
-		int[] ret = new int[v.size()];
-		for (int i = 0; i < v.size(); i++)
+		int v_size = v.size();
+		int[] ret = new int[v_size];
+		for (int i = 0; i < v_size; i++)
 			ret[i]=v.get(i);
 
 		return ret;
 	}
 	public static double dotProduct(Vector a, Vector b) {
 		double sum = 0;
-		for (int i = 0; i < a.size(); i++)
+		int a_size = a.size();
+		for (int i = 0; i < a_size; i++)
 			sum += a.get(i)*b.get(i);
 		return sum;
 	}
 
 	public static double norm(Vector a) {
 		double ret = 0;
-		for (int i = 0; i < a.size(); i++) {
+		int a_size = a.size();
+		for (int i = 0; i < a_size; i++) {
 			ret += a.get(i)*a.get(i);
 		}
 
@@ -801,7 +830,8 @@ public class Vectors {
 
 
 	public static void add(Vector in, float value) {
-		for (int i = 0; i < in.size(); i++)
+		int in_size = in.size();
+		for (int i = 0; i < in_size; i++)
 			in.set(i, in.get(i) +value);
 	}
 
@@ -854,7 +884,8 @@ public class Vectors {
 		StringBuffer sb = new StringBuffer();
 
 		int stringLength=-1;
-		for (int i = 1; i < in.size(); i++) {
+		int in_size = in.size();
+		for (int i = 1; i < in_size; i++) {
 			if(stringLength < 0) {
 				stringLength = (int) in.get(i);
 				continue;
@@ -883,8 +914,9 @@ public class Vectors {
 	 * @param to
 	 */
 	public static void copy(Vector from, Vector to) {
-		if (from.size()!=to.size()) throw new RuntimeException("Unequal vector length: (" + from.size() + "!=" + to.size() + ")");
-		for (int i = 0; i < from.size(); i++) {
+		int from_size = from.size();
+		if (from_size!=to.size()) throw new RuntimeException("Unequal vector length: (" + from_size + "!=" + to.size() + ")");
+		for (int i = 0; i < from_size; i++) {
 			to.set(i, from.get(i));
 		}
 
@@ -894,8 +926,10 @@ public class Vectors {
 	public static double var(Vector c) {
 		float a = 0, c_=0;
 		double mean2 = avg(c);
-		for (int i=0;i<c.size();i++) {
-			a+=((c.get(i)-mean2))*((c.get(i)-mean2));
+		int c_size = c.size();
+		for (int i=0;i<c_size;i++) {
+			float c_i = c.get(i);
+			a+=((c_i-mean2))*((c_i-mean2));
 			c_++;
 		}
 		return Math.sqrt( a/c_ );
@@ -904,7 +938,8 @@ public class Vectors {
 
 	public static double avg(Vector c) {
 		float a = 0, c_ = 0;
-		for (int i=0;i<c.size();i++) {
+		int c_size = c.size();
+		for (int i=0;i<c_size;i++) {
 			a+=c.get(i);
 			c_++;
 		}
@@ -919,7 +954,8 @@ public class Vectors {
 	 * @param data
 	 */
 	public static void set(Vector sink, Vector data) {
-		for (int i = 0; i < data.size(); i++)
+		int data_size = data.size();
+		for (int i = 0; i < data_size; i++)
 			sink.set(i, data.get(i));
 	}
 
