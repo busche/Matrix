@@ -68,6 +68,14 @@ public class FileStorageTarget implements StorageTarget{
 	}
 
 	public static void store(File targetFile, Object value) throws IOException {
+		
+		/*
+		 * determine parent directory and create it, if it does not exist.
+		 */
+		File parent = targetFile.getParentFile();
+		if (!parent.exists())
+			parent.mkdirs();
+		
 		if (value instanceof String) {
 			writeString(targetFile, (String)value);
 		}
@@ -83,8 +91,14 @@ public class FileStorageTarget implements StorageTarget{
 			
 	}
 
-	public static void writeMatrix(File targetFile, Matrix value) throws IOException {
-		log.info("Storing a " + value.getNumRows() + "x" + value.getNumColumns() + " matrix to " + targetFile);
+	public static void writeMatrix(File targetFile, Matrix value) throws IOException, NullPointerException {
+		if (null == targetFile)
+			throw new NullPointerException("Variable targetFile was null but should not have been null!");
+		
+		int numRows = value.getNumRows();
+		int numColumns = value.getNumColumns();
+		
+		log.info("Storing a " + numRows + "x" + numColumns + " matrix to " + targetFile);
 		Matrices.write(value, targetFile);
 	}
 
