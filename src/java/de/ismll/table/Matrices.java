@@ -50,6 +50,7 @@ import de.ismll.table.impl.DefaultIntMatrix;
 import de.ismll.table.impl.DefaultIntVector;
 import de.ismll.table.impl.DefaultMatrix;
 import de.ismll.table.impl.DefaultMatrix.DefaultMatrixParser;
+import de.ismll.table.impl.RowMajorMatrix;
 import de.ismll.table.io.weka.ArffDataset;
 import de.ismll.table.io.weka.ArffEncoder;
 import de.ismll.table.io.weka.ArffEncoderHelper;
@@ -341,6 +342,15 @@ public class Matrices {
 		 return ret;
 	 }
 	public static float max(Matrix m) {
+		if (m instanceof RowMajorMatrix) {
+			float ret=-Float.MAX_VALUE;
+			float[] _data = ((RowMajorMatrix) m).data;
+			for (float f : _data)
+				if ( f>ret)
+					ret=f;
+//				ret=Math.max(ret, f);
+			return ret;
+		}
 		 int numColumns = m.getNumColumns();
 		 int numRows = m.getNumRows();
 		 float ret = -Float.MAX_VALUE;
