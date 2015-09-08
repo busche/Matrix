@@ -1,0 +1,52 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+//apply plugin: 'maven-publish'
+
+version '1.0'
+group 'de.ismll'
+
+repositories {
+    mavenCentral()
+	maven {
+		credentials {
+            username maven_username
+            password maven_password
+        }
+        url "http://172.16.102.236/maven2repoGradle"
+    }
+}
+
+sourceSets.main.java.srcDir "src/java"
+sourceSets.test.java.srcDir "src/tests/java"
+
+dependencies {
+	compile 'log4j:log4j:1.2.14'
+	compile 'nz.ac.waikato.cms.weka:weka-dev:3.7.12'
+	compile 'commons-dbcp:commons-dbcp:1.4'
+	compile 'postgresql:postgresql:8.4-702.jdbc4'
+	compile 'de.ismll:bootstrap:1.1.6-SNAPSHOT'
+	
+	testCompile 'junit:junit:4.8.2'
+}
+
+configurations {
+    deployerJars
+}
+
+dependencies {
+//    deployerJars "org.apache.maven.wagon:wagon-webdav:1.0-beta-2"
+    deployerJars "org.apache.maven.wagon:wagon-webdav-jackrabbit:2.9"
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+		configuration = configurations.deployerJars
+            repository(url: "dav:http://172.16.102.236/maven2repoGradle/") {
+				authentication(
+					userName: maven_username, 
+					password: maven_password)
+			}
+        }
+    }
+}

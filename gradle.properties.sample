@@ -1,0 +1,9 @@
+systemProp.http.proxyHost=123.456.789.123 # yes, 456 and 789 are FAKE!
+systemProp.http.proxyPort=3128
+systemProp.http.nonProxyHosts=172.16.102.0
+systemProp.https.proxyHost=123.456.789.123
+systemProp.https.proxyPort=3128
+
+maven_username=mavenuser
+maven_password=mavenuser
+
