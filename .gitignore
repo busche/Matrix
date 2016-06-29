@@ -1,6 +1,8 @@
 *.class
-
+*~
+.classpath
 # Package Files #
+.sonar/
 *.war
 *.ear
 /bin
