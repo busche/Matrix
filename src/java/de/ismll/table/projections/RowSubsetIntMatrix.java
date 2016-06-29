@@ -25,8 +25,6 @@ public class RowSubsetIntMatrix implements IntMatrix {
 	 * 
 	 *  Example:  pointers=[1,3,6,7,8]
 	 * 
-	 * @param view
-	 * @param pointers
 	 */
 	public RowSubsetIntMatrix(IntMatrix view, IntVector pointers) {
 		super();

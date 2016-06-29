@@ -117,7 +117,6 @@ public class DefaultMatrix implements Matrix {
 	/**
 	 * copy-constructor
 	 * 
-	 * @param copyFromOther
 	 */
 	public DefaultMatrix(Matrix copyFromOther) {
 		this.numRows = copyFromOther.getNumRows();
@@ -155,8 +154,6 @@ public class DefaultMatrix implements Matrix {
 	/**
 	 * copies values
 	 * 
-	 * @param a
-	 * @return
 	 */
 	public static DefaultMatrix createMatrix(Matrix a) {
 		int numRows = a.getNumRows();
@@ -216,10 +213,6 @@ public class DefaultMatrix implements Matrix {
 
 	/**
 	 * use Matrices.write instead!
-	 * 
-	 * @param fn
-	 * @param showProgress
-	 * @throws IOException
 	 * 
 	 */
 	@Deprecated

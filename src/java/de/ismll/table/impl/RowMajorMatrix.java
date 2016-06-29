@@ -88,7 +88,6 @@ public class RowMajorMatrix implements Matrix {
 	/**
 	 * copy-constructor
 	 * 
-	 * @param copyFromOther
 	 */
 	public RowMajorMatrix(Matrix copyFromOther) {
 		this.numRows = copyFromOther.getNumRows();
@@ -126,8 +125,6 @@ public class RowMajorMatrix implements Matrix {
 	/**
 	 * copies values
 	 * 
-	 * @param a
-	 * @return
 	 */
 	public static RowMajorMatrix createMatrix(Matrix a) {
 		int numRows = a.getNumRows();

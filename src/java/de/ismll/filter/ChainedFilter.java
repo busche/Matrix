@@ -43,8 +43,6 @@ public class ChainedFilter implements Filter{
 	}
 
 	/**
-	 * @param is
-	 * @throws IOException
 	 * @throws NullPointerException if is is null
 	 */
 	public ChainedFilter(InputStream is) throws IOException, NullPointerException {
@@ -59,7 +57,6 @@ public class ChainedFilter implements Filter{
 
 	/**
 	 * @param string a valid resource which can be found in the class path
-	 * @throws IOException
 	 */
 	public ChainedFilter(String string) throws IOException {
 		this(resolveResource(string));
@@ -77,7 +74,6 @@ public class ChainedFilter implements Filter{
 	/**
 	 * interprets the given properties
 	 * 
-	 * @param loadProperties
 	 */
 	public void loadFromProperties(Properties loadProperties) {
 		log.info("Loading Properties...");

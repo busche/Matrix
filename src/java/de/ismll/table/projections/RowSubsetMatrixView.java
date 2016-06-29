@@ -53,9 +53,6 @@ public class RowSubsetMatrixView implements Matrix{
 	 * creates a view of matrix:<br />
 	 *  split contains integers, representing split-IDs. whether or not a row is available/used in this view depends on whether the row-value in split == splitvalue.
 	 * 
-	 * @param matrix
-	 * @param mask
-	 * @param writes2
 	 */
 	public RowSubsetMatrixView(Matrix matrix, IntVector split, int splitValue) {
 		this.matrix = matrix;
@@ -67,8 +64,6 @@ public class RowSubsetMatrixView implements Matrix{
 	 * 
 	 *  Example:  pointers=[1,3,6,7,8]
 	 * 
-	 * @param view
-	 * @param pointers
 	 */
 	public RowSubsetMatrixView(Matrix view, IntVector pointers) {
 		this(view, pointers, true);
@@ -88,8 +83,6 @@ public class RowSubsetMatrixView implements Matrix{
 	 * 
 	 *  Example:  pointers=[1,3,6,7,8]
 	 * 
-	 * @param view
-	 * @param pointers
 	 */
 	public RowSubsetMatrixView(Matrix view, BitVector pointers, boolean writes) {
 		super();

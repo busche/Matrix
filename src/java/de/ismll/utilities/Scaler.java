@@ -16,12 +16,6 @@ public class Scaler {
 	 * 
 	 * scales a value from source range to target range.
 	 * 
-	 * @param source_min
-	 * @param source_max
-	 * @param target_min
-	 * @param target_max
-	 * @param value
-	 * @return
 	 */
 	public static float scale(float source_min, float source_max, float target_min, float target_max, float value) {
 		if (source_min>=source_max || target_min>=target_max) {
@@ -31,8 +25,6 @@ public class Scaler {
 
 		return ((target_max-target_min)*(value-source_min))/(source_max-source_min)+target_min;
 	}
-
-
 
 	public static double scale(double source_min, double source_max, double target_min, double target_max, double value) {
 		if (target_min==target_max) {

@@ -11,7 +11,6 @@ public interface Filter {
 	 * applied the filter
 	 * 
 	 * @param which
-	 * @return
 	 */
 	Matrix apply(Matrix which);
 

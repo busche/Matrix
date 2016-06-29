@@ -103,9 +103,6 @@ public class MessageBus {
 	/**
 	 * decodes from the given message m the property of the given key and converts the value to the given clazz type
 	 * 
-	 * @param m
-	 * @param keyGeometricX1
-	 * @param class1
 	 * @return null iff the key does not exist.
 	 */
 	public static <T> T decode(Message m, String key,

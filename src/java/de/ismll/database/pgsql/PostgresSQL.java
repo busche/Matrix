@@ -389,9 +389,6 @@ public class PostgresSQL implements AutoCloseable{
 	/**
 	 * Needs to be used on a try-with-resources construct, or needs to call close() at the end!
 	 * 
-	 * @param sql
-	 * @return
-	 * @throws DataStoreException
 	 */
 	public IEntityBacked query(SqlStatement sql) throws DataStoreException {
 		logger.warn("Naive implementation - considerable performance problems!");

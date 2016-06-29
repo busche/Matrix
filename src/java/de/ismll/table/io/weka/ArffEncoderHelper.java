@@ -52,10 +52,6 @@ public class ArffEncoderHelper {
 	/**
 	 * tries to infer the nominal type description by usilizing the encode()-method in the encoder.
 	 * 
-	 * @param enc
-	 * @param column
-	 * @param inferFrom
-	 * @return
 	 */
 	public static String getWekaTypeDescription(ArffEncoder enc, int column, Matrix inferFrom) {
 		Map<Integer, String> wekaNominalMap;
@@ -70,10 +66,6 @@ public class ArffEncoderHelper {
 	/**
 	 * tries to infer the nominal type description by usilizing the encode()-method in the encoder.
 	 * 
-	 * @param enc
-	 * @param column
-	 * @param inferFrom
-	 * @return
 	 */
 	public static Map<Integer, String> getWekaNominalMap(ArffEncoder enc, int column, Matrix inferFrom) {
 		Map<Integer, String> map = new TreeMap<Integer, String>();

@@ -100,7 +100,6 @@ public class RmseEvaluator implements IEvaluator{
 	 * @param predictedFile file containing the ratings predicted by the model (movielens format)
 	 * @param realRatingsFile file containing the actual ratings (movielens format)
 	 * @return the RMSE given the two input files
-	 * @throws IOException
 	 */
 	public double rmse(String predictedFile, String realRatingsFile) throws IOException{
 
@@ -122,8 +121,6 @@ public class RmseEvaluator implements IEvaluator{
 	 * Adds a new observation for the computation of the RMSE (to be used
 	 * in conjuction with the method rmse())
 	 * 
-	 * @param predicted
-	 * @param realRating
 	 */
 	public void newObservation(double predicted, double realRating){
 		error += (predicted-realRating)*(predicted-realRating);

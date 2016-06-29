@@ -13,7 +13,6 @@ public class ColumnSubsetIntMatrixView implements IntMatrix {
 	private final IntVector columns2Use;
 
 	/**
-	 * @param target
 	 * @param pointers [0,2,3,4] to use the names columns (excludes column 1 for this view)
 	 */
 	public ColumnSubsetIntMatrixView(IntMatrix target, int[] pointers) {

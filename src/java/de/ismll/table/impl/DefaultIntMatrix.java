@@ -68,14 +68,9 @@ public class DefaultIntMatrix implements IntMatrix {
 		 return new DefaultIntMatrix(array);
 	 }
 
-
-
-
 	 /**
 	  * copies values
 	  * 
-	  * @param a
-	  * @return
 	  */
 	 public static DefaultIntMatrix createMatrix(IntMatrix a) {
 		 int numRows = a.getNumRows();

@@ -64,7 +64,6 @@ public class Vectors {
 	 */
 
 	/**
-	 * @param col
 	 * @return the index of the maximal values
 	 */
 	public static int maxIdx(Vector x) {
@@ -289,9 +288,6 @@ public class Vectors {
 
 	/**
 	 * Will return NaN if one of the values in the vector is Nan
-	 * 
-	 * @param v
-	 * @return
 	 */
 	public static double average(Vector v) {
 		double sum = 0.;
@@ -306,8 +302,6 @@ public class Vectors {
 	 * 
 	 * Will return NaN if one of the values in the vector is Nan
 	 *
-	 * @param v
-	 * @return
 	 */
 	public static double variance(Vector v) {
 		double a = 0, c=0;
@@ -324,7 +318,6 @@ public class Vectors {
 	/**
 	 * Counts the number of occurrences of value with the given epsilon around that value
 	 * 
-	 * @return
 	 */
 	public static int count(Vector vector, float value, float epsilon) {
 		int cnt = 0;
@@ -407,8 +400,6 @@ public class Vectors {
 	 * 
 	 * and [0,1,2,0,1,1];2 to [2]
 	 * 
-	 * @param pointers
-	 * @return
 	 */
 	public static IntVector convert2Pointers(IntVector split, int value2Seek_n_extract) {
 		int size = IntVectors.count(split, value2Seek_n_extract);
@@ -674,9 +665,7 @@ public class Vectors {
 
 	/**
 	 * note: does NOT normalize, you need to call {@link Normalizer#normalize(Vector)} also!
-	 * 
-	 * @param v
-	 * @return
+	 
 	 */
 	public static Normalizer normalize(Vector v) {
 		double average = average(v);
@@ -734,9 +723,6 @@ public class Vectors {
 	/**
 	 * fills the given vector with consecutive integers in range [from,to[. Starts at index 0 in target.
 	 * 
-	 * @param target
-	 * @param from
-	 * @param to
 	 */
 	public static void fill(IntVector target, int from, int to) {
 		for (int i = from; i < to; i++)
@@ -842,8 +828,6 @@ public class Vectors {
 	 * 
 	 * Encodes the String array as a Vector and returns it. *Extremely* inefficient, but works.
 	 * 
-	 * @param options
-	 * @return
 	 */
 	public static Vector encodeUglyStringArray(String[] options) {
 		if (options == null) return new DefaultVector(0);
@@ -875,8 +859,6 @@ public class Vectors {
 	 * 
 	 * parses the Vector to return the same content as used while encoding through {@link #encodeUglyStringArray(String[])}
 	 * 
-	 * @param in
-	 * @return
 	 */
 	public static String[] decodeUglyStringVector(Vector in) {
 		String[] ret = new String[(int) in.get(0)];
@@ -910,8 +892,6 @@ public class Vectors {
 	/**
 	 * copies all values from from to to.
 	 * 
-	 * @param from
-	 * @param to
 	 */
 	public static void copy(Vector from, Vector to) {
 		int from_size = from.size();
@@ -950,8 +930,6 @@ public class Vectors {
 	/**
 	 * sets all data from data to sink.
 	 * 
-	 * @param sink
-	 * @param data
 	 */
 	public static void set(Vector sink, Vector data) {
 		int data_size = data.size();

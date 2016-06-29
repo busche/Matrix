@@ -394,9 +394,7 @@ public class Matrices {
 
 	/**
 	  * @param how HORIZONTAL, to (virtually) swap columns (s.t. in[r][#columns-1]<->in[r][0], ...), VERTICAL, s.t. in[0] <-> in[#rows-1] ...
-	  * @param in
 	  * @param copy whether or not to return a copy or a projection of the passed Matrix
-	  * @return
 	  */
 	 public static Matrix mirror(Mirror how, Matrix in, boolean copy) {
 		 int numColumns = in.getNumColumns();
@@ -1215,10 +1213,6 @@ public class Matrices {
 	 * reads sparse format without format file (to be used for dense implemetnations, since index-positions, locations, etc. are not available)
 	 * 
 	 * just iterates through the tuples; not using the format file...
-	 * 
-	 * @param fn
-	 * @param cb
-	 * @throws FileNotFoundException
 	 */
 	public static void readSparse(File fn, MatrixCallback cb) throws FileNotFoundException {
 		// 1. pass: compute ranges of row index and column index:
@@ -1866,9 +1860,6 @@ public class Matrices {
 	 /**
 	 * be careful: iff you are converting test instances,
 	 * 
-	 * @param m
-	 * @param enc
-	 * @return
 	 */
 	public static Instances wekaInstances(Matrix m, ArffEncoder enc) {
 		return wekaInstances(new ArffDataset(m, enc));
@@ -1965,10 +1956,6 @@ public class Matrices {
 	 /**
 	 * TODO: Use a WriterConfig instead (to be done)
 	 * 
-	 * @param x
-	 * @param fn
-	 * @param header
-	 * @throws IOException
 	 */
 	@Deprecated
 	public static void write(Matrix x, File fn, boolean header) throws IOException {
@@ -2009,8 +1996,6 @@ public class Matrices {
 
 	 /**
 	 * @param fn the target file (name)
-	 * @param cdomain the domain identifier for the last column (assumed to be the class), e.g. NUMERIC, or a WEKA nominal String.
-	 * @param showProgress counter on command line
 	 * @throws IOException on error
 	 */
 	public static void writeArff(File fn, Matrix m) throws IOException {
@@ -2020,11 +2005,6 @@ public class Matrices {
 	 /**
 	 * NOTE: no special handling of missing values is implemented. Missing values need to be implemented/taken care in the encoder!
 	 * 
-	 * @param fn
-	 * @param m
-	 * @param enc
-	 * @param showProgress
-	 * @throws IOException
 	 */
 	public static void writeArff(File fn, Matrix m, ArffEncoder enc,  int showProgress) throws IOException {
 		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(Buffer.newOutputStream(fn)));
@@ -2057,7 +2037,6 @@ public class Matrices {
 
 	 /**
 	 * @param fn the target file (name)
-	 * @param cdomain the domain identifier for the last column (assumed to be the class), e.g. NUMERIC, or a WEKA nominal String.
 	 * @param showProgress counter on command line
 	 * @throws IOException on error
 	 */

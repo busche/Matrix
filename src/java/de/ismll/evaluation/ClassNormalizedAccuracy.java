@@ -38,8 +38,6 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 		/**
 		 * Aggregates individual statistics (e.g., per fold) and computes variances.
 		 * 
-		 * @param perf
-		 * @return
 		 */
 		public static AggregatedNominalPerformanceStatistics aggregate(NominalPerformanceStatistics[] perf) {
 			return aggregate(perf, ConfidenceBound.c95);
@@ -239,8 +237,6 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 
 	/**
 	 * @param t where to log / print results to
-	 * @param raw_counts a 2-d array class confusion matrix
-	 * @param classname optionally includes the class name on the output
 	 */
 	public static void printStatistics(MessageConsumer t, NominalPerformanceStatistics statistics, String[] classlabels) {
 
@@ -270,8 +266,6 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 	}
 	/**
 	 * @param t where to log / print results to
-	 * @param raw_counts a 2-d array class confusion matrix
-	 * @param classname optionally includes the class name on the output
 	 */
 	public static void printStatistics(MessageConsumer t, AggregatedNominalPerformanceStatistics statistics, String[] classlabels) {
 
@@ -308,7 +302,6 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 	/**
 	 * @param t where to log / print results to
 	 * @param raw_counts a 2-d array class confusion matrix
-	 * @param classname optionally includes the class name on the output
 	 */
 	public static void computeAndprintStatistics(MessageConsumer t, int[][] raw_counts, String[] classlabels) {
 
@@ -320,9 +313,7 @@ public class ClassNormalizedAccuracy implements IEvaluator{
 
 
 	/**
-	 * @param t where to log / print results to
 	 * @param raw_counts a 2-d array class confusion matrix
-	 * @param classname optionally includes the class name on the output
 	 */
 	public static NominalPerformanceStatistics computeStatistics(int[][] raw_counts) {
 

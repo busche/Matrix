@@ -14,7 +14,6 @@ public class ColumnSubsetMatrixView implements Matrix {
 	private final IntVector columns2Use;
 
 	/**
-	 * @param target
 	 * @param pointers [0,2,3,4] to use the names columns (excludes column 1 for this view)
 	 */
 	public ColumnSubsetMatrixView(Matrix target, int[] pointers) {

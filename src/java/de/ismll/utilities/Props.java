@@ -108,7 +108,6 @@ public class Props extends Properties{
 	 * 
 	 * The implementation supports recursive substitutions up to a nesting level of 32 and throws a RuntimeException if the substitution exceeds that level.
 	 * 
-	 * @param in
 	 * @return the expanded properties object 
 	 */
 	public static Properties expandProperties(Properties in) {

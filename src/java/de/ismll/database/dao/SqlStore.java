@@ -128,8 +128,6 @@ public abstract class SqlStore extends DataStore{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				//				sb.append()
-				//				sb.append(requiredFieldValues[i].toString().replaceAll("$", "\\$"));
 				sb.append("'");
 				break;
 			default:
@@ -169,106 +167,19 @@ public abstract class SqlStore extends DataStore{
 
 	}
 
-
-	/*
-	 * TODO: handling of range queries for Strings !?!?!?!?
-	 * 
-	 * (non-Javadoc)
-	 * @see com.documedias.mobile.dao.DataStore#queryImpl(com.documedias.mobile.dto.EntityType, com.documedias.mobile.dto.EntityField, java.lang.String, java.lang.String, boolean)
-	 */
-	//	protected IEntityBacked queryImpl(final Table type, final Column field, final String from, final String to, final boolean inclusive) throws DataStoreException {
-	//		final String tablename = type.getNativeName();
-	//		final String columnName = field.getNativeName();
-	//		final int fieldType = field.getDatatype();
-	//		final StringBuffer sb = new StringBuffer();
-	//
-	//		sb.append("SELECT * FROM ");
-	//		sb.append(tablename);
-	//		sb.append(" WHERE ");
-	//		sb.append(columnName);
-	//		switch (fieldType) {
-	//		case Datatypes.INTEGER:
-	//			if (inclusive)
-	//				sb.append(">=");
-	//			else
-	//				sb.append(">");
-	//			break;
-	//		case Datatypes.STRING:
-	//			sb.append(" LIKE '");
-	//			break;
-	//		default:
-	//			throw new RuntimeException("Unhandeled datatype case: " + fieldType);
-	//		}
-	//		sb.append(from);
-	//		if (fieldType == Datatypes.STRING)
-	//			sb.append("'");
-	//
-	//		sb.append(" AND ");
-	//		sb.append(columnName);
-	//		switch (fieldType) {
-	//		case Datatypes.INTEGER:
-	//			if (inclusive)
-	//				sb.append("<=");
-	//			else
-	//				sb.append("<");
-	//			break;
-	//		case Datatypes.STRING:
-	//			sb.append(" LIKE '");
-	//			break;
-	//		}
-	//
-	//		sb.append(to);
-	//
-	//		if (fieldType == Datatypes.STRING)
-	//			sb.append("'");
-	//
-	//		final SqlStatement stmt = new SqlStatement(sb.toString());
-	//
-	//		return query(stmt, type);
-	//	}
-
 	/**
-	 * aka. SELECT <fields> from <entitytype> where <conditions in parameter
-	 * object>
+	 * aka. SELECT fields from entitytype where conditions in parameter object>
 	 * 
-	 * @param sql
-	 * @return
-	 * @throws DataStoreException
 	 */
 	public IEntityBacked query(final ISqlStatementSource sql) throws DataStoreException  {
 		return query(sql.getStatement());
 	}
 
 	/**
-	 * aka. SELECT <fields> from <entitytype> where <conditions in parameter
-	 * object>
+	 * aka. SELECT fields from entitytype where conditions in parameter object
 	 * 
-	 * @param sql
-	 * @return
-	 * @throws DataStoreException
 	 */
 	public abstract IEntityBacked query(SqlStatement sql) throws DataStoreException;
-
-	//	/**
-	//	 * Queries for exactly one entity, for the given SqlStatementSource
-	//	 *
-	//	 * if entity is given, it is filled with properties and returned.
-	//	 *
-	//	 * if entity is null, a new generic entity will be created and returned
-	//	 *
-	//	 * if the query leads to no entity, null is returned.
-	//	 *
-	//	 * @param source the sql statement source
-	//	 * @param entity the entity in which to write the properties; may be null
-	//	 * @return a new entity, or null if the query returns an empty result.
-	//	 * @throws DataStoreException
-	//	 * @throws DataStoreException
-	//	 */
-	//	public Entity queryByStatement(final ISqlStatementSource source, final Entity entity) throws DataStoreException, DataStoreException {
-	//		return queryByStatement(source.getStatement(), entity);
-	//	}
-
-	//	public abstract Entity queryByStatement(final SqlStatement source, final Entity entity)throws DataStoreException, DataStoreException ;
 
 	/**
 	 * for Android-SQLite
@@ -279,13 +190,7 @@ public abstract class SqlStore extends DataStore{
 	 * 
 	 * delete table, where, whereArgs[]
 	 * 
-	 * 
-	 * @param sql
-	 * @param writes
-	 * @param isDdlCommand
 	 * @return either the amount of affected rows, or the inserted ID
-	 * @throws DataStoreException
-	 * @throws DataStoreException
 	 */
 	public long executeNonQuery(final ISqlStatementSource arg0, final boolean writes, final boolean isDdlCommand,boolean retrieveKey) throws DataStoreException, DataStoreException {
 		return executeNonQuery(arg0.getStatement(), writes, isDdlCommand, retrieveKey);

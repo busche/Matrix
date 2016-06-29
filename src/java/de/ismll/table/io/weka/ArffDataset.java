@@ -156,9 +156,8 @@ public class ArffDataset {
 	}
 
 	/**
-	 * WARNING: The encoder is dependant on the number of attributes! If you alter the underlying attributes, consider filtering the Encoder using {@link #getEncoder(Vector)}!!!
+	 * WARNING: The encoder is dependant on the number of attributes! If you alter the underlying attributes, consider filtering the Encoder using getEncoder(Vector)!!!
 	 * 
-	 * @return
 	 */
 	public ArffEncoder getEncoder() {
 		return enc;

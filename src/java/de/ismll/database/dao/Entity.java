@@ -18,37 +18,8 @@ import de.ismll.bootstrap.CommandLineParser;
  */
 public abstract class Entity implements IContentHolder{
 
-
 	private static Logger logger = LogManager.getLogger(Entity.class);
 
-	//	private Hashtable payload =null;
-
-	//	public String getPayload(final Integer arg0) {
-	//		ensureHashtable();
-	//		return (String) payload.get(arg0);
-	//	}
-	//
-	//	void ensureHashtable() {
-	//		Hashtable ht = payload;
-	//		if (ht == null) {
-	//			synchronized(this) {
-	//				if (ht == null) {
-	//					ht = new Hashtable();
-	//				}
-	//				payload=ht;
-	//			}
-	//		}
-	//	}
-	//
-	//
-	//
-	//	public String setPayload(final Integer arg0, final String arg1) {
-	//		ensureHashtable();
-	//		final Object ret = payload.put(arg0, arg1);
-	//		if (ret == null)
-	//			return null;
-	//		return (String)ret;
-	//	}
 
 	private Column KEY_FIELD;
 
@@ -57,15 +28,6 @@ public abstract class Entity implements IContentHolder{
 	private static int ID_COUNTER = 0;
 
 	public final Object[] data;
-
-	//	public Entity() {
-	//		super();
-	//		initType();
-	//
-	//		this.data = new String[type.getFields().size()];
-	//
-	//		init();
-	//	}
 
 	Map<String, Column> lookup;
 
@@ -86,36 +48,9 @@ public abstract class Entity implements IContentHolder{
 		init();
 	}
 
-	//	private void initType() {
-	//		if (type == null) {
-	//			type = EntityType.getEntityType(getClass());
-	//			if (type == null)
-	//				type = registerType();
-	//			KEY_FIELD=type.getKeyField();
-	//		}
-	//	}
-
-	//	public Entity(final String[] data) {
-	//		super();
-	//		initType();
-	//
-	//		this.data = data;
-	//
-	//		init();
-	//	}
-
-	//	public Entity(final ContentHolder data, final boolean nativeNames) {
-	//		super();
-	//		initType();
-	//
-	//		init();
-	//
-	//		this.data = setValuesImpl(data, nativeNames);
-	//	}
 
 	/**
 	 * calls {@link #setValues(IContentHolder, boolean)} while using normal (non-native) names.
-	 * @param cache
 	 */
 	public void setValues(final IContentHolder cache) {
 		setValues(cache, this.data, false);
@@ -127,8 +62,6 @@ public abstract class Entity implements IContentHolder{
 	 * if nativeName is true, the keys in cache are mapped according to the {@link Column#getNativeName()} native names of the entity fields,
 	 * else if native name is false, the {@link Column#getName()} is used to map key-value pairs while setting properties
 	 * 
-	 * @param cache
-	 * @param nativeNames
 	 */
 	public void setValues(final IContentHolder cache, final boolean nativeNames) {
 		setValues(cache, this.data, nativeNames);
@@ -199,14 +132,7 @@ public abstract class Entity implements IContentHolder{
 	public Object get(final Column field) {
 		return get(field.getOrdinal());
 	}
-	//
-	//	public int getInt32(final Column field) {
-	//		//#if ${development} == "true"
-	//		Tools.assertTrue(field.getDatatype() == Datatypes.INTEGER);
-	//		//#endif
-	//		return Tools.integer(data[field.getOrdinal()]);
-	//	}
-	//
+
 
 	public void init() {
 		for (int i = 0; i < data.length; i++) {
@@ -250,24 +176,6 @@ public abstract class Entity implements IContentHolder{
 		init();
 	}
 
-	//	public static Entity copy(final Entity entity) {
-	//		final Entity copy = entity.getEntityType().createInstance();
-	//
-	//		System.arraycopy(entity.data, 0, copy.data, 0, entity.data.length);
-	//		copy.KEY_FIELD = entity.KEY_FIELD;
-	////		if (entity.payload != null && entity.payload.size()>0) {
-	////			copy.payload=new Hashtable();
-	////			// todo: copy all
-	////		}
-	//
-	//		// copy values
-	//		//		copy.setValues(entity);
-	//
-	//		// copy ID
-	//		copy.setId(entity.getId());
-	//
-	//		return copy;
-	//	}
 
 	public boolean isNew() {
 		// TODO: revise!

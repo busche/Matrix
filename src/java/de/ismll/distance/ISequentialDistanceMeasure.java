@@ -14,12 +14,6 @@ public interface ISequentialDistanceMeasure {
 	 * 
 	 * example: in d(x_1, x_2)=\sqrt{\sum_{i=0}^{k} (x_{1,i}-x_{2,i})^2 } this method would calculate the <code>(x_{1,i}-x_{2,i})^2</code> part along with adding this value to the temporary value implicitly required for the \sum operator (these partial values are stored in previousTmpValue).
 	 * 
-	 * 
-	 * 
-	 * @param previousTmpValue
-	 * @param x1_i
-	 * @param x2_i
-	 * @return
 	 */
 	public double accummulate(double previousTmpValue, float x1_i, float x2_i);
 
@@ -28,8 +22,6 @@ public interface ISequentialDistanceMeasure {
 	 * 
 	 * example: in d(x_1, x_2)=\sqrt{\sum_{i=0}^{k} (x_{1,i}-x_{2,i})^2 } this method would compute the \sqrt for the accumulatedTmpValue, the individual sum of differences per dimension between the objects.
 	 * 
-	 * @param accumulatedTmpValue
-	 * @return
 	 */
 	public double condense(double accumulatedTmpValue);
 
