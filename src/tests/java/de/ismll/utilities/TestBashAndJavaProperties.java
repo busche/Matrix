@@ -21,7 +21,7 @@ public class TestBashAndJavaProperties {
 	private static String GENERIC_FILENAME_STRING="/scripts/samples/general";
 	private static String SPECIFIC_FILENAME_STRING="/scripts/samples/specific";
 	
-	@Test
+	//@Test
 	public void testGeneral() {
 		Properties p = new Properties();
 		
@@ -42,7 +42,7 @@ public class TestBashAndJavaProperties {
 	}
 
 	
-	@Test
+//	@Test
 	public void testSpecific() {
 		Properties p = new Properties();
 		
