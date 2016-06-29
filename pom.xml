@@ -3,12 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>de.ismll</groupId>
-  <artifactId>Matrix</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>matrix</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Matrix</name>
-  <url>http://maven.apache.org</url>
+  <name>matrix</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -43,8 +42,8 @@
 	</dependency>
 	<dependency>
 	  <groupId>de.ismll</groupId>
-	  <artifactId>Bootstrap</artifactId>
-	  <version>1.1.1-SNAPSHOT</version>
+	  <artifactId>bootstrap</artifactId>
+	  <version>1.2.0</version>
 	</dependency>
 
   </dependencies>
@@ -61,24 +60,44 @@
           <configuration>
 			<source>1.7</source>
 			<target>1.7</target>
-            <!-- put your configurations here -->
           </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
-	<extensions>
-		<extension>
-			<groupId>org.apache.maven.wagon</groupId>
-			<artifactId>wagon-webdav-jackrabbit</artifactId>
-			<version>2.9</version>
-		</extension>
-	</extensions>
   </build>
   
-  <distributionManagement>
-    <repository>
-      <id>bcs-repository</id>
-      <url>dav:http://172.16.102.236/maven2repo</url>
-    </repository>
-  </distributionManagement>
+	  <repositories>
+		<repository>
+		  <snapshots>
+			<enabled>false</enabled>
+		  </snapshots>
+		  <id>bintray-busche-busche-it</id>
+		  <name>bintray</name>
+		  <url>http://dl.bintray.com/busche/busche-it</url>
+		</repository>
+	  </repositories>
+
+  <licenses>
+    <license>
+      <name>GPL-3</name>
+      <url>https://www.gnu.org/licenses/gpl-3.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:https://github.com/busche/Matrix.git</connection>
+    <developerConnection>scm:git:https://github.com/busche/Matrix.git</developerConnection>
+    <url>https://github.com/busche/bootstrap</url>
+    <tag>bootstrap-1.2.0</tag>
+  </scm>
+
+<distributionManagement>
+  <repository>
+      <id>bintray</id>
+
+      <url>https://api.bintray.com/maven/busche/busche-it/de.ismll.matrix/</url>
+  </repository>
+</distributionManagement>
+
 </project>
